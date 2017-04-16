@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.logger.dao.LoggerDAO">
+	<select id="queryMapList" resultType="java.util.Map">
+		select * from GW_ORDER
+	</select>
+	
+	<select id="updateEntity" resultType="java.lang.Integer">
+		update UTILS_LOGGING set remark='备注' where id=1
+	</select>
+</mapper>
