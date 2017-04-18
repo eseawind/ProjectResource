@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.shlanbao.tzsc.wct.eqm.shiftGl.beans.StatShiftFLInfo" table="SCH_STAT_SHIFT_FLINFO">
+       
+        <id name="id" type="java.lang.Long">
+            <column name="id" length="11" />
+            <generator class="native"></generator>
+        </id>
+        <property name="mec_id" type="java.lang.String">
+            <column name="mec_id" length="50"  />
+        </property>
+        <property name="eqp_id" type="java.lang.String">
+            <column name="eqp_id" length="50"  />
+        </property>
+        <property name="team_id" type="java.lang.String">
+            <column name="team_id" length="50" />
+        </property>
+
+       <property name="shift_id" type="java.lang.String">
+            <column name="shift_id" length="50"  />
+        </property>
+        <property name="oid" type="java.lang.String">
+            <column name="oid" length="50"  />
+        </property>
+        <property name="mat_id" type="java.lang.String">
+            <column name="mat_id" length="50"  />
+        </property>
+        <property name="mat_name" type="java.lang.String">
+            <column name="mat_name" length="50" />
+        </property>
+
+        <property name="qty" type="java.lang.Double">
+            <column name="qty" length="500"  />
+        </property>
+        <property name="handover_user_name" type="java.lang.String">
+            <column name="handover_user_name" length="500"  />
+        </property>
+        <property name="handover_user_id" type="java.lang.String">
+            <column name="handover_user_id" length="500" />
+        </property>
+        <property name="receive_user_name" type="java.lang.String">
+            <column name="receive_user_name" length="500"  />
+        </property>
+        <property name="receive_user_id" type="java.lang.String">
+            <column name="receive_user_id" length="500"  />
+        </property>
+       
+        <property name="create_time" type="java.util.Date">
+            <column name="create_time" length="23"  />
+        </property>
+        
+        <property name="update_time" type="java.util.Date">
+            <column name="update_time" length="23"  />
+        </property>
+        
+        <property name="update_user_id" type="java.lang.String">
+            <column name="update_user_id" length="500"  />
+        </property>
+        <!-- <property name="handover_user_id" type="java.lang.String">
+            <column name="handover_user_id" length="50" />
+        </property> -->
+        <property name="fl_type" type="java.lang.Integer">
+            <column name="fl_type" length="11"  />
+        </property>
+        <property name="zc_type" type="java.lang.Integer">
+            <column name="zc_type" length="11"  />
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status" length="11"  />
+        </property>
+
+	    <property name="zj_pz" type="java.lang.Double">
+            <column name="zj_pz" length="18"  />
+        </property>
+        <property name="zj_ssz" type="java.lang.Double">
+            <column name="zj_ssz" length="18" />
+        </property>
+        <property name="zj_lb" type="java.lang.Double">
+            <column name="zj_lb" length="18"  />
+        </property>
+        <property name="zj_szy" type="java.lang.Double">
+            <column name="zj_szy" length="18"  />
+        </property>
+        
+        <property name="zb_lbz" type="java.lang.Double">
+            <column name="zb_lbz" length="18"  />
+        </property>
+        <property name="zb_xhz" type="java.lang.Double">
+            <column name="zb_xhz" length="18" />
+        </property>
+        <property name="zb_xhm" type="java.lang.Double">
+            <column name="zb_xhm" length="18"  />
+        </property>
+        <property name="zb_thz" type="java.lang.Double">
+            <column name="zb_thz" length="18"  />
+        </property>
+        
+        
+        <property name="zb_thm" type="java.lang.Double">
+            <column name="zb_thm" length="18"  />
+        </property>
+        <property name="zb_kz" type="java.lang.Double">
+            <column name="zb_kz" length="18" />
+        </property>
+         <property name="zb_fq" type="java.lang.Double">
+            <column name="zb_fq" length="18" />
+        </property>
+        <property name="zb_lx1" type="java.lang.Double">
+            <column name="zb_lx1" length="18"  />
+        </property>
+         <property name="zb_lx2" type="java.lang.Double">
+            <column name="zb_lx2" length="18"  />
+        </property>
+        <property name="zl_pz" type="java.lang.Double">
+            <column name="zl_pz" length="18"  />
+        </property>
+        
+        
+        <property name="zl_ss" type="java.lang.Double">
+            <column name="zl_ss" length="18"  />
+        </property>
+        <property name="zl_gy" type="java.lang.Double">
+            <column name="zl_gy" length="18" />
+        </property>
+        <property name="yf_xp" type="java.lang.Double">
+            <column name="yf_xp" length="18"  />
+        </property>
+        <property name="yf_jd" type="java.lang.Double">
+            <column name="yf_jd" length="18"  />
+        </property>
+        
+	    <property name="qt_bfy" type="java.lang.Double">
+            <column name="qt_bfy" length="18"  />
+        </property>
+        <property name="qt_cc" type="java.lang.Double">
+            <column name="qt_cc" length="18"  />
+        </property>
+         <property name="qt_jy" type="java.lang.Double">
+            <column name="qt_jy" length="18"  />
+        </property>
+        <property name="qt_bz" type="java.lang.Double">
+            <column name="qt_bz" length="18"  />
+        </property>
+        
+         <property name="zl_dkj" type="java.lang.Double">
+            <column name="zl_dkj" length="18"  />
+        </property>
+        <property name="zl_rrj" type="java.lang.Double">
+            <column name="zl_rrj" length="18"  />
+        </property>
+        <property name="oth_jzj" type="java.lang.Double">
+            <column name="oth_jzj" length="18"  />
+        </property>
+	    <property name="oth_dkj" type="java.lang.Double">
+            <column name="oth_dkj" length="18"  />
+        </property>
+        <property name="oth_bzj" type="java.lang.Double">
+            <column name="oth_bzj" length="18"  />
+        </property>
+        <property name="del" type="java.lang.Integer">
+            <column name="del" length="11"  />
+        </property>
+        <property name="doid" type="java.lang.String">
+            <column name="doid" length="50"  />
+        </property>
+        
+        <property name="uoid" type="java.lang.String">
+            <column name="uoid" length="50"  />
+        </property>
+         <property name="pz_gg" type="java.lang.Double">
+            <column name="pz_gg" length="18"  />
+        </property>
+        
+        
+        
+        
+    </class>
+</hibernate-mapping>

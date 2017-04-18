@@ -1,0 +1,1 @@
+{"title":"保存","inframe":false,"hidden":false,"roles":{},"pageLink":"","children":[{"configs":{"itemId":"module"},"children":[{"configs":{"tableName":"{#table#}","itemId":"updater1","jndi":"{#jndi#}","ignoreBlob":"true"},"children":[],"type":"updater","expanded":false}],"type":"module","expanded":true}],"iconCls":""}

@@ -1,0 +1,1 @@
+{"inframe":false,"title":"上传文件","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.Service.upload","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

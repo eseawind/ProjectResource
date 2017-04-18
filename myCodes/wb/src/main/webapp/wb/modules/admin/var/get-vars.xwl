@@ -1,0 +1,1 @@
+{"inframe":false,"title":"获取变量列表","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.VarConfig.getVars","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

@@ -1,0 +1,425 @@
+/* CSS Document */
+
+*{
+	margin:0px;
+	padding:0px;
+	cursor: pointer;
+	}
+body{
+	font-family:Microsoft YaHei;
+	font-size:15.24px;
+	width:1366px;
+	height:678px;
+	background-color:#fbfcfc;
+	}
+#box{
+	margin:0px;
+	padding:0px;
+	width:1366px;
+	height:678px;
+	}
+
+ul{
+	/*background-color:#F9C;*/
+	list-style:none;
+	}
+
+
+
+/* ====顶部菜单 结束=====================================================================================*/
+
+
+
+#left_text{
+	width:438px;
+	height:665px;
+	float:left;
+	/*background-color:#FCC;*/
+	border-right:1px #CCC solid;
+	}
+	
+/*卷烟机,包装机*/	
+	
+#left_jyj{
+	width:420px;
+	height:190px;
+	padding-left:5px;  
+	margin-top:28px;
+	/*background-color:#F00;*/
+	font-size:16px;
+	}
+	#left_bzj{
+	width:420px;
+	height:190px;
+	padding-left:5px;  
+	margin-top:23px;
+	/*background-color:#F00;*/
+	font-size:16px;
+	}
+
+#jyj_title,#bzj_title{
+	    width:131px;
+		height:72px;
+		background-color:#8bc34a;
+		float:left;
+	}		
+		
+    #jyj_title_backgd,#bzj_title_backgd{
+		width:131px;
+		height:56px;
+		/*background-color:#8bc34a;*/
+		float:left;
+		color:#FFF;
+		text-align:center;
+		margin-top:4px;
+	}
+	#jyj_title_backgd p,#bzj_title_backgd p{
+		line-height:26px;
+		}
+	#jyj_title_backgd .jy_name,#bzj_title_backgd .bz_name{
+		line-height:26px;
+		font-size:18px;
+		font-weight:bold;
+		padding-top:4px;
+		}
+	#jyj_title_backgd .jy_zt,#bzj_title_backgd .bz_zt,.cysb_zt{
+		line-height:26px;
+		font-size:14px;
+	}
+#jyj_title2,#bzj_title2{
+	   float:left;
+	   width:289px;
+	   height:72px;
+	   /*background-color:#F9C;*/
+	}	
+	#jyj_title2_sbx,#bzj_title2_sbx{
+		  padding-left:65px;
+		}	
+	#jyj_title2_sbx p,#bzj_title2_sbx p{
+		font-size:16px;
+		padding-top:2px;
+		}
+	#jyj_title2_sbx	.jy_csfx,#bzj_title2_sbx .bz_csfx{
+		font-size:24px;
+		color:#06C;
+		font-weight:bold;
+		}
+#jyj_title3,#bzj_title3{
+	width:420px;
+	float:left;
+	height:127px;
+	font-size:16px;
+	}
+		
+	#jyj_title3_sbx ul,#bzj_title3_sbx ul{
+		width:420px;
+		padding-top:10px;
+	}	
+	#jyj_title3_sbx ul li,#bzj_title3_sbx ul li{
+		width:448px;
+		padding-top:10px;
+	}		
+		
+		
+/* 储烟设备*/			
+		
+#left_cysb{
+	width:420px;
+	height:180px;
+	padding-left:5px;
+	margin-top:43px;
+	font-size:16px;
+	}	
+#cysb_title	{
+	width:131px;
+	height:72px;
+	background-color:#ff9207;
+	float:left;}	
+	
+#cysb_title_backgd{
+	width:131px;
+	height:72px;
+	background-color:#8bc34a;
+	float:left;
+	color:#FFF;
+	text-align:center;
+	margin-top:0px;
+	}	
+#cysb_title_backgd .cysb_name{
+	line-height:26px;
+	font-size:18px;
+	font-weight:bold;
+	padding-top:4px;}
+	
+#cysb_title3{
+	width:420px;
+	float:left;
+	height:123px;
+	font-size:16px;
+	}
+
+#cysb_title3_sbx ul{
+		width:420px;
+		padding-top:10px;
+	}	
+
+#cysb_title3_sbx ul li{
+		width:448px;
+		padding-top:10px;
+	}
+#cysb_title2_sbx p{
+		font-size:16px;
+		padding-top:2px;
+		}
+#cysb_title2_sbx{
+        padding-left:65px;
+}	
+#cysb_title2_sbx .cysb_csfx{
+		font-size:24px;
+		color:#06C;
+		font-weight:bold;
+		}
+		
+#cysb_title2{
+	   float:left;
+	   width:289px;
+	   height:72px;
+	   /*background-color:#F9C;*/
+	}			
+	
+	
+
+/* 右边样式*/
+#right_text{
+	width:913px;
+	height:653px;
+	float:left;
+	}
+#right_top{
+	width:913px;
+	height:132px;
+	text-align:center;
+	/*background-color:#F00;*/
+	}
+#right_top_ms{ 
+     width:92px;
+	 padding-left:50px;
+	 padding-top:30px;
+	 float:left;
+	 height:100px;
+	}
+	#right_top_ms ul li{ 
+	   /*line-height:33px;*/
+	   font-size:18px;
+	   padding-left:10px;
+	}
+#right_top_img{
+	 width:590px;
+	 padding-left:20px;
+	 padding-top:30px;
+	 float:left;
+	 height:100px;
+	}
+#right_top_num{
+	float:left;
+	width:150px;
+	padding-top:30px;
+	
+	}  
+    #right_top_num ul li{
+	   /*line-height:33px;*/
+	   font-size:18px;
+	}
+.mxcf{
+	 padding-bottom:17px;
+	}
+
+
+/** 辅料消耗样式*************************************************************/
+
+#right_center,#right_center_roller{
+	width:913px;
+	height:278px;
+	/*background-color:#F00;*/
+	}
+
+#right_center_img,#right_center_img_roller{
+	width:913px;
+	height:268px;
+	padding-top:10px;
+	/*background-color:#FCC; ******/
+	font-size:14px;
+	}
+#right_center_bzxh,#right_center_bzxh_roller{
+	width:913px;
+	height:60px;
+	/**background-color:#F00;  ******/
+	}
+#right_center_bzxh ul{
+	width:880px;
+	padding-left:52px;
+	}
+#right_center_bzxh ul li{
+	float:left;
+	width:160px;
+	margin-left:10px;
+	font-size:18px;
+    }
+	/* 卷烟机*/
+	#right_center_bzxh_roller ul{
+	width:880px;
+	padding-left:52px;
+	}
+	#right_center_bzxh_roller ul li{
+	float:left;
+	width:160px;
+	margin-right:80px;
+	margin-left:10px;
+	font-size:18px;
+	}
+		
+.fontsz{
+	font-size:12px;
+	padding-top:5px;
+	padding-left:2px;
+	}
+#lbBZDH,#jyzBZDH,#sszBZDH,#xhzBZDH,#xhymBZDH,#nczBZDH,#thzBZDH,#thmBZDH{
+	line-height: 25px;
+	display: block;
+	font-family: "微软雅黑";
+	font-weight: bold;
+	font-size:11px;
+	/* background-color: red; */
+}
+.zj17_runTime, .zb25_runTime{
+	color:#8bc34a;
+	font-weight: bold;
+}
+.zj17_stopTime, .zb25_stopTime{
+	color:#f39c12;
+	font-weight: bold;
+}
+.zj17_stopTimes, .zb25_stopTimes{
+	color:#dd4b39;
+	font-weight: bold;
+}
+.bz_img_zzt{
+	width:33px;
+	height:151px;
+	/* background-color:#8bc34a; */
+	background-color: #ff9800;
+	/* font-family: "微软雅黑"; */
+	}
+	.bzdh_1{
+	font-size:11px;
+	font-weight:bold;
+	width: 33px;
+	display: block;
+	text-align: center;
+	font-family: "微软雅黑";
+	}
+
+.right_hd{
+	background-color:#4bcfe0;
+	width:16px;
+	height:16px;
+	display:block;
+	float:left;
+	margin-right:5px;
+	}
+
+.xhz_zzt div{
+	width:50px;
+	}
+.xhz_zzt{
+	margin-top:10px;
+	}	
+/*	
+.xhz_zzt{
+	padding-top:15px;
+	font-size:12px;
+	background-color:#00C;
+	height:208px;
+	}
+*/
+
+.xhz_float{
+	float:left;
+	font-size:12px;
+	padding-left:3px;
+	
+	}	
+	
+/** 停机次数，停机时间*************/
+
+
+#right_bottom,#right_bottom_roller{
+	width:910px;
+	height:173px;
+	
+	display:block;
+	}
+#right_bottom_img,#right_bottom_img_roller{
+	padding-left:50px;
+	height:173px;
+	width:850px;
+	text-align:center;
+	}	
+	
+#right_bottom_img span,#right_bottom_img_roller span{
+	width:100px;
+	float:left;
+	height:85px;
+	padding-top:90px;
+	font-size:18px;
+	}
+	
+#right_bottom_img ul,#right_bottom_img_roller ul{
+	padding-left:10px;
+	float:left;
+	width:740px;
+	height:173px;
+	font-size:14px;
+	text-align:center;}
+#right_bottom_img ul li,#right_bottom_img_roller ul li{
+	float:left;
+	width:220px;
+	height:153px;
+	padding-top:20px;
+	
+	}
+	
+	#right_bottom_img ul li span,#right_bottom_img_roller ul li span{
+	padding-top:20px;
+	
+	}
+/*
+#gauge6,#gauge7,#gauge8{
+	width:210px;
+	height:105px;
+	font-size:30px;
+	}
+*/
+
+/* 卷包切换按钮 **/
+#right_button{
+	height:65px;
+	width:913px;
+	}
+#right_button_imt{
+	width:903px;
+	height:34px;
+	padding-top:35px;
+	background:url(../images/an_1.png) no-repeat 350px 30px;
+	font-size:18px;
+	padding-left:10px;
+	}
+
+.right_buttom_jy{
+	padding-left:372px;
+	padding-right:38px;
+	}
+
+
+	
+			

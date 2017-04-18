@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-12-26 14:09:00 by Hibernate Tools 3.2.2.GA -->
+<hibernate-mapping>
+    <class name="com.shlanbao.tzsc.base.mapping.MdManualShift" table="MD_MANUAL_SHIFT">
+        <id name="id" type="int">
+            <column name="ID" precision="9" scale="0" />
+            <generator class="native" />
+        </id>
+        <property name="eqpid" type="string">
+            <column name="EQPID" length="50" />
+        </property>
+        <property name="shifttime" type="java.util.Date">
+            <column name="SHIFTTIME" length="23" />
+        </property>
+        <property name="dasprocess" type="int" update="true">
+            <column name="DASPROCESS" precision="9" scale="0"/>
+        </property>
+        <property name="pmsprocess" type="int" update="true">
+            <column name="PMSPROCESS" precision="9" scale="0"/>
+        </property>
+        <property name="note" type="string">
+            <column name="NOTE" length="50" />
+        </property>
+        <property name="workShop" type="string">
+            <column name="WORK_SHOP" length="50" />
+        </property>
+        
+        <property name="addUserId" type="java.lang.String">
+            <column name="ADD_USER_ID" length="50" />
+        </property>
+        <property name="addTime" type="java.util.Date">
+            <column name="ADD_TIME" length="23" />
+        </property>
+        <property name="modifyUserId" type="java.lang.String">
+            <column name="MODIFY_USER_ID" length="50" />
+        </property>
+        <property name="modifyTime" type="java.util.Date">
+            <column name="MODIFY_TIME" length="23" />
+        </property>
+        <property name="proWorkId" type="java.lang.String">
+            <column name="PRO_WORK_ID" length="100" />
+        </property>
+        
+        <property name="state" type="java.lang.String">
+            <column name="STATE" length="23"/>
+        </property>
+        <property name="pmvStartMsg" type="text">
+            <column name="PMV_START_MSG"/>
+        </property>
+        <property name="pmvMsg" type="text">
+            <column name="PMV_MSG"/>
+        </property>
+        <property name="pmv1Msg" type="text">
+            <column name="PMV1_MSG"/>
+        </property>
+        <property name="pmv2Msg" type="text">
+            <column name="PMV2_MSG"/>
+        </property>
+        <property name="teamCode" type="java.lang.String">
+            <column name="TEAM_CODE" length="25"/>
+        </property>
+        <property name="shiftCode" type="java.lang.String">
+            <column name="SHIFT_CODE" length="25"/>
+        </property>
+        <property name="pmvTime" type="java.lang.String">
+            <column name="PMV_TIME" length="25" />
+        </property>
+        <property name="pmv1Time" type="java.lang.String">
+            <column name="PMV1_TIME" length="25" />
+        </property>
+        <property name="pmv2Time" type="java.lang.String">
+            <column name="PMV2_TIME" length="25" />
+        </property>
+        <property name="pmvStartTime" type="java.lang.String">
+            <column name="PMV_START_TIME" length="25" />
+        </property>
+        <property name="workType" type="java.lang.String">
+            <column name="WORK_TYPE" length="50" />
+        </property>
+        
+        <property name="pmvStartFlMsg" type="text">
+            <column name="PMV_START_FL_MSG"/>
+        </property>
+        <property name="pmvFlMsg" type="text">
+            <column name="PMV_FL_MSG"/>
+        </property>
+        <property name="pmv1FlMsg" type="text">
+            <column name="PMV1_FL_MSG"/>
+        </property>
+        <property name="pmv2FlMsg" type="text">
+            <column name="PMV2_FL_MSG"/>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,1 @@
+{"title":"保存桌面","inframe":false,"hidden":false,"roles":{"basic":1},"pageLink":"","children":[{"configs":{"serverMethod":"com.wb.interact.Portal.saveDesktop","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

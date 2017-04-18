@@ -1,0 +1,90 @@
+/* CSS Document */
+
+*{
+	margin:0px;
+	padding:0px;
+	cursor: pointer;
+	}
+body{
+	font-family:Microsoft YaHei;
+	font-size:15.24px;
+	width:1366px;
+	height:768px;
+	background-color:#fbfcfc;
+	overflow-x: hidden;  
+    overflow-y: hidden;  
+	}
+#box{
+	margin:0px;
+	padding:0px;
+	width:1366px;
+	height:750px;
+	}
+#header{
+	margin:0px;
+	padding:0px;
+	width:100%;
+	height:95px;
+	background-image:url(../images/top_backgb.png);
+	}
+#header_img{
+	width:300px;
+	height:95px;
+	/*background-color:#F00;*/
+	float:left;
+	}
+#imgbackgd{
+	width:220px;
+	height:59px;
+	padding:18px 40px;
+	/*background-color:#FC6;*/
+}
+		
+#header_mue{
+	width:1066px;
+	height:95px;
+	float:left;
+}		
+#header_mue{
+	/*background-color:#F00;*/
+	padding-left:126px;
+	width:940px;
+	}		
+ul{
+	/*background-color:#F9C;*/
+	list-style:none;
+	}
+
+#header_mue_ul ul li{
+	width:100px;
+	text-align:center;
+	float:left;
+	height:70px;
+	/*background-color:#F99;*/
+	margin-left:15px;
+	padding-top:15px;
+	}
+
+#header_mue_ul ul li p{
+    margin-bottom:9px;
+	}
+
+/* ====顶部菜单 结束=====================================================================================*/
+
+
+#main{
+	width:1366px;
+	height:652px;
+	/*background-color:#F9C;*/
+	}
+#wrap{
+	width:1366px;
+	height:652px;
+	}
+
+#clearWordColor1{
+	color:#00a65a;
+}
+
+	
+			

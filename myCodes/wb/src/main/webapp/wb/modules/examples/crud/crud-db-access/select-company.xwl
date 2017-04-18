@@ -1,0 +1,1 @@
+{"inframe":false,"title":"查询公司","hidden":false,"roles":{"demo":1},"children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select * from WB_COMPANY","itemId":"dataprovider1","dictTableNames":"WB_COMPANY"},"children":[],"expanded":false,"type":"dataprovider"}],"expanded":true,"type":"module"}],"pageLink":"","iconCls":""}

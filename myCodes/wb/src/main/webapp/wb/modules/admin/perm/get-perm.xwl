@@ -1,0 +1,1 @@
+{"inframe":false,"title":"获取所有模块权限","hidden":false,"roles":{"demo":1},"children":[{"configs":{"serverMethod":"com.wb.interact.Tools.getModulesPerm","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

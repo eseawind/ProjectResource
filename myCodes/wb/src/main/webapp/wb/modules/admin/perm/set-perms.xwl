@@ -1,0 +1,1 @@
+{"inframe":false,"title":"设置权限","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.Tools.setModulesPerm","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>检修项-详细</title>
+<link href="${resRoot}/wct_web/css/pddisplay/gddd.css" rel="stylesheet" type="text/css" />
+<link href="${resRoot}/wct_web/css/pddisplay/sblbgl.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+<!--工单调度-->
+<link href="${resRoot}/wct_web/css/pddisplay/left_nav.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/modal.css" />
+<!--left_nav-->
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/jcDate.css" media="all" />
+<!--nav-->
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<!-- 弹窗样式  -->
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/modal.css" />
+<!--left_nav-->
+<script src='${resRoot}/wct_web/js/pddisplay/lnav_index.js' ></script>
+
+<script type="text/javascript">
+	$(function(){
+		//返回-检修项
+		$(".sblbgl_queren2").click(function(){
+			backUpPage();
+		});
+		
+		/* <!-- 弹窗 --> */
+		$(".sblbgl_queren1").click(function(){
+			$("#addDetailModal").modal("show"); 
+		})
+		
+		/* 关窗  */
+		 $('#addDetailModal').on('hidden.bs.modal',function (e) {
+			 $(window.frames["spContents"].document).find("input[name='inputTextName']").val("");
+		 });
+		
+		//保存返回
+		$(".sblbgl_queren").click(function(){
+			var ids=$(".sparePartsByids");
+			var str="";
+			for(var i=0;i<ids.length;i++){
+				//获得备品备件ID
+				str+=ids.eq(i).val()+",";
+			}
+            /* if(str==""){
+            	backUpPage();
+            	return false;
+            } */
+            //获取备注，获取详细项ID
+            //批量提交
+            var remark=$("#remark").val();
+            if(remark==""){
+            	alert("备注不能为空！");
+            	return false;
+            }
+            $.ajax({
+		   		url : "${futRoot}/wct/eqpManager/overhaul/saveRollerSparePartOrParam.json",
+		   		type : "post",
+		   		dataType : "json",
+		   	    async: false,
+		   		data : {
+		   			"str":str,
+		   			"id":"${paramBean.id?if_exists}",
+		   			"roleId":"${elbBean.roleId}",
+		   			"jtUserCode":"${elbBean.jtUserCode}",
+		   			"eqmtrouble_id":"${paramBean.id?if_exists}",
+		   			"remark":remark
+		   			},
+		   		success : function(data) {
+					if(data=="1"){
+						//成功直接反馈
+						backUpPage();
+					}else{
+						alert("提交失败！");
+					}
+		   		}
+		   	});
+		})
+	})
+	
+	//返回
+	function backUpPage(){
+		var url="${futRoot}/wct/eqpManager/overhaul/gotoEqpManagerRollerParam.htm?url=web_html/wct/eqpManager/overhaul/eqmOverhaulRollerParam";
+		window.location.href=url+"&eqm_wcp_id=${paramBean.eqm_wcp_id}&index=${wctPage.index}&roleId=${elbBean.roleId}&roleName=${elbBean.roleName}&jtUserCode=${elbBean.jtUserCode}";
+	}
+	
+	//删除已更换备件
+	function removeTr(id){
+		$(".trf"+id).remove();
+	}
+	
+
+	
+</script>
+</head>
+<body>
+<!--右侧内容--> 
+    <div class="right_content">
+      <div id="right_contentbox">
+         <!--内容标题--> 
+    	<div class="top_title">
+   	    <span><img src="${resRoot}/wct_web/images/gdxx/sblb.png" /></span>卷烟机故障、备件</div>
+      	
+      <!--表格-->
+      <div class="bottom_content">
+      	<div class="left_table">
+            <table id="addSpBlurValue" class="xhtable" width="100%" border="0" cellspacing="0" cellpadding="0">
+              
+             </table>
+        </div>
+        <div class="right_table">
+        	<div class="sblbgl_input">
+            	<p class="sblbgl_name">保养内容</p>
+                <textarea class="name_text" >${paramBean.content?if_exists}</textarea>
+            </div>
+            <div class="clear"></div>
+            <div class="sblbgl_input1">
+            	<p class="sblbgl_name">备注</p>
+                <textarea  class="name_text" id="remark"></textarea>
+            </div>
+            <div class="sblbgl_button">
+            	<a class="sblbgl_queren">确认</a>
+                <a class="sblbgl_queren1">备品备件更换</a>
+                <a class="sblbgl_queren2" >返回</a>
+            </div>
+        </div>
+      </div>
+               
+    </div>
+    
+</div> 
+    <!-- 中部end -->
+    
+    <!-- 巡检详细弹出窗start -->
+<script src="${resRoot}/wct_web/js/pddisplay/modal.js" type="text/javascript" ></script>
+<div class="modal fade" id="addDetailModal">
+   <div style="margin-top:40px;margin-left:300px;margin-right:60px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">
+        	备品备件查询更换
+        </h4>
+      </div>
+      <div class="modal-body" id="DetailDiv">
+          <iframe name="spContents" id="spContents" src="gotoEqpManagerRolerSpareParts.htm?url=web_html/wct/eqpManager/overhaul/rollerSpareParts" frameborder="false" scrolling="no" style="border:none;" width="100%" height="480px;" allowtransparency="false"></iframe> 
+      </div>
+   </div>
+   </div>
+</div>
+<!-- 弹出窗end -->
+</body>
+</html>

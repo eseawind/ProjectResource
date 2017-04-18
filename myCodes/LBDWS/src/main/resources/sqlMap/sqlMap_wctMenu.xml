@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="wctMenu">
+
+
+	<!-- 查询WCT顶部菜单 -->
+	<sql id="queryTopMainMenu">
+        <![CDATA[
+           SELECT * from WCT_MENU where UPID='top'  and del=0  ORDER BY GRADE asc
+        ]]>
+	</sql>
+	<!-- 查询WCT左侧主菜单 -->
+	<sql id="queryLeftMainMenu">
+        <![CDATA[
+           SELECT * from WCT_MENU where UPID='root' and del=0 
+           <#if type?exists && type!="">and (type=-1 or type=:type)</#if> 
+           <#if modul?exists && modul!=""> AND modul= :modul </#if>
+           ORDER BY GRADE asc 
+        ]]>
+	</sql>
+
+
+	<!-- 查询WCT左侧子菜单 -->
+	<sql id="queryLeftChildMenu">
+        <![CDATA[
+          SELECT * from  WCT_MENU 
+		  WHERE  del=0 
+		  <#if modul?exists && modul!=""> AND modul= :modul </#if> 
+		  AND upid<>'root' and upid<>'top'
+        ]]>
+	</sql>
+
+</sqlMap>
+
+
+

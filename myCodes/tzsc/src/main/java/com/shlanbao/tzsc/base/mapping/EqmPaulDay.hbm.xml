@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.shlanbao.tzsc.base.mapping.EqmPaulDay" table="EQM_PAULDAY"   >
+        <id name="id" type="java.lang.String">
+            <column name="ID" length="50" />
+            <generator class="uuid.hex" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" length="50" />
+        </property>
+        <many-to-one name="team" class="com.shlanbao.tzsc.base.mapping.MdTeam" fetch="select">
+            <column name="TEAM" length="50" />
+        </many-to-one>
+        <many-to-one name="shift" class="com.shlanbao.tzsc.base.mapping.MdShift" fetch="select">
+            <column name="SHIFT" length="50" />
+        </many-to-one>
+        <property name="date_p" type="java.util.Date">
+            <column name="DATE_P" length="23" />
+        </property>
+        <property name="stim" type="java.util.Date">
+            <column name="STIM" length="23" />
+        </property>
+        <property name="etim" type="java.util.Date">
+            <column name="ETIM" length="23" />
+        </property>
+        <many-to-one name="eqp_type" class="com.shlanbao.tzsc.base.mapping.MdEqpCategory" fetch="select">
+            <column name="EQP_TYPE" length="50" />
+        </many-to-one>
+        <property name="paul_id" type="java.lang.String">
+            <column name="PAUL_ID" length="50" />
+        </property>
+        <property name="del" type="java.lang.Integer">
+            <column name="DEL" length="50" />
+        </property>
+         <property name="status" type="java.lang.Integer">
+            <column name="STATUS" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

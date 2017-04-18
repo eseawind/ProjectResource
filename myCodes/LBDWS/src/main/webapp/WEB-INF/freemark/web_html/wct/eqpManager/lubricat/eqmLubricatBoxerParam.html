@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>封箱机设备润滑项</title>
+<link href="${resRoot}/wct_web/css/pddisplay/gddd.css" rel="stylesheet" type="text/css" />
+<link href="${resRoot}/wct_web/css/pddisplay/eqmlb.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+<!--工单调度-->
+<link href="${resRoot}/wct_web/css/pddisplay/left_nav.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/modal.css" />
+<!--left_nav-->
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/jcDate.css" media="all" />
+<!--nav-->
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<!--left_nav-->
+<script src='${resRoot}/wct_web/js/pddisplay/lnav_index.js' ></script>
+<script src="${resRoot}/wct_web/js/pddisplay/modal.js" type="text/javascript" ></script>
+<script type="text/javascript">
+   var chooseEqpCode="${chooseParams.eqp_code?if_exists}";
+   var eqpNum=0;
+   switch(chooseEqpCode){
+   case 61:
+   case 63:
+		eqpNum=1;
+	  	break;
+   case 62:
+   case 64:
+	   eqpNum=2;
+	   break; 
+   }
+	//弹窗 选择维修工 start
+	function changeDiv(type){
+		if(type==1){
+			$("#JX").show();
+			$("#DQ").hide();
+			$("#JXButton").css("background","red");
+			$("#DQButton").css("background","bule");
+			$("#JX").html("<iframe name='spContents' id='spContentsJX' src='${futRoot}/wct/eqpMainCall/getOpenMainUsers.htm?eqpNum="+eqpNum+"&typeId=1&url=web_html/wct/eqpManager/callRequest/openChooseRepairUser&eqm_wcp_id=${eqm_wcp_id}&loginName=${elbBean.loginName}&jtUserCode=${elbBean.jtUserCode}' frameborder='false' scrolling='no' style='border:none;' width='100%'  allowtransparency='false'></iframe> ");
+		}else if(type==2){
+			$("#DQ").show();
+			$("#JX").hide();
+			$("#DQButton").css("background","red");
+			$("#JXButton").css("background","bule");
+			$("#DQ").html("<iframe name='spContents' id='spContentsJX' src='${futRoot}/wct/eqpMainCall/getOpenMainUsers.htm?eqpNum="+eqpNum+"&typeId=2&url=web_html/wct/eqpManager/callRequest/openChooseRepairUser&eqm_wcp_id=${eqm_wcp_id}&loginName=${elbBean.loginName}&jtUserCode=${elbBean.jtUserCode}' frameborder='false' scrolling='no' style='border:none;' width='100%'  allowtransparency='false'></iframe> ");
+		}
+	}
+	//弹窗 选择维修工 end
+
+
+	$(function(){
+		/**  弹窗js  start   */
+		//弹窗关闭事件
+		$('#addDetailModal').on('hidden.bs.modal',function (e) {
+			
+		})
+		//弹窗维修呼叫
+		$("#callOpenWindow").click(function(){
+			$("#addDetailModal").modal("show");
+			$('#spContentsJX').attr('src', $('#spContentsJX').attr('src'));
+			$('#spContentsDQ').attr('src', $('#spContentsDQ').attr('src'));
+		})
+		/**   弹窗js  end   */
+		//返回
+		$('input[name="upPage"]').click(function(){
+			var url="${futRoot}/wct/eqpManager/lubricat/gotoEqpManagerBoxerPlan.htm?url=web_html/wct/eqpManager/lubricat/eqmLubricatBoxer&index=${wctPage.index}&roleId=${elbBean.roleId}&roleName=${elbBean.roleName}&jtUserCode=${elbBean.jtUserCode}&eqp_id=${chooseParams.eqp_id?if_exists}&eqp_code=${chooseParams.eqp_code?if_exists}";
+			window.location.href=url;
+		});
+		
+		//保存返回
+		$('input[name="saveUpPage"]').click(function(){
+			//获得选中的id
+		    var chk_value ="";    
+		    $('input[name="subBox"]:checked').each(function(){    
+		    	chk_value+=$(this).val()+",";    
+		    }); 
+		    if(chk_value==""){
+		    	alert("你还没有选择任何内容！");
+		    	return false;
+		    }
+			$.ajax({
+		   		url : "${futRoot}/wct/eqpManager/lubricat/updateBoxerPlan.json",
+		   		type : "post",
+		   		dataType : "json",
+		   	    async: false,
+		   		data : {
+		   			"roleId":"${elbBean.roleId}",
+		   			"jtUserCode":"${elbBean.jtUserCode}",
+		   			"id":"${eqm_wcp_id}",
+		   			"chk_value":chk_value
+		   			},
+		   		success : function(data) {
+					if(data=="1"){
+						//成功返回
+						var url="${futRoot}/wct/eqpManager/lubricat/gotoEqpManagerBoxerPlan.htm?url=web_html/wct/eqpManager/lubricat/eqmLubricatBoxer&index=${wctPage.index}&roleId=${elbBean.roleId}&roleName=${elbBean.roleName}&jtUserCode=${elbBean.jtUserCode}&eqp_id=${chooseParams.eqp_id?if_exists}&eqp_code=${chooseParams.eqp_code?if_exists}";
+						window.location.href=url;
+					}else{
+						alert("保存失败！");
+					}
+		   		}
+		   	});
+			
+		});
+		
+		
+		
+	})
+	
+	
+	
+</script>
+</head>
+<body>
+<!-- 中部start -->
+
+  <div class="clear"></div> 
+    <div class="right_content">
+      <div id="right_contentbox">
+    	<div class="top_title">
+   	    <span><img src="${resRoot}/wct_web/images/gdxx/gdan.png" /></span>润滑项</div>
+        <div class="bottom_content">
+            <div id="myDiv">
+        	<table id="showNumber" class="table"  border="0" >
+        	            <tr>
+                            <th width="30px;" id="checkAll"> 全选</th>
+                            <th width="30px;" >润滑部位</th>
+                            <th width="130px;" >润滑内容</th>
+                            <th width="150px;">润滑标准（油品->润滑方式->加注量）</th>
+                            <!-- <th width="110px;">备注</th> -->
+                            <th width="30px;" >状态</th>
+                        </tr>
+	                        <#if (planParamList?size>0) >
+	                          <#list planParamList as ppl>
+		                            <tr style="margin:0px;text-align: left;">
+		                                <td> <input type="checkbox" checked="checked" name="subBox" class="checkbox1" id="checkbox${ppl_index}" value="${ppl.id?if_exists}"/> </td>
+										<td>${ppl.attr3?if_exists}</td>
+										<td>${ppl.content?if_exists}</td>
+			                            <td>${ppl.content_datail?if_exists}</td>
+			                            <!-- <td>${ppl.des?if_exists}</td> -->
+			                            <td style="color:red;">
+			                            <#if ppl.status==0>
+			                                  <font style="color:red" >未完成</font>
+			                            <#elseif ppl.status==1>
+			                                  <font style="color:green">完成</font>
+			                            </#if>
+			                            </td>
+		                            </tr>
+	                          </#list>
+	                          <#else>
+	                          <tr></tr>
+	                          <tr><td colspan="7" style="text-align: center;color:red;">没有查询到数据！</td></tr>
+	                        </#if>
+                        
+                 </table>
+                 </div>
+        </div>
+        
+        <!-- 用户登录start -->
+   	    <div>
+   	        <input type="button" class="gd_input" value="保存"  name="saveUpPage" />
+   	        <input type="button" class="gd_input" value="返回"  name="upPage" />
+   	    	 <!-- 弹窗按钮start -->
+   	        <input type="button" class="gd_input" value="维修呼叫" id="callOpenWindow"  name="callOpenWindow" />
+   	        <!-- 弹窗按钮end -->
+   	    </div>
+   	    <!-- 用户登录end -->
+    </div>
+    </div>
+    <!-- 中部end -->
+    
+<div class="modal fade" id="addDetailModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" id="modalHeaderDiv">
+            <input type="button" class="gd_input" id="JXButton" onclick="changeDiv(1)" value="机械工" name="button" />
+			<input type="button" class="cz_input" id="DQButton" onclick="changeDiv(2)" value="电气工" name="button" />
+      		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+        <div style="height: 400px;text-align: center;">
+			  <div class="modal-body" style="display:none;background-color: #F5FFFA;height: 300px;" id="JX" > </div>
+		      <div class="modal-body" style="display: none;background-color:#F0FFF0;height: 300px;" id="DQ">  </div>
+   	    </div> 
+      </div>
+    </div>
+<!-- 弹出窗end -->
+</body>
+</html>

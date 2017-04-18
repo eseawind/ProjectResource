@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.shlanbao.tzsc.base.mapping.EqmMaintain" table="EQM_MAINTAIN"   >
+        <id name="id" type="java.lang.String">
+            <column name="id" length="50" />
+            <generator class="uuid.hex" />
+        </id>
+        <many-to-one name="eqp" class="com.shlanbao.tzsc.base.mapping.MdEquipment" fetch="select">
+            <column name="EQU_ID" length="50" />
+        </many-to-one>
+        <property name="contents" type="java.lang.String">
+            <column name="CONTENTS" length="2000" />
+        </property>
+        <property name="solution" type="java.lang.String">
+            <column name="SOLUTION" length="2000" />
+        </property>
+        <property name="date_plan" type="java.util.Date">
+            <column name="DATE_PLAN" length="23" />
+        </property>
+        <many-to-one name="blame_usr" class="com.shlanbao.tzsc.base.mapping.SysUser" fetch="select">
+            <column name="BLAME_USR" length="50" />
+        </many-to-one>
+        <property name="real_time" type="java.util.Date">
+            <column name="REAL_TIME" length="23" />
+        </property>
+        <property name="real_usr" type="java.lang.String" >
+            <column name="REAL_USR" length="150" />
+        </property>
+        <property name="followup" type="java.lang.String">
+            <column name="FOLLOWUP" length="200" />
+        </property>
+        <property name="remark" type="java.lang.String">
+            <column name="remark" length="500" />
+        </property>
+        <property name="place" type="java.lang.String">
+            <column name="PLACE" length="150" />
+        </property>
+        <property name="note" type="java.lang.String">
+            <column name="NOTE" length="200" />
+        </property>
+        <property name="review" type="java.lang.String">
+            <column name="REVIEW" length="200" />
+        </property>
+        <property name="del" type="java.lang.String">
+            <column name="DEL" length="10" />
+        </property>
+        <property name="attr1" type="java.lang.String">
+            <column name="attr1" length="50" />
+        </property>
+        <property name="attr2" type="java.lang.String">
+            <column name="attr2" length="50" />
+        </property>        
+    </class>
+</hibernate-mapping>

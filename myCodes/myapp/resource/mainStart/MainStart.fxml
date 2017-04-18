@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane prefHeight="600.0" prefWidth="600.0" stylesheets="@main.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <top>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="55.0" text="Button" />
+            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="55.0" text="Button" />
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="55.0" text="Button" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Untitled Tab 1">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <bottom>
+      <TextFlow prefHeight="27.0" prefWidth="1576.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="测试" />
+         </children>
+      </TextFlow>
+   </bottom>
+</BorderPane>

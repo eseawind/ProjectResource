@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="qmInfo">
+    
+  <!-- 查询综合测试台数据 -->
+	<sql id="queryOnlineCheck">
+        <![CDATA[
+           SELECT * from QM_ONLINECHECK where 1=1 
+           <#if materialCode?exists && materialCode!=""> AND MATERIALCODE= :materialCode </#if>
+           <#if team?exists && team!=""> AND team= :team </#if>
+           <#if subDate?exists && subDate!=""> AND to_char(TIMESTAMP_ ,'yyyy-mm-dd')= :subDate </#if>
+           <#if inspectionType?exists && inspectionType!=""> AND orderNumber in (SELECT CODE  FROM SCH_WORKORDER WHERE 1=1  and TYPE=:inspectionType ) </#if>
+           <#if orderNumber?exists && orderNumber!=""> AND orderNumber in (SELECT CODE  FROM SCH_WORKORDER WHERE 1=1  
+           and EQP in(
+	           <#list eqpCodes as eqpCode>
+			      '${eqpCode}'
+				</#list> 
+				)
+			) </#if>
+           order by TIMESTAMP_ desc
+        ]]>
+	</sql>
+    <!-- 查询工艺规程 -->
+	<sql id="queryCraftRules">
+		<![CDATA[
+			SELECT (SELECT name from md_mat where id=MATERIAL_CODE) as materialCode
+			,PARAMETER_NAME as parameterName,
+			pcp as pcp,qc as qc,std as std,uval as uval,lval as lval,dtm as
+			dtm,PARAM_TYPE as paramType,
+			PARAMETER_SETREVISION as parameterSetRevision,
+			EFFECT_TIME as effectTime
+			from SCH_WORKORDER_CRAFT
+			<#if materialCode?exists && materialCode !="">where MATERIAL_CODE=:materialCode </#if>
+	    ]]>
+	</sql>
+	
+	<!-- 质量外观巡检登陆 -->
+	<sql id="qmLogin">
+		<![CDATA[
+			SELECT a.id,a.name as uName,c.name as rName from SYS_USER a
+				LEFT JOIN SYS_USER_ROLE b on a.id=b.UID_
+				LEFT JOIN SYS_ROLE c on c.id=b.rid 
+			where a.LOGIN_NAME=:token
+		]]>
+	</sql>
+	
+	
+	<!-- 查询外观缺陷定义 -->
+	<sql id="qmOutWandItem">
+		<![CDATA[
+			SELECT * from QM_OUTWARD_DEFECT_ITEM
+			where 1=1
+			<#if type?exists && type!=""> and  type=:type</#if>
+			<#if name?exists && name!="">AND name like  '%'||:name||'%' </#if>
+		]]>
+	</sql>
+	
+	<!-- 查询当前巡检记录是否存在 -->
+	<sql id="queryOutWandIsExists">
+		<![CDATA[
+			SELECT * from QM_OUTWARD where 1=1 
+			<#if oid?exists && oid!=""> and OID=:oid</#if>
+			<#if batchNo?exists && batchNo!=""> and BATCH_NO=:batchNo</#if>
+		]]>
+	</sql>
+	
+	
+	<!-- 查询外观巡检初始化数据 -->
+	<!-- 需要根据设备code筛选、工单状态为运行 -->
+	<sql id="queryQmOutWand">
+		<![CDATA[
+			SELECT 
+				a.id,c.name as uName,
+				a.oid as "oid",b.code as "order",
+				to_char(a.time,'hh24:mi') as checkTime,
+				a.BATCH_NO as BATCH_NO,d.EQUIPMENT_NAME as eqpName
+				from 
+		    QM_OUTWARD a LEFT JOIN SCH_WORKORDER b on a.oid=b.id 
+		    LEFT JOIN SYS_USER c on c.id=a.uid_ 
+		    LEFT JOIN MD_EQUIPMENT d on b.eqp=d.id
+		    where 1=1 and b.sts='2' 
+		    <#if eqpCode?exists && eqpCode!""> and d.equipment_code=:eqpCode</#if>
+		    ORDER BY a.time DESC
+		]]>
+	</sql>
+	
+	
+	<sql id="queryOutWandDelInfo">
+		<![CDATA[
+			SELECT c.code as itemCode,c.pos as pos,c.des as des,c.lvl as lvl,a.val as val
+					from QM_OUTWARD_DET a
+					LEFT JOIN QM_OUTWARD b on a.QO_ID=b."ID"
+					LEFT JOIN QM_OUTWARD_DEFECT_ITEM c on c.id=a.item
+		    where 1=1 
+			<#if batchNo?exists && batchNo!=""> and b.BATCH_NO=:batchNo </#if>
+		]]>
+	
+	</sql>
+	
+	
+	
+	<!-- 保存外观巡检小项 -->
+	<sql id="insertItemDetails">
+		<![CDATA[
+			INSERT INTO QM_OUTWARD_DET ("ID", "ITEM", "QO_ID", "VAL") 
+			VALUES (:id, :item, :Qid, :val)
+		]]>
+	</sql>
+	<!-- 保存外观巡检项 -->
+	<sql id="insertOutWand">
+		<![CDATA[
+			INSERT INTO QM_OUTWARD("ID", "UID_", "OID", "TIME", "BATCH_NO") 
+			VALUES (:id,:uid,:oid,:time,:batchNo)
+		]]>
+	</sql>
+	
+	<!-- 查询外观检测记录 -->
+	<sql id="queryOutWandInfo">
+		<![CDATA[
+			SELECT 
+				c.equipment_name as eqpName,
+				d.name as matName,
+				a.BATCH_NO as batchNo,
+				to_char(a.time,'yyyy-MM-dd hh24:mi') as checkTime,
+				g.name as  checkUserName,
+				e.name as shiftName,
+				f.name as teamName
+			from QM_OUTWARD a 
+			LEFT JOIN SCH_WORKORDER b on a.oid=b.id 
+			LEFT JOIN MD_EQUIPMENT c on b.eqp=c.id
+			LEFT JOIN MD_MAT d on d.id=b.mat
+			LEFT JOIN MD_SHIFT e on e.id=b.shift
+			LEFT JOIN MD_TEAM f on f.id=b.team
+			LEFT JOIN SYS_USER g on g.id=a.UID_
+			where 1=1 
+			<#if matId?exists && matId!=""> and b.mat=:matId</#if>
+			<#if eqpId?exists && eqpId!=""> and b.eqp=:eqpId</#if>
+			<#if shiftId?exists && shiftId!=""> and b.shift=:shiftId</#if>
+			<#if teamId?exists && teamId!=""> and b.team=:teamId</#if>
+			<#if stime?exists && stime!=""> and to_char(a.time,'yyyy-MM-dd') >=:stime</#if>
+			<#if etime?exists && etime!=""> and to_char(a.time,'yyyy-MM-dd') <=:etime</#if>
+			order by a.time desc,cast(c.equipment_code as int) asc ,cast(f.code as int ) asc
+		]]>
+	</sql>
+	
+	<!-- 查询当前运行的工单 -->
+	<sql id="queryCurrentOid">
+		<![CDATA[
+			SELECT a.id as oid 
+				from SCH_WORKORDER a 
+				LEFT JOIN MD_EQUIPMENT b on a.eqp=b."ID"
+				where b.EQUIPMENT_CODE=:eqpCode AND a.STS='2' and SYSDATE BETWEEN STIM AND ETIM 
+		]]>
+	
+	</sql>
+	
+</sqlMap>
+
+
+

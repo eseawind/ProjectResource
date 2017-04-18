@@ -1,0 +1,1 @@
+{"inframe":false,"title":"查询报销项目","hidden":false,"roles":{"demo":1},"children":[{"configs":{"serverScript":"var route = Flow.create(app.get('ROUTE_ID'));\napp.send(route.get());","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

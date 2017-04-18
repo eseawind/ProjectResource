@@ -1,0 +1,1 @@
+{"title":"查找模块","inframe":false,"hidden":false,"roles":{"demo":1,"default":1,"basic":1},"pageLink":"","children":[{"configs":{"serverMethod":"com.wb.interact.Portal.searchAppModule","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

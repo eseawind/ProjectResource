@@ -1,0 +1,1 @@
+{"inframe":false,"title":"文件管理器","hidden":false,"roles":{"demo":1},"children":[{"configs":{"itemId":"module"},"children":[],"expanded":true,"type":"module"}],"pageLink":"{url: 'file'}","iconCls":"explorer_icon"}

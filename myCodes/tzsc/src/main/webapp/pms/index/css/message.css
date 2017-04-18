@@ -1,0 +1,119 @@
+.msg {
+	width: 300px;
+	display: none;
+	z-index:999;
+	background: url(../img/meesage.png) no-repeat 0px 0px;
+	width:351px;
+	height:250px;
+	position: relative;
+}
+ 
+.msg .top{
+	/*background: transparent url(../img/top.png) no-repeat 0px 0px;*/
+	position: absolute;
+	left:31px;
+	top:8px;
+	width:300px;
+	height:31px;
+}
+.msg .top #msgclose{
+	position: absolute;
+	width: 30px;
+	height: 22px;
+	left: 280px;
+	margin-top: -20px;
+	cursor: pointer;
+}
+.msg .center{
+	position: absolute;
+	left:10px;
+	top:31px;
+	width:330px;
+	height:210px;
+}
+/* .msg .bottom{
+	background: transparent url(../img/top.png) no-repeat 0px 0px;
+} */
+
+/* .pink .top, .pink .top .title, .pink .top span, .pink .bottom, .pink .bottom a{
+	background: transparent url(../img/msg_bg_pink.gif) no-repeat 0px 0px;
+}
+
+.pink .center {
+	background: url(../img/center_bg_pink.gif) repeat-y;
+} */
+
+ /* .blue .top, .blue .top .title, .blue .top span, .blue .bottom, .blue .bottom a{
+	background: transparent url(../img/msg_bg_blue.gif) no-repeat 0px 0px;
+}
+
+.blue .center {
+	background: url(../img/center_bg_blue.gif) repeat-y;
+}
+
+.msg .top {
+	width: 300px;
+	height: 25px;
+	position: relative;
+}
+
+.msg .top .title {
+	background-position: -195px -70px;
+	padding-left: 30px;
+	line-height: 25px;
+	width: 100px;
+	height: 25px;
+}
+
+.msg .top span {
+	background-position: 0px -70px;
+	width: 36px;
+	height: 17px;
+	position: absolute;
+	top: 1px;
+	left: 198px;
+	cursor: pointer;
+}
+
+.msg .top span:hover {
+	background-position: -43px -71px;
+}
+
+.msg .center {
+	width: 300px;
+	height: 141px;
+}
+
+.msg .center h3 {
+	color: #0c4e7c;
+	text-align: center;
+	line-height: 23px;
+	font-size: 13px;
+}
+
+.msg .center p {
+	color: #0c4e7c;
+	margin: 0px 10px;
+	line-height: 20px;
+}
+
+.msg .bottom {
+	height: 3px;
+	background-position: 0px -58px;
+}
+
+.msg .center a {
+	background-position: -120px -75px;
+	padding-left: 20px;
+	margin: 7px 10px;
+	float: right;
+	width: 30px;
+	height: 20px;
+}
+.msg .center .show_message{
+	width:50px;
+	height:50px;
+	overflow-y:scroll;
+	width:236px;
+	height:140px;
+} */

@@ -1,0 +1,1 @@
+{"inframe":false,"title":"保存为默认桌面","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.Portal.saveAsDefaultDesktop","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

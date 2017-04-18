@@ -1,0 +1,1 @@
+{"title":"注销","inframe":null,"hidden":false,"roles":{},"pageLink":"","children":[{"configs":{"loadJS":"core","loginRequired":"false","serverMethod":"com.wb.common.Session.logout","itemId":"module","initHtml":"<a href=\"javascript:window.location.replace('./')\">{#Str.logoutSuccess#}<\/a>"},"children":[],"type":"module","expanded":true}],"iconCls":""}

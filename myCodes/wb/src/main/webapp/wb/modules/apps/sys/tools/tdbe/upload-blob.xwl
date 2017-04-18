@@ -1,0 +1,1 @@
+{"inframe":false,"title":"上传Blob","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.DBE.uploadBlob","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>卷、包实时剔除</title>
+<link href="${resRoot}/wct_web/css/pddisplay/ssxh.css" rel="stylesheet"
+	type="text/css" />
+<!--机台排序-->
+<link href="${resRoot}/wct_web/css/pddisplay/gdxx.css" rel="stylesheet"
+	type="text/css" />
+	<!-- 覆盖样式 -->
+<link href="${resRoot}/wct_web/css/pddisplay/sctjQty.css" rel="stylesheet"
+	type="text/css" />
+<!-- jindutiao css -->
+<link href="${resRoot}/wct_web/css/pddisplay/sctjRealTimeQty.css" rel="stylesheet" type="text/css" />
+<!--工单信息-->
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<script src="${resRoot}/wct_web/js/wctPage.js"></script>
+<script type="text/javascript" language="JavaScript">
+	var baseUrl="${futRoot}";
+	$(function(){
+		//隐藏form
+		$("#eqpTypeForm").hide();
+		//初始化进度条长度
+		<#if (dataList?exists && dataList?size>0)>
+			<#list dataList as data>
+				$("#badQtyPro${data.eqpCode}").width("${data.badProcessVal}");
+			</#list>
+		</#if>
+	});
+	//切换卷烟、包装div
+	function changeDiv(type) {
+		if (type == 1) {
+			//设置隐藏表单值，修改类型为卷烟机
+			$("#orderTypeVal").val("1");
+		} else {
+			//设置隐藏表单值，修改类型为包装机
+			$("#orderTypeVal").val("2");
+		} 
+		$("#submitBu").submit();
+	}
+	/**
+	产量排序规则
+	**/
+	function orderData(orderType){
+		if(orderType == 1){
+			$("#orderDescVal").val("desc");
+			$("#orderAscVal").val("");
+		}else if(orderType == 2){
+			$("#orderAscVal").val("asc");
+			$("#orderDescVal").val("");
+		}
+		$("#submitBu").submit();
+	}
+	
+	//定时刷新包装机数据
+	function frushPackerBadQty(){
+		$.ajax({
+			  url: baseUrl+"/wct/realTimeData/getOutData.json?type=2",
+			  cache: false,
+			  success: function(msg){
+				var eqpCode=null;
+				var badQty=0.0;
+				var realQty=1.0;
+				var processWidth="0%";
+			    for(var index=0;index<msg.length;index++){
+			    	var data=msg[index];
+			    	badQty=data.badQty;
+			    	eqpCode=data.eqpCod;
+			    	realQty=data.curOut;
+			    	$("#badRealQty"+eqpCode).html(badQty.toFixed(2));
+			    	if($.isNumeric(realQty) && realQty>0){
+				    	processWidth=(badQty/realQty*100>78?78:badQty/realQty*100).toFixed(2)+"%"
+				    	$("#badQtyPro"+eqpCode).width(processWidth);
+			    	}
+			    }
+			  }
+			});
+	}
+	//定时刷新卷烟机数据
+	function frushRollerBadQty(){
+		$.ajax({
+			  url: baseUrl+"/wct/realTimeData/getOutData.json?type=1",
+			  cache: false,
+			  success: function(msg){
+				var eqpCode=null;
+				var badQty=0.0;
+				var realQty=1.0;
+				var processWidth="0%";
+			    for(var index=0;index<msg.length;index++){
+			    	var data=msg[index];
+			    	badQty=data.badQty;
+			    	eqpCode=data.eqpCod;
+			    	realQty=data.curOut;
+			    	$("#badRealQty"+eqpCode).html(badQty.toFixed(2));
+			    	if($.isNumeric(realQty) && realQty>0){
+				    	processWidth=(badQty/realQty*100>78.4?78.4:badQty/realQty*100).toFixed(2)+"%"
+				    	$("#badQtyPro"+eqpCode).width(processWidth);
+			    	}
+			    }
+			  }
+			});
+	}
+	//定时任务
+	window.timerTaskFunction2=setInterval('frushPackerBadQty()',3000);
+	window.timerTaskFunction3=setInterval('frushRollerBadQty()',3000);
+</script>
+</head>
+<body>	
+	<div id="main" style="margin-left: 230px;">
+		<div class="clear"></div>
+		<!--右侧内容-->
+		<div class="right_content">
+			<div id="right_contentbox">
+				<!--内容标题-->
+				<div class="top_title">
+					<span><img src="${resRoot}/wct_web/images/ssxh/ssxh.png" /></span>
+					<font id="divText">
+						<#if (dataList?exists)>
+							卷烟机实时剔除
+							<#elseif (packerList?exists)>
+							包装机实时剔除
+						</#if>
+					</font>
+				</div>
+				<div class="middle_box">
+					<!--表单-->
+					<div class="gdcx_box">
+						<input type="button" class="gd_input" onclick="changeDiv(1)" value="卷烟机" name="button" />
+						<input type="button" class="cz_input" onclick="changeDiv(2)" value="包装机" name="button" />
+						<input type="button" class="order_input" onclick="orderData(2)" value="剔除量升序" name="button" />
+						<input type="button" class="order_input" onclick="orderData(1)" value="剔除量降序" name="button" />
+					</div>
+				</div>
+				<!--表单-->
+				<div id="rollerDiv" class="bottom_content" <#if (packerList?exists)>style="display:none"</#if>>
+						<div class="clear"></div>
+						<#if (dataList?exists && dataList?size>0)>
+							<#list dataList as data>
+								<div class="one">
+										<ol>
+											<li>
+												<#if (data.eqpName??)>${data.eqpName}</#if> 
+											</li>
+											<li>
+												<#if (data.mat)??>${data.mat}</#if> 
+											</li>
+											<li>
+												<#if (data.teamName)??>${data.teamName}</#if> 
+												<#if (data.shiftName)??>${data.shiftName}</#if>
+											</li>
+										</ol>
+										<div class="two"></div>
+										<div class="three"></div>
+										<div class="four" id="badQtyPro${data.eqpCode}"></div>
+										<p>
+											<font id="badRealQty${data.eqpCode}">${data.badQty?if_exists}</font>
+											<font style="display:none">${data.realUnit?if_exists}</font>
+											<font >箱</font>
+											<font style="display:none" id="realQty${data.eqpCode}">${data.realQty?if_exists}</font>
+										</p>
+								</div>
+						</#list> 
+					</#if>
+				</div>
+				<!-- 包装机 -->
+				<div id="packerDiv" class="bottom_content" <#if (dataList?exists)> style="display: none;"</#if>>
+						<div class="clear"></div>
+						<#if (packerList?exists && packerList?size>0)>
+							<#list packerList as data>
+										<div class="one">
+											<ol>
+												<li>
+													<#if (data.eqpName??)>${data.eqpName}</#if> 
+												</li>
+												<li>
+													<#if (data.mat)??>${data.mat}</#if> 
+												</li>
+												<li>
+													<#if (data.teamName)??>${data.teamName}</#if> 
+													<#if (data.shiftName)??>${data.shiftName}</#if>
+												</li>
+											</ol>
+											<div class="two"></div>
+											<div class="three"></div>
+											<div class="four" id="badQtyPro${data.eqpCode}"></div>
+											<p>
+												<font id="badRealQty${data.eqpCode}">${data.badQty?if_exists}</font>
+													${data.realUnit?if_exists}
+												<font style="display:none" id="realQty${data.eqpCode}">${data.realQty?if_exists}</font>
+											</p>
+									</div>
+								</#list> 
+							</#if>
+				</div>
+			</div>
+			
+			<div class="page">
+               <div class="num-bar">
+				<a>共${wctPage.maxCount}条数据</a>
+				<#if (wctPage.index)!=1 >
+				    <a class="num" onclick="chengePage('submitBu','${futRoot}/wct/pdQty/getRealTimeBadQtyPagePath.htm?url=web_html/wct/pdStat/schStatRealTimeBadQty&index=${wctPage.index-1}')">上一页</a>
+				<#else>
+				    <a class="num" >上一页</a>  
+				</#if>
+				<a>${wctPage.index}/${wctPage.maxPage}</a>
+				<#if (wctPage.index) < (wctPage.maxPage) >
+				    <a class="num"  onclick="chengePage('submitBu','${futRoot}/wct/pdQty/getRealTimeBadQtyPagePath.htm?url=web_html/wct/pdStat/schStatRealTimeBadQty&index=${wctPage.index+1}')">下一页</a>
+				<#else>
+				    <a class="num" >下一页</a>
+				</#if>
+              </div>
+        </div>
+		</div>
+	</div>
+	<!-- 中部end -->
+	
+	<!-- 隐藏form -->
+	<form  id="submitBu" action="${futRoot}/wct/pdQty/getRealTimeBadQtyPagePath.htm?url=web_html/wct/pdStat/schStatRealTimeBadQty" method="post">
+		<input name="orderType" id="orderTypeVal" <#if (chooseParams.orderType??)>value="${chooseParams.orderType}"<#else>value="1"</#if>/>
+		<input name="orderDesc" id="orderDescVal" <#if (chooseParams.orderDesc??)>value="${chooseParams.orderDesc}"<#else>value=""</#if>/>
+		<input name="orderAsc" id="orderAscVal" <#if (chooseParams.orderAsc??)>value="${chooseParams.orderAsc}"<#else>value=""</#if>/>
+	</form>
+</body>
+</html>

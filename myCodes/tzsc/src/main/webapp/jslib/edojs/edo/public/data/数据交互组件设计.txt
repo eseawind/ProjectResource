@@ -1,0 +1,21 @@
+﻿1.DataTable 
+    是一个纯数据列表对象,只提供数据操作,并没有与服务端交互的能力
+2.Table 
+    是一个界面表格显示组件,根据数据对象,生成界面,也没有与服务端交互的能力
+3.Connection  
+    是一个封装了ajax对象,主要丰富化对params操作的服务端与客户端交互组件.
+    提供服务端分页,排序,搜索等方法接口.
+    
+    当把Connection与DataTable结合时,可以通过Connection来从服务端获取数据来更新DataTable,
+    同时,因为Table与DataTable有一个数据驱动的关系,所以,DataTable更新,Table也更新.
+    
+4.Paging是一个分页显示组件,当与Connection关联时,它的界面状态由Connection决定.
+
+
+
+Edo 服务端分页交互流程:
+1.PagingBar按下"下一页",通知Connection
+2.Connection调用next方法,修改分页数据,利用内置的ajax,从url处获得新的数据,并通知DataTable对象,以及PagingBar
+3.DataTable更新自己,通知Table
+4.Table根据当前DataTable的数据视图,更新自己
+5.PagingBar得到更新的分页数据,更新自己的分页状态

@@ -1,0 +1,1 @@
+{"title":"设置界面方案","inframe":false,"hidden":false,"roles":{"basic":1},"pageLink":"","children":[{"configs":{"serverMethod":"com.wb.interact.Portal.setTheme","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

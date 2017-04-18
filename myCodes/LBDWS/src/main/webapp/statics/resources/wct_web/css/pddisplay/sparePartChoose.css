@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.xhtable{
+	text-align: center;
+}
+.xhtable tr td{
+	border: 1px solid darkgray;
+}
+.returnButton{
+	width:120px; margin-left:10px;margin-right:10px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:right; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;
+}
+.bjghButton{
+	width:120px; margin-left:10px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:right; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;
+}

@@ -1,0 +1,1 @@
+{"inframe":false,"title":"清空Blob","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.DBE.clearBlob","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

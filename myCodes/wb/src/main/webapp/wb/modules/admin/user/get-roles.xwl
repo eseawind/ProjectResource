@@ -1,0 +1,1 @@
+{"title":"获取用户角色","inframe":false,"hidden":false,"roles":{"demo":1},"pageLink":"","children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select ROLE_ID from WB_USER_ROLE where USER_ID={?USER_ID?}","itemId":"dataprovider1"},"children":[],"type":"dataprovider","expanded":false}],"type":"module","expanded":true}],"iconCls":""}

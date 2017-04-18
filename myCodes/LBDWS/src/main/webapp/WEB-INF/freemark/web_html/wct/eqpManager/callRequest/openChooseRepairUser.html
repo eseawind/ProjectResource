@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>选择维修工</title>
+<link href="${resRoot}/wct_web/css/pddisplay/yzzxwlzj.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+<link href="${resRoot}/wct_web/css/pddisplay/repairUserInfo.css" rel="stylesheet" type="text/css"/>
+<!--nav-->
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<!--left_nav-->
+<script src='${resRoot}/wct_web/js/pddisplay/lnav_index.js' ></script>
+<!--日历-->
+<script src="${resRoot}/wct_web/js/pddisplay/Calendar.js" type="text/javascript" ></script>
+<script src="${resRoot}/wct_web/js/wctUtils.js" type="text/javascript" ></script>
+<script type="text/javascript">
+    $(function(){
+    	$("#RequestImgUrl").click(function(){
+    		var url=$("#RequestImgUrl").attr("value");
+    		//呼叫的维修名称，应该单独拿出来，作为ajax发送。防止乱码
+    		var userName=$("#RequestImgUrl").attr("userName");
+    		//当机台是封箱机/发射机/成型机时。需要记录当前发出请求的机台
+        	//ajax提交，且关闭当前弹窗
+    		$.ajax({
+		   		url : url,
+		   		type : "post",
+		   		dataType : "json",
+		   	    async: false,
+		   		data : {
+		   			"eqm_wcp_id":"${chooseParams.eqm_wcp_id?if_exists}",
+		   			"loginName":"${elbBean.loginName?if_exists}",
+		   			"jtUserCode":"${elbBean.jtUserCode?if_exists}",
+		   			"userName":userName,
+		   			"eqpNum":"${eqpNum?if_exists}"
+		   		},
+		   		success : function(data) {
+					if(data=="false"){
+					  alert("请求失败！");	
+					}else{
+						//关闭且刷新当前页
+						window.parent.location.reload();
+					}
+		   		}
+		   	});
+    	})
+    	
+    })
+</script>
+
+</head>
+<body>
+<!-- 中部start -->
+<div id="main">
+		<div class="clear"></div>
+		<!--右侧内容-->
+		<div class="right_content">
+			<div id="right_contentbox">
+					<div class="middle_box">
+					</div>
+				<!--表单-->
+				<div id="rollerDiv" class="bottom_content"  style="font-size: 12px;">
+					<div class="container">
+						<#if (dataList?size>0)>   
+                     	<#list dataList as data>
+                     		<div class="imgDiv">
+	                     		<#if (data.status=="0")>
+	                     			<div id="RequestImgUrl" userName="${data.userName?if_exists}" value="${futRoot}/wct/eqpMainCall/editOpenRepairUserStatus.json?typeId=${chooseParams.typeId}&userId=${data.userId}&status=1&eqpTypeName=${data.eqpTypeName}">
+	                     				<img style="width: 125px;height: 50px;margin: 0px;" src="${pms_url?if_exists}//img//${data.imgPath}" alt="图片">
+	                     			</div>
+	                     		<#else>
+	                     			<a href="#">
+	                     				<img style="width: 125px;height: 50px;margin: 0px;" src="${pms_url?if_exists}//img//${data.imgPath}" alt="图片">
+	                     			</a>
+	                     		</#if>
+                     			
+                     			<div class="textDiv">
+                     				<p>姓名：${data.userName}
+                     				<#if (data.status=="0")>
+                     							<font color="green">在线</font>
+                     						<#elseif (data.status=="1")>
+                     						   <font color="red">忙碌中</font>
+                     						 <#else>
+                     						  <font color="red">离线</font>
+                     					</#if>
+                     				</p>
+                     				<p>
+                     					<#if (data.eqpTypeName=="1")>
+                     						卷烟机
+                     						<#elseif (data.eqpTypeName=="2")>
+                     						包装机
+                     						<#elseif (data.eqpTypeName=="3") >
+                     						成型机
+                     						<#elseif (data.eqpTypeName=="4") >
+                     						封箱机
+                     						<#elseif (data.eqpTypeName=="5") >
+                     						发射机
+                     						<#else>
+                     						其他
+                     					</#if>
+                     				    :${data.typeName}
+                     				</p>
+                     				
+                     			</div>
+                     		</div>
+                     	</#list>
+                     <#else>
+                     	<font color="red" >没有查询到数据</font>
+                     </#if>
+					
+					</div>
+				</div>
+			
+	</div>
+<!-- 中部end -->
+</body>
+</html>

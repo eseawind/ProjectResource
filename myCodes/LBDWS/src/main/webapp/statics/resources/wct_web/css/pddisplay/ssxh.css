@@ -1,0 +1,88 @@
+@charset "utf-8";
+/* CSS Document */
+/* reset通用 */
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0; font-family:"microsoft yahei", "宋体"; }
+header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn{font-style:normal;}
+[hidefocus],summary{outline:0;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%; font-weight:normal}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+q:before,q:after{content:none;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{cursor:pointer;}
+del,ins,u,s,a,a:hover{text-decoration:none;}
+a,a:hover{color:#333;}
+
+/* 避免因子元素浮动而导致的父元素高度缺失能问题 */
+.cl:after { content:"."; display:block; height:0; clear:both; visibility:hidden; } .cl { zoom:1; }
+.clearfix::before, .clearfix::after {
+  clear:both;
+  content:" ";
+  display:block;
+}
+.clear {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+
+/*--right--*/
+.right_content{width:1136px;height:673px;margin:0 auto; overflow-y:auto; overflow-x:hidden;}
+#right_contentbox{ margin:0 auto; }
+/*--标题--*/
+.right_content .top_title{background:#53d1e2;line-height:44px; color:#fff; font-size:30px; padding-left:40px;}
+.top_title span{width:33px; height:33px; float: left; display: block; margin-top:5px; margin-right:5px;}
+.gd_input{width:92px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:left; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;}
+.gd_input:hover{width:92px; height:32px; line-height:32px; text-decoration:none; float:left; border-radius:4px; background:#8ec44e; display:block; color:#fff; text-align:center;cursor: pointer; }
+.cz_input{width:92px; margin-left:8px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:left; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;}
+.cz_input:hover{width:92px; height:32px; line-height:32px; text-decoration:none; float:left; border-radius:4px; background:#8ec44e; display:block; color:#fff; text-align:center;cursor: pointer; }
+.gdcx_box {width:400px;float:left; height:30px; margin:0 auto;font-size:18px; color:#afaeae;margin-left:40px;margin-top:16px;margin-bottom: 10px;}
+.gdcx_box .jtpx{float:left;}
+.gdcx_box .sjt{float:right;}
+.gdcx_box .sjt .jt1{width:32px; height:32px; display:block; float:left; background:url(../images/ssxh/s.png) no-repeat;  margin-left:30px; margin-right:8px;}
+.gdcx_box .sjt .jt2{width:32px; height:32px; display:block; float:left; background:url(../images/ssxh/x.png) no-repeat;}
+.gdcx_box .sjt .jt1:hover{width:32px; height:32px; display:block; float:left; background:url(../images/ssxh/sh.png) no-repeat; margin-left:30px; margin-right:8px;}
+.gdcx_box .sjt .jt2:hover{width:32px; height:32px; display:block; float:left; background:url(../images/ssxh/xh.png) no-repeat;}
+.xhtable th, .xhtable td{border:#afaeae solid 1px; padding:4px; color:#959595; }
+.dqhy{float:left; padding-left: 0px;}
+.ztitle{text-align:center; font-size:26px; padding:10px 0px !important;}
+/* 表单*/
+.bottom_content{width:1077px; margin:0 auto;}
+.right_top{	width:285px;text-align:center;}
+.right_top_ms{ width:70px; float:left;text-align:left;}
+.right_top_ms ul li{ font-size:16px; color:#959595;}
+.dh_hbj{ width:125px;float:left;}
+.right_top_num{	float:left;padding-left:2px;}  
+.right_top_num ul li{color:#959595;font-size:18px;	}
+.left_title{font-size:22px; text-align:center; line-height:30px;}
+.mxcf{line-height:40px;color:#959595;}
+/**  单耗 样式*/
+.skillbar{position:relative;display:block;margin-top:6px;margin-bottom:3px;	width:100%;	background:#eee;height:25px;	border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;-webkit-transition:0.4s linear;-moz-transition:0.4s linear;	-ms-transition:0.4s linear;	-o-transition:0.4s linear;
+transition:0.4s linear;	-webkit-transition-property:width, background-color;-moz-transition-property:width, background-color;-ms-transition-property:width, background-color;-o-transition-property:width, background-color;transition-property:width, background-color;
+} 
+/* 虚拟背景线条*/
+.skillbar-title span {
+	display:block;
+	background:rgba(0, 0, 0, 0.1);
+	padding:0 20px;
+	height:25px;
+	line-height:25px;
+	-webkit-border-top-left-radius:3px;
+	-webkit-border-bottom-left-radius:3px;
+	-moz-border-radius-topleft:3px;
+	-moz-border-radius-bottomleft:3px;
+	border-top-left-radius:3px;
+	border-bottom-left-radius:3px;
+}/*********/
+
+.skillbar-bar {	height:25px;width:0px;	background:#6adcfa;	border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}

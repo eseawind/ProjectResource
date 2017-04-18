@@ -1,0 +1,1 @@
+{"title":"treeStore数据源","inframe":false,"hidden":false,"roles":{"demo":1},"pageLink":"","children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select DISPLAY_NAME as \"text\" from WB_USER","itemId":"dataprovider1","type":"tree"},"children":[],"type":"dataprovider","expanded":false}],"type":"module","expanded":true}],"iconCls":""}

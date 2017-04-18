@@ -1,0 +1,1 @@
+{"title":"获取文件树","inframe":false,"hidden":false,"roles":{"demo":1},"pageLink":"","children":[{"configs":{"serverMethod":"com.wb.interact.IDE.getFileList","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

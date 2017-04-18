@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="workOrder">
+    
+  
+    <!-- 查询工单信息 -->
+    <sql id="updateWorkOrder">
+        <![CDATA[
+           update SCH_WORKORDER set sts=:sts,real_stim=SYSDATE where id=:id
+        ]]>
+    </sql>
+    
+    <!-- 更新工单实际结束时间 -->
+    <sql id="updateWorkOrderEndTime">
+        <![CDATA[
+			UPDATE SCH_WORKORDER SET REAL_ETIM=SYSDATE where id=:id
+        ]]>
+    </sql>
+   
+   <!-- 更新产出表实际结束时间 -->
+    <sql id="updateWorkOrderOutEndTime">
+        <![CDATA[
+           UPDATE SCH_STAT_OUTPUT SET ETIM=SYSDATE where oid=:id
+        ]]>
+    </sql>
+    
+    
+    
+</sqlMap>
+
+
+

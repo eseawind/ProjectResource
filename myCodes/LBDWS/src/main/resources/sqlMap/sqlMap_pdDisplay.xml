@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="pddisplay">
+	<sql id="closeOrderUpdateOutEtime">
+		<![CDATA[
+			update SCH_STAT_OUTPUT set etim=:nowTime 
+			where oid in 
+			    ('-1' 
+			    <#list oids?split(",") as oid>
+			    ,'${oid}'
+			    </#list>
+			    )
+		]]>
+	</sql>
+    <!-- 查询当天所有班次已启动工单 -->
+    <sql id="queryWorkOrderByShift">
+        <![CDATA[
+            select 
+               id as workorder 
+            from SCH_WORKORDER
+			where 1=1
+			and sts=2
+			and del=0
+			and to_char(date_,'yyyy-MM-dd')=to_char(sysdate,'yyyy-MM-dd')
+			and shift=:shift
+        ]]>
+    </sql>
+    <!-- 查询当天当前班次已经启动的工单，用于修改状态为完成 -->
+    <sql id="queryNeedcloseWorkOrderByShift">
+    	 <![CDATA[
+            select id from SCH_WORKORDER 
+			where sts=2
+			and del=0
+			AND to_char(SYSDATE,'yyyy-MM-dd hh24:mi:ss') BETWEEN to_char( stim,'yyyy-MM-dd hh24:mi:ss') AND to_char( etim,'yyyy-MM-dd hh24:mi:ss')
+			and shift=:shift
+			and type in(
+			'-1'
+			<#list types?split(",") as type>
+			,'${type}'
+			</#list>
+			)
+        ]]>
+    </sql>
+    
+    <!-- 关闭当天所有班次已启动工单  修改后-->
+    <sql id="closeWorkOrderByShift">
+        <![CDATA[
+            update SCH_WORKORDER set 
+			IS_AUTO='Y',
+			REAL_ETIM=:nowTime,
+			sts=4
+			where id in(
+			'-1'
+			<#list oids?split(",") as oid>
+			,'${oid}'
+			</#list>
+			)
+        ]]>
+    </sql>
+    
+     <!-- 启动下一班次工单 -->
+    <sql id="startWorkOrderByShift">
+        <![CDATA[
+             update SCH_WORKORDER set 
+				IS_AUTO='Y',
+				REAL_STIM=sysdate,
+				sts=2
+				where 1=1
+				and sts<2
+				and del=0
+				and to_char(date_,'yyyy-MM-dd')=to_char(sysdate,'yyyy-MM-dd')
+				and shift=:shift
+        ]]>
+    </sql>
+  
+    <!-- 查询工单表 -->
+    <sql id="queryWorkOrderByList">
+        <![CDATA[
+           select
+               stim,
+               etim, 
+               id,
+			   code,
+			   (select equipment_name from md_equipment where id=eqp) as eqmName,
+			   to_char(date_,'yyyy-MM-dd') as date_,
+			   (select name from md_shift where id=shift) as shiftName,
+			   (select name from md_team where id=team) as teamName,
+			   (select name from md_mat where id=mat) as matName,
+			   del,
+			   sts
+           from sch_workorder where del=0 
+           and to_char(date_,'yyyy-MM-dd')<=to_char(sysdate,'yyyy-MM-dd')
+           and eqp=:eqp_id
+           order by date_ desc,shift
+        ]]>
+    </sql>
+    
+     <!-- 查询成型机、封箱机工单表 -->
+    <sql id="queryOtherWorkOrderByList">
+        <![CDATA[
+           select 
+               stim,
+               etim, 
+               id,
+			   code,
+			   (select equipment_name from md_equipment where id=eqp) as eqmName,
+			   to_char(date_,'yyyy-MM-dd') as date_,
+			   (select name from md_shift where id=shift) as shiftName,
+			   (select name from md_team where id=team) as teamName,
+			   (select name from md_mat where id=mat) as matName,
+			   del,
+			   sts
+           from sch_workorder where del=0 
+           and to_char(date_,'yyyy-MM-dd')<=to_char(sysdate,'yyyy-MM-dd')
+           and eqp in
+           ('-11'
+			    <#list eqp_id as eqpId>
+			    ,'${eqpId}'
+			    </#list>
+			 )
+          order by date_ desc,shift
+        ]]>
+    </sql>
+    
+    <!-- 查询工厂日历表 -->
+    <sql id="querySchCalendarByList">
+        <![CDATA[
+           select id,
+			  shift,
+			  (select name from md_shift where id=shift) as shiftName,
+			  team, 
+			  (select name from md_team where id=team) as teamName,
+			  stim,
+			  etim,
+			  workshop,
+			  del,
+			  date_
+		  from sch_calendar where 1=1 
+		  <#if workshop?exists && workshop!=""> AND workshop= :workshop </#if> 
+		  <#if dateTime?exists && dateTime!=""> AND to_char(date_,'yyyy-MM')= :dateTime </#if> 
+		  and del=0 order by  shift asc
+        ]]>
+    </sql>
+    
+    <!-- 定时器   查询当前班次 -->
+    <sql id="querySchCalendarByDateTime">
+        <![CDATA[
+            select 
+			  shift as eShift,
+			  shift,
+			  date_ as fdate,
+			  date_ as edate,
+			  WORKSHOP as workShop,
+			  to_char(etim,'yyyy-mm-dd hh24:mi:ss') as etime
+			from SCH_CALENDAR where 1=1 
+			and del=0 
+			and workshop=:workShop
+			AND :nowTime BETWEEN to_char( stim,'yyyy-MM-dd hh24:mi:ss') AND to_char( etim,'yyyy-MM-dd hh24:mi:ss')
+        ]]>
+    </sql>
+    <!--定时器    查询需要结束的之前的所有工单 -->
+    <sql id="queryAllNeedFinishedOrders">
+    	<![CDATA[
+    		select id from SCH_WORKORDER
+	    		where 1=1
+				and sts=2
+				and del=0
+				and to_char(etim,'yyyy-MM-dd hh24:mi:ss')<=:nowTime
+				<#if edate?exists && edate!="">
+					and to_char(DATE_,'yyyy-MM-dd')=:edate
+				</#if>
+				and type in(
+				'-1'
+				<#list orderType?split(",") as orderType>
+				,'${orderType}'
+				</#list>
+				)
+    	]]>
+    </sql>
+     <!-- 定时器  结束当班上一班次工单 -->
+    <sql id="eupWorkOrderByShift">
+        <![CDATA[
+            update SCH_WORKORDER set 
+			IS_AUTO='Y',
+			REAL_ETIM=:nowTime,
+			sts=4
+			where id in 
+			    ('-1' 
+			    <#list oids?split(",") as oid>
+			    ,'${oid}'
+			    </#list>
+			    )
+        ]]>
+    </sql>
+    <!-- 定时器   查询需要启动的当前工单  -->
+    <sql id="queryNeedStartedOrders">
+    	<![CDATA[
+    	   select id from SCH_WORKORDER
+	    		where 1=1
+				and sts<2
+				and del=0
+				and to_date(:nowTime,'yyyy-MM-dd hh24:mi:ss') BETWEEN STIM AND ETIM
+				and type in(
+				'-1'
+				<#list orderType?split(",") as orderType>
+				,'${orderType}'
+				</#list>
+				) 
+    	]]>
+    </sql>
+    <!-- 定时器   启动当前未启动的工单 -->
+    <!-- <sql id="startWorkOrderByShiftDac">
+        <![CDATA[
+            update SCH_WORKORDER set 
+			IS_AUTO='Y',
+			REAL_STIM=sysdate,
+			sts=2
+			where 1=1
+			and sts<2
+			and del=0
+			and to_char(date_,'yyyy-MM-dd') = to_char(:fdate,'yyyy-MM-dd')
+			and shift=:shift
+        ]]>
+    </sql> -->
+    
+    <!-- 定时器   启动当前未启动的工单 -->
+    <sql id="startWorkOrderByShiftDac">
+        <![CDATA[
+            update SCH_WORKORDER set 
+			IS_AUTO='Y',
+			REAL_STIM=:nowTime,
+			sts=2
+			where id in(
+			'-1' 
+			    <#list oids?split(",") as oid>
+			    ,'${oid}'
+			    </#list>
+			 )
+        ]]>
+    </sql>
+    
+    <sql id="queryEqpCodeByOrderId">
+    	<![CDATA[
+    		SELECT b.EQUIPMENT_CODE as eqpCode 
+    			from SCH_WORKORDER a LEFT JOIN MD_EQUIPMENT b on a.EQP=b.ID
+    		WHERE a.id=:id
+    	]]>
+    
+    </sql>
+    
+</sqlMap>
+
+
+

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>外观检测详细</title>
+<link href="${resRoot}/wct_web/css/pddisplay/yzzxwlzj.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+
+<link href="${resRoot}/wct_web/css/pddisplay/modal.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+<link href="${resRoot}/wct_web/css/pddisplay/left_nav.css" rel="stylesheet" type="text/css"/><!--left_nav-->
+<link href="${resRoot}/wct_web/css/pddisplay/qmOutWandDelInfo.css" rel="stylesheet" type="text/css"/><!--left_nav-->
+<!--nav-->
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<!--left_nav-->
+<script src='${resRoot}/wct_web/js/pddisplay/lnav_index.js' ></script>
+<!--日历-->
+<script src="${resRoot}/wct_web/js/pddisplay/Calendar.js" type="text/javascript" ></script>
+<script src="${resRoot}/wct_web/js/wctUtils.js" type="text/javascript" ></script>
+<!-- 分页 -->
+<script src='${resRoot}/wct_web/js/wctPage.js' ></script>
+</head>
+<body>
+<!-- 中部start -->
+<div id="main"> 
+    <div class="right_content">
+      <div id="right_contentbox">
+    	<div class="top_title">
+   	    <span><img src="${resRoot}/wct_web/images/qm/yzzxwlzj.png" /></span>外观检测详细</div>
+        <div class="bottom_content"  style="margin-left:10px;">
+        	<table class="table" cellspacing="0" border="0">
+                        <tr>
+                            <th>缺陷代码</th>
+                            <th>缺陷位置</th>
+                            <th>缺陷描述</th>
+                            <th>缺陷等级</th>
+                            <th>缺陷数量</th>
+                        </tr>
+                     <#if (dataList?size>0)>   
+                     	<#list dataList as data>
+                     		<tr>
+                     			<td><#if (data.itemCode)??>${data.itemCode}</#if></td>
+                     			<td><#if (data.pos)??>${data.pos}</#if></td>
+                     			<td><#if (data.des)??>${data.des}</#if></td>
+                     			<td><#if (data.lvl)??>${data.lvl}</#if></td>
+                     			<td><#if (data.val)??>${data.val}</#if></td>
+                     		</tr>
+                     	</#list>
+                     	<#else>
+                     	<tr><td colspan="5"><font color="red" >没有查询到数据</font></td></tr>
+                     </#if>
+                 </table>
+        </div>
+        <!--分页start-->
+        <div class="page">
+        	   <a class="item_input" href="${futRoot}/wct/qm/getQmOutWandInfo.htm?url=web_html/wct/qm/QmOutWandInfo&index=${chooseParams.outWandIndex}" >返回</a>
+               <div class="num-bar">
+				<a>共${wctPage.maxCount}条数据</a>
+				<#if (wctPage.index)!=1 >
+				    <a class="num" href="${futRoot}/wct/qm/queryQmOutWardDelInfo.htm?url=web_html/wct/qm/qmOutWandComprehensiveInfo&outWandIndex=${chooseParams.outWandIndex}&batchNo=${chooseParams.batchNo}&index=${wctPage.index-1}">上一页</a>
+				<#else>
+				    <a class="num" >上一页</a>  
+				</#if>
+				<a>${wctPage.index}/${wctPage.maxPage}</a>
+				<#if (wctPage.index) < (wctPage.maxPage) >
+				    <a class="num"  href="${futRoot}/wct/qm/queryQmOutWardDelInfo.htm?url=web_html/wct/qm/qmOutWandComprehensiveInfo&outWandIndex=${chooseParams.outWandIndex}&batchNo=${chooseParams.batchNo}&index=${wctPage.index+1}">下一页</a>
+				<#else>
+				    <a class="num" >下一页</a>
+				</#if>
+              </div>
+        </div>
+        <!--分页End-->
+    </div>
+    </div>
+</div> 
+<!-- 中部end -->
+</body>
+</html>

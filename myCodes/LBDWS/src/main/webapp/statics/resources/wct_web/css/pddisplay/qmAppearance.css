@@ -1,0 +1,87 @@
+@charset "utf-8";
+/*文本过长隐藏部分*/
+.rolerTxt{
+	width:850px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.right_contentbox{
+	overflow-x :no;	
+}	
+
+.table td input{
+	line-height:60px;
+	width:100%;
+	border: none;
+	text-align: center;
+	height: 100%;
+}
+.table th,.table td{
+	padding-left: 0px;
+	text-align: center;
+}
+.detail_input{width:92px; margin-left:40px; height:32px; line-height:32px; text-decoration:none; font-size:18px;  border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;}
+
+/**/
+.modal-title{
+	text-align: center;
+}
+
+.modal-body{
+	height: 300px;
+}
+.qinput{
+	height:30px;
+	background: #f4f8ff;
+	border: 1px solid;
+	color:#afaeae;
+	width: 200px;
+}
+.item_inputSearch{width:92px; margin-left:20px;margin-right:20px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:right; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;}
+.item_input{width:92px; margin-left:20px;margin-right:20px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:left; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;}
+.item_inputSave{width:92px; margin-left:20px;margin-right:20px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:left; border-radius:4px; background:#00ff40; display:block; color:#fff; text-align:center; border:none;}
+.modal-footer{
+	height: 25px;
+}
+.dlgTable{
+	margin-top: 5px;
+	table-layout:fixed;
+}
+.dlgTable th, .dlgTable td{
+	padding: 6px 8px;
+	word-break:keep-all;/* 不换行 */  
+    white-space:nowrap;/* 不换行 */  
+    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */  
+    text-overflow:ellipsis;/*超出部分显示...*/
+}
+.modal-body{
+	padding: 2px;
+	height: 270px;
+}
+.modal-header{
+	height: 30px;
+}
+
+.itemValInput{
+	height:100%;
+	width: 100%;
+	border: none;
+	text-align: center;
+}
+.gd_input{
+	width:160px;
+}
+.gd_input:hover{
+	width:160px;
+}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,128 @@
+<div class="modal-dialog" style="width:830px;top:5%;">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">
+				&times;
+			</button>
+			<h4 class="modal-title">用户添加</h4>
+		</div>
+		<form  id="addUserFrom" action="" method="post">
+		<div class="modal-body">
+			<div class="row">
+				<div class= "col-md-12" >
+			           <div class="form-group col-md-6">
+							<label for="cBrand" class="col-md-4 control-label">姓名：</label>
+							<div class="col-md-8">
+								<input id="uNamet"  name="uName" type="text" class="form-control" value=""/>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="cBrand" class="col-md-4 control-label">密码：</label>
+							<div class="col-md-8">
+								<input id="uPassword" name="uPassword" type="text" class="form-control" value=""/>
+							</div>
+						</div>
+				</div>
+				
+				<div class= "col-md-12" >
+			           <div class="form-group col-md-6">
+							<label for="cBrand" class="col-md-4 control-label">昵称：</label>
+							<div class="col-md-8">
+								<input id="uNickname" name="uNickname" type="text" class="form-control" value=""/>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="cBrand" class="col-md-4 control-label">性别：</label>
+							<div class="col-md-8">
+								男:&nbsp;<input  type="radio" class="input_bottom" value="1"  name="uSex" />&nbsp;&nbsp;
+								女:&nbsp;<input  type="radio" class="input_bottom" value="2" name="uSex" />
+							</div>
+						</div>
+				</div>
+				
+				<div class= "col-md-12" >
+			           <div class="form-group col-md-6">
+							<label for="cBrand" class="col-md-4 control-label">邮件：</label>
+							<div class="col-md-8">
+								<input id="uEmail" name="uEmail" type="text" class="form-control" value=""/>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="cBrand" class="col-md-4 control-label">手机号码：</label>
+							<div class="col-md-8">
+								<input id="uTelephone" name="uTelephone" type="text" class="form-control" value=""/>
+							</div>
+						</div>
+				</div>
+				<div class= "col-md-12" >
+			           <div class="form-group col-md-12">
+							<label for="cBrand" class="col-md-4 control-label">出生地：</label>
+							<div class="col-md-12">
+								<input id="uOldAddress" name="uOldAddress" type="text" class="form-control" value=""/>
+							</div>
+						</div>
+				</div>
+				<div class= "col-md-12" >
+			           <div class="form-group col-md-12">
+							<label for="cBrand" class="col-md-4 control-label">现居地址：</label>
+							<div class="col-md-12">
+								<input id="uNowAddress" name="uNowAddress" type="text" class="form-control" value=""/>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+		</form>
+		
+		<div class="modal-footer">
+			<a  id="addUserButton"  type="button" class="btn btn-primary" >
+				确定
+			</a> 
+			<button type="submit"  class="btn btn-default" data-dismiss="modal">
+				取消
+			</button>
+		</div>
+	</div>
+</div>
+
+
+<script>
+/** 保存 修改 */
+$("#addUserButton").click(function(){
+	 //验证用户名密码是否为空
+	 var uName=$("#uNamet").val();
+	 var uPassword=$("#uPassword").val();
+	 if(uName=="" || uPassword==""){
+		$.Alert("用户名密码不能为空");
+		return false;
+	 }
+     //提交后台处理
+     $.ajax({
+		url : "${futRoot}/userContorllor/addUserById.htm",
+		type : "post",
+		dataType : "json",
+	    async: false,
+		data : $("#addUserFrom").serialize(),
+		success : function(data) {
+			// 1-成功  2-失败
+			if(data=="1"){
+				$.Alert("添加成功！");
+				//刷新列表
+				admin.dataTable.fnDraw();
+			    //关闭窗口
+		   		$("#addUserRegionModal").modal("hide");
+		   		return false;
+				
+			}else{
+				$.Alert("添加失败！");
+			}
+		}
+	 }); 
+});
+
+
+
+ 
+</script>
+
+

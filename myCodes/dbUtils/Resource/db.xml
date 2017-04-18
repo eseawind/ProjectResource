@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 数据库配置信息 -->
+<conns>
+	<conn>
+		<dbName>sqlLite</dbName>
+		<desc>sqlLite数据库</desc>
+		<url>jdbc:sqlite:D:\database.db3</url>
+		<classDrive>org.sqlite.JDBC</classDrive>
+		<uname/>
+		<pwd/>
+		<init>5</init>
+		<max>20</max>
+	</conn>
+</conns>

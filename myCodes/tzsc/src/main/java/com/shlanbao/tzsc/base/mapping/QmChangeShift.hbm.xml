@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.shlanbao.tzsc.base.mapping.QmChangeShift" table="QM_CHANGSHIFT">
+		<id name="id" type="java.lang.String">
+			<column name="ID" length="50" />
+			<generator class="uuid.hex" />
+		</id>
+		<property name="deviceId" type="java.lang.String">
+			<column name="DEVICE_ID"  />
+		</property>
+		<property name="lotId" type="java.lang.String">
+			<column name="LOT_ID"  />
+		</property>
+		<property name="entryId" type="java.lang.String">
+			<column name="ENTRY_ID"  />
+		</property>
+		<property name="outMaterialId" type="java.lang.String">
+			<column name="OUT_MATERIAL_ID"  />
+		</property>
+		<property name="outMaterialNm" type="java.lang.String">
+			<column name="OUT_MATERIAL_NM"  />
+		</property>
+		<property name="outMaterialQty" type="java.lang.Float">
+			<column name="OUT_MATERIAL_QTY"  />
+		</property>
+		<property name="uom" type="java.lang.String">
+			<column name="UOM"  />
+		</property>
+		<property name="shiftId" type="java.lang.String">
+			<column name="SHIFT_ID"  />
+		</property>
+		<property name="shiftName" type="java.lang.String">
+			<column name="SHIFT_NAME"  />
+		</property>
+		<property name="teamId" type="java.lang.String">
+			<column name="TEAM_ID"  />
+		</property>
+		<property name="teamName" type="java.lang.String">
+			<column name="TEAM_NAME"  />
+		</property>
+		<property name="woState" type="java.lang.String">
+			<column name="WO_STATE"  />
+		</property>
+		<property name="planStartTime" type="java.lang.String">
+			<column name="PLAN_START_TIME"  />
+		</property>
+		<property name="planFinishedTime" type="java.lang.String">
+			<column name="PLAN_FINISHED_TIME"  />
+		</property>
+		<property name="actualStartTime" type="java.lang.String">
+			<column name="ACTUAL_START_TIME"  />
+		</property>
+		<property name="actualFinishedTime" type="java.lang.String">
+			<column name="ACTUAL_FINISHED_TIME"  />
+		</property>
+		<property name="supplyTime" type="java.lang.String">
+			<column name="SUPPLY_TIME"  />
+		</property>
+		<property name="mesEntryId" type="java.lang.String">
+			<column name="MES_ENTRY_ID"  />
+		</property>
+		<property name="createTime" type="java.lang.String">
+			<column name="CREATE_TIME"  />
+		</property>
+		<property name="updateTime" type="java.lang.String">
+			<column name="UPDATE_TIME"  />
+		</property>
+	</class>
+</hibernate-mapping>

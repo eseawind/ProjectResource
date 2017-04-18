@@ -1,0 +1,223 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{
+	margin:0px;
+	padding:0px;
+	list-style:none;
+	font-family:微软雅黑;
+	}
+	
+#box{
+	width:3840px;
+	height:2160px;
+	margin:0px;
+	padding:0px;
+	background-color:gray;
+	}
+	
+/* 左菜单**/
+#box_left{
+	width:444px;
+	height:2160px;
+	background-image: linear-gradient(-139deg, #323E43 0%, #2B353A 27%, #242D31 51%, #232B30 55%, #222B2F 57%, #222B2F 57%, #171D20 100%);
+	position:relative;position:absolute;
+	float:left;
+	}
+/**  logo  */
+#box_left_logo{
+	width:444px;
+	height:194px;
+	}
+	.logo_icon1{
+		  width:80px;
+		  height:194px;
+		  cursor:pointer;
+		}
+		.logo_icon1 img{
+			height:80px;
+			height:89px;
+			margin-top:40px;
+			margin-left:20px;
+			}
+	.logo_font1{
+	  width:239px;
+	  height:194px;
+	}
+	    .logo_font1 img{
+			width:239px;
+			height:84px;
+			margin-left:35px;
+			}
+	
+/**  左菜单 */	
+	
+#box_left_menu{
+	   width:444px;
+	   height:1966px;
+	}
+#box_left_menu ul li{
+	height:104px;
+	margin-top:14px;
+	width:444px;
+	cursor:pointer;
+	/* background-color:#4BC29D; */
+	}	
+/*
+#box_left_menu ul li span img{
+	margin-top:25px;
+    }
+	
+.menu_icon1{
+	margin-left:35px;
+	width:55px;
+	height:104px;
+	display:block;
+	float:left;
+	vertical-align:middle; 
+	}	
+.menu_icon1 img{
+	margin-top:25px;
+	}
+.menu_font1{
+	width:354px;
+	height:104px;
+	
+	}
+.menu_font1 img{
+	margin-top:35px;
+	margin-left:45px;
+	}
+*/	
+	
+	
+/**  右菜单 */		
+
+#box_right{
+	float:left;
+	width:3396px;
+	/* width:100%; */
+	height:2160px;
+	background-color:#FFF;
+	margin-left:444px;
+	}
+#box_right_top{
+	width:3396px;
+	height:90px;
+	background-color:#FAFAFA;
+	border-bottom:1px solid #C9C9C9;
+	font-size:36px;
+    color: #797C7D;
+	}	
+
+.box_right_time{
+	margin-left:20px;
+	margin-right:10px;
+	height:90px;
+	float:left;
+	
+	}
+.box_right_time01{
+	height:90px;
+	width:60px;
+	display:block;
+	float:left;
+	}
+.box_right_time01 img{
+	margin-top:27px;
+	margin-left:20px;
+	width:41px;
+	height:40px;
+	}
+.box_right_font01{
+	line-height:90px;
+	width:600px;
+	display:block;
+	}
+#box_right_top{
+	width:100%;
+	line-height:90px;
+	text-align:center;
+	}	
+.title{
+	float:left;
+	margin-left:23%;
+	}
+.title_menu{
+	float:right;
+	height:99px;
+	
+	}
+	.title_menu ul{
+		margin-right:20px;
+		}
+.title_menu ul li{
+	width:100px;
+	line-height:99px;
+	float:left;
+	margin-top:15px;
+	}
+	
+/**  中心内容选择项 */
+#box_right_content{
+	width:3396px;
+	height:2070px;
+	height:66px;
+}	
+
+#box_right_bx{
+	margin:43px;
+	width:3310px;
+	height:1984px;
+	}	
+#box_right_mu{
+	width:3310px;
+	height:66px;
+	border-bottom:6px solid #4BC29D;
+	
+	}
+#box_right_mu ul li{
+	float:left;
+	line-height:66px;
+	font-size:24px;
+	margin-right:10px;
+	padding-right:30px;
+	padding-left:25px;
+	text-align:center;
+	cursor:pointer;
+	}	
+
+.cheOn_00{
+	background: #4BC29D;
+	color:#FFF;
+	height:66px;
+	}
+.cheOn_01{
+	color:#7D8283;
+	}		
+.icon_1{
+	height:66px;
+	widht:30px;
+	}
+.icon_1 img{
+	width:30px;
+	height:34px;
+	vertical-align:middle;
+	margin-right:10px;
+	}	
+#box_right_page{
+	margin-top:55px;
+	height:1980px;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

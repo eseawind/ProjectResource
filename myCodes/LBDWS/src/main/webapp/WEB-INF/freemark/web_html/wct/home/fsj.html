@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>发射机</title>
+<link href="${resRoot}/wct_web/css/filterAndBoxer/css.css" rel="stylesheet" type="text/css" />
+<link href="${resRoot}/wct_web/css/filterAndBoxer/fsj.css" rel="stylesheet" type="text/css" />
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<!--tab-->
+<script>
+<!-- 获取机台登录信息 -->
+<#if (Session.loginInfo)??>
+	<#assign loginBean=Session.loginInfo>
+<#else>
+	window.parent.parent.location.href="/LBDWS/wct/index.htm";
+</#if>
+function setTab(name,cursel){
+	for(var i=1; i<=3; i++){
+		var menu = $("#"+name+i);
+		var menudiv = $("#con_"+name+"_"+i);
+		if(i==cursel){
+			menu.css("background","#fff");
+			menu.css("color","#000");
+			menudiv.show();
+		}else{
+			menu.css("background","#02a55c");
+			menu.css("color","##fff");
+			menudiv.hide();
+		}
+	}
+}
+//刷新数据
+function reFrushData(){
+	$.ajax({
+		type: "POST",
+		url: "/LBDWS/wct/realTimeData/getRealTimeLauncherData.json",
+		success: function(msg){
+			 var bean=null;
+			 var equipmentCode=null;
+			 for(var i=0;i<msg.length;i++){
+				 bean=msg[i];
+				 equipmentCode=bean.equipmentCode;
+				 $("#qty"+equipmentCode).html(bean.qty);//总和
+				 $("#xp1Qty0"+equipmentCode).html(bean.xp1Qty0);//左卸盘机
+				 $("#xp1Qty1"+equipmentCode).html(bean.xp1Qty1);//右卸盘机
+				 
+				 $("#qty0"+equipmentCode).html(bean.qty0);//发射管
+				 $("#speed0"+equipmentCode).html(bean.speed0);//发射管速度
+				 
+				 $("#qty1"+equipmentCode).html(bean.qty1);//发射管
+				 $("#speed1"+equipmentCode).html(bean.speed1);//发射管速度
+				 
+				 $("#qty2"+equipmentCode).html(bean.qty2);//发射管
+				 $("#speed2"+equipmentCode).html(bean.speed2);//发射管速度
+				 
+				 $("#qty3"+equipmentCode).html(bean.qty3);//发射管
+				 $("#speed3"+equipmentCode).html(bean.speed3);//发射管速度
+				 
+				 $("#qty4"+equipmentCode).html(bean.qty4);//发射管
+				 $("#speed4"+equipmentCode).html(bean.speed4);//发射管速度
+				 
+				 $("#qty5"+equipmentCode).html(bean.qty5);//发射管
+				 $("#speed5"+equipmentCode).html(bean.speed5);//发射管速度
+				 
+				 $("#qty6"+equipmentCode).html(bean.qty6);//发射管
+				 $("#speed6"+equipmentCode).html(bean.speed6);//发射管速度
+				 
+				 $("#qty7"+equipmentCode).html(bean.qty7);//发射管
+				 $("#speed7"+equipmentCode).html(bean.speed7);//发射管速度
+				 
+				 $("#qty8"+equipmentCode).html(bean.qty8);//发射管
+				 $("#speed8"+equipmentCode).html(bean.speed8);//发射管速度
+				 
+				 $("#qty9"+equipmentCode).html(bean.qty9);//发射管
+				 $("#speed9"+equipmentCode).html(bean.speed9);//发射管速度
+			 }
+		}
+	});
+}
+window.timerTaskFunction0=setInterval('reFrushData()',3000);
+
+</script>
+</head>
+<body>
+<div id="content">
+<div class="tab1" id="tab1">
+	<div class="menu">
+		<ul>
+			<li id="one1" onclick="setTab('one',1)">1号发射机</li>
+			<li id="one2"  onclick="setTab('one',2)">2号发射机</li>
+			<li id="one3"  onclick="setTab('one',3)">3号发射机</li>
+		</ul>
+	</div>
+	<div class="menudiv">
+		<div id="con_one_1">
+        	 <div class="cxj_middle">
+   			 <!--left-->
+                  <div class="left_middle">
+                  	<div class="fsj_img"><img src="${resRoot}/wct_web/images/filterAndBoxer/fsj/fsj.png" width="452" height="360" /></div>
+                    <!--数据条-->
+                    <div class="right_top_ms">
+                    <table width="100%" border="0"  cellspacing="0" cellpadding="0">
+                        <tr>
+	                        <td width="500" class="cxj_yxzt">
+	                        		左卸盘机：<font id="xp1Qty0${loginBean.launchEquipmentCode0?if_exists}"></font>	盘	
+	                		</td>
+	                		<td width="500" class="cxj_yxzt">
+	                        		右卸盘机：<font id="xp1Qty1${loginBean.launchEquipmentCode0?if_exists}"></font>盘
+	                        </td>
+                        </tr>
+                        <tr>
+	                        <td width="500" class="cxj_yxzt">
+	                        		设备型号：<font id="eqpType${loginBean.launchEquipmentCode0?if_exists}">YF23</font>			
+	                		</td>
+	                		<td width="500" class="cxj_yxzt">
+	                        		发射数量：<font id="qty${loginBean.launchEquipmentCode0?if_exists}"></font>支
+	                        </td>
+                        </tr>
+                    </table>
+                </div>
+  			</div>
+  			<!--列表-->
+                  <div class="right_middle">
+                  	<table class="fsj_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr class="fsj_tabletitle">
+                        <td class="fsj_lname">名称</td>
+                        <td>发射数量</td>
+                        <td class="fsj_spead">速度</td>
+                      </tr>
+                      <tr>
+                        <td>1＃发射管</td>
+                        <td><font id="qty0${loginBean.launchEquipmentCode0?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed0${loginBean.launchEquipmentCode0?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>2＃发射管</td>
+                        <td><font id="qty1${loginBean.launchEquipmentCode0?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed1${loginBean.launchEquipmentCode0?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>3＃发射管</td>
+                        <td><font id="qty2${loginBean.launchEquipmentCode0?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed2${loginBean.launchEquipmentCode0?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>4＃发射管</td>
+                        <td><font id="qty3${loginBean.launchEquipmentCode0?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed3${loginBean.launchEquipmentCode0?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>5＃发射管</td>
+                         <td><font id="qty4${loginBean.launchEquipmentCode0?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed4${loginBean.launchEquipmentCode0?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>6＃发射管</td>
+                         <td><font id="qty5${loginBean.launchEquipmentCode0?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed5${loginBean.launchEquipmentCode0?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>7＃发射管</td>
+                         <td><font id="qty6${loginBean.launchEquipmentCode0?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed6${loginBean.launchEquipmentCode0?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>8＃发射管</td>
+                        <td><font id="qty7${loginBean.launchEquipmentCode0?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed7${loginBean.launchEquipmentCode0?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>9＃发射管</td>
+                         <td><font id="qty8${loginBean.launchEquipmentCode0?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed8${loginBean.launchEquipmentCode0?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>10＃发射管</td>
+                         <td><font id="qty9${loginBean.launchEquipmentCode0?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed9${loginBean.launchEquipmentCode0?if_exists}">0</font>支／分</td>
+                      </tr>
+                    </table>
+                  </div>
+              </div>
+            </div>
+		<div id="con_one_2" style="display:none;">
+        	 <div class="cxj_middle">
+   			 <!--left-->
+                  <div class="left_middle">
+                  	<div class="fsj_img"><img src="${resRoot}/wct_web/images/filterAndBoxer/fsj/fsj.png" width="452" height="360" /></div>
+                    <!--数据条-->
+                    <div class="right_top_ms">
+                    <table width="100%" border="0"  cellspacing="0" cellpadding="0">
+                         <tr>
+	                        <td width="500" class="cxj_yxzt">
+	                        		左卸盘机：<font id="xp1Qty0${loginBean.launchEquipmentCode1?if_exists}"></font>	盘	
+	                		</td>
+	                		<td width="500" class="cxj_yxzt">
+	                        		右卸盘机：<font id="xp1Qty1${loginBean.launchEquipmentCode1?if_exists}"></font>盘
+	                        </td>
+                        </tr>
+                        <tr>
+	                        <td width="500" class="cxj_yxzt">
+	                        		设备型号：<font id="eqpType${loginBean.launchEquipmentCode1?if_exists}">YF23</font>			
+	                		</td>
+	                		<td width="500" class="cxj_yxzt">
+	                        		发射数量：<font id="qty${loginBean.launchEquipmentCode1?if_exists}"></font>支
+	                        </td>
+                        </tr>
+                    </table>
+                </div>
+  			</div>
+  			<!--列表-->
+                  <div class="right_middle">
+                  	<table class="fsj_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr class="fsj_tabletitle">
+                        <td class="fsj_lname">名称</td>
+                        <td>发射数量</td>
+                        <td class="fsj_spead">速度</td>
+                      </tr>
+                      <tr>
+                        <td>1＃发射管</td>
+                        <td><font id="qty0${loginBean.launchEquipmentCode1?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed0${loginBean.launchEquipmentCode1?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>2＃发射管</td>
+                        <td><font id="qty1${loginBean.launchEquipmentCode1?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed1${loginBean.launchEquipmentCode1?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>3＃发射管</td>
+                        <td><font id="qty2${loginBean.launchEquipmentCode1?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed2${loginBean.launchEquipmentCode1?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>4＃发射管</td>
+                        <td><font id="qty3${loginBean.launchEquipmentCode1?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed3${loginBean.launchEquipmentCode1?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>5＃发射管</td>
+                         <td><font id="qty4${loginBean.launchEquipmentCode1?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed4${loginBean.launchEquipmentCode1?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>6＃发射管</td>
+                         <td><font id="qty5${loginBean.launchEquipmentCode1?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed5${loginBean.launchEquipmentCode1?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>7＃发射管</td>
+                         <td><font id="qty6${loginBean.launchEquipmentCode1?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed6${loginBean.launchEquipmentCode1?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>8＃发射管</td>
+                        <td><font id="qty7${loginBean.launchEquipmentCode1?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed7${loginBean.launchEquipmentCode1?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>9＃发射管</td>
+                         <td><font id="qty8${loginBean.launchEquipmentCode1?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed8${loginBean.launchEquipmentCode1?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>10＃发射管</td>
+                         <td><font id="qty9${loginBean.launchEquipmentCode1?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed9${loginBean.launchEquipmentCode1?if_exists}">0</font>支／分</td>
+                      </tr>
+                    </table>
+                  </div>
+              </div>
+      	</div> 
+		<div id="con_one_3" style="display:none;">
+        	 <div class="cxj_middle">
+   			 <!--left-->
+                  <div class="left_middle">
+                  	<div class="fsj_img"><img src="${resRoot}/wct_web/images/filterAndBoxer/fsj/fsj.png" width="452" height="360" /></div>
+                    <!--数据条-->
+                    <div class="right_top_ms">
+                    <table width="100%" border="0"  cellspacing="0" cellpadding="0">
+                         <tr>
+	                        <td width="500" class="cxj_yxzt">
+	                        		左卸盘机：<font id="xp1Qty0${loginBean.launchEquipmentCode2?if_exists}"></font>	盘	
+	                		</td>
+	                		<td width="500" class="cxj_yxzt">
+	                        		右卸盘机：<font id="xp1Qty1${loginBean.launchEquipmentCode2?if_exists}"></font>盘
+	                        </td>
+                        </tr>
+                        <tr>
+	                        <td width="500" class="cxj_yxzt">
+	                        		设备型号：<font id="eqpType${loginBean.launchEquipmentCode2?if_exists}">YF23</font>			
+	                		</td>
+	                		<td width="500" class="cxj_yxzt">
+	                        		发射数量：<font id="qty${loginBean.launchEquipmentCode2?if_exists}"></font>支
+	                        </td>
+                        </tr>
+                    </table>
+                </div>
+  			</div>
+  			<!--列表-->
+                  <div class="right_middle">
+                  	<table class="fsj_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr class="fsj_tabletitle">
+                        <td class="fsj_lname">名称</td>
+                        <td>发射数量</td>
+                        <td class="fsj_spead">速度</td>
+                      </tr>
+                      <tr>
+                        <td>1＃发射管</td>
+                        <td><font id="qty0${loginBean.launchEquipmentCode2?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed0${loginBean.launchEquipmentCode2?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>2＃发射管</td>
+                        <td><font id="qty1${loginBean.launchEquipmentCode2?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed1${loginBean.launchEquipmentCode2?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>3＃发射管</td>
+                        <td><font id="qty2${loginBean.launchEquipmentCode2?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed2${loginBean.launchEquipmentCode2?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>4＃发射管</td>
+                        <td><font id="qty3${loginBean.launchEquipmentCode2?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed3${loginBean.launchEquipmentCode2?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>5＃发射管</td>
+                         <td><font id="qty4${loginBean.launchEquipmentCode2?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed4${loginBean.launchEquipmentCode2?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>6＃发射管</td>
+                         <td><font id="qty5${loginBean.launchEquipmentCode2?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed5${loginBean.launchEquipmentCode2?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>7＃发射管</td>
+                         <td><font id="qty6${loginBean.launchEquipmentCode2?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed6${loginBean.launchEquipmentCode2?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>8＃发射管</td>
+                        <td><font id="qty7${loginBean.launchEquipmentCode2?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed7${loginBean.launchEquipmentCode2?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr>
+                        <td>9＃发射管</td>
+                         <td><font id="qty8${loginBean.launchEquipmentCode2?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed8${loginBean.launchEquipmentCode2?if_exists}">0</font>支／分</td>
+                      </tr>
+                      <tr class="fsj_odd">
+                        <td>10＃发射管</td>
+                         <td><font id="qty9${loginBean.launchEquipmentCode2?if_exists}">0.0</font>万支</td>
+                        <td><font id="speed9${loginBean.launchEquipmentCode2?if_exists}">0</font>支／分</td>
+                      </tr>
+                    </table>
+                  </div>
+            </div>
+      	</div> 
+  </div>
+</div>
+</div>
+</body>
+</html>

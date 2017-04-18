@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="eqpMainCall">
+	<!-- 设备维修呼叫-->
+   <sql id="mainCallInfo">
+   	<![CDATA[
+   			SELECT 
+				t1.id,t1.shiftName,t1.shiftId,t1.teamName,t1.teamId,
+				t1.eqpName,t1.eqpId,t1.sCreateTime,t1.designatedTime,t1.updateUserTime,
+				t1.designatedName,t1.designatedId,t1.typeName,t1.status,t1.createName,
+				t1.createUserId,t2.sparePartName,t2.sparePartNum,t2.unitName,
+				t2.troubleDesc as troubleDesc,t1.mes_id 
+				from (
+					SELECT 	a.id as id,
+									b.name as shiftName,b.id as shiftId,c.name as teamName,c.id as teamId,
+									a.EQP_NAME as eqpName,a.eqp_id as eqpId,
+									to_char(a.CREATE_USER_TIME,'yyyy-mm-dd hh24:mi:ss') as sCreateTime,
+									to_char(a.designated_person_time,'yyyy-mm-dd hh24:mi:ss') as designatedTime,
+									to_char(a.update_user_time,'yyyy-mm-dd hh24:mi:ss') as updateUserTime,
+									a.designated_person_name as designatedName,
+									a.designated_person_id as designatedId,
+									a.type_name as typeName,a.status as status,
+									a.create_user_name as createName,a.create_user_id as createUserId,a.MES_ID as mes_id
+							from SYS_SERVICE_INFO a
+							LEFT JOIN MD_SHIFT b on a.SHIFT_ID=b."ID"
+							LEFT JOIN MD_TEAM c on c.id=a.team_id
+							where a.del='0'
+							<#if eqpCodes?exists>
+								 and a.eqp_id in('-1'
+								<#list eqpCodes as eqpCode>
+									,'${eqpCode}'
+								</#list>
+								) 
+							</#if>
+							<#if sCreateTime?exists && sCreateTime!="">
+								and to_char(a.CREATE_USER_TIME,'yyyy-MM-dd') >=:sCreateTime
+							</#if>
+							<#if eCreateTime?exists && eCreateTime!="">
+								and to_char(a.CREATE_USER_TIME,'yyyy-MM-dd')<=:eCreateTime
+							</#if>
+							<#if shiftId?exists && shiftId!="">
+								AND a.SHIFT_ID =:shiftId
+							</#if>
+							<#if teamId?exists && teamId!="">
+								AND a.TEAM_ID=:teamId
+							</#if>
+							<#if eqpId?exists && eqpId!="">
+								AND a.EQP_ID=:eqpId
+							</#if>
+							<#if id?exists && id!="">
+								and a.id=:id
+							</#if>
+							GROUP BY a.id,b.name,b.id,c.name,c.id,a.EQP_NAME,a.eqp_id,a.CREATE_USER_TIME,a.designated_person_time,a.update_user_time,
+									 a.designated_person_name,a.designated_person_id,a.type_name,a.status,a.create_user_name,a.create_user_id,mes_id
+								) t1
+					LEFT JOIN  (
+						SELECT 
+							WMSYS.wm_concat(DISTINCT f.solution) as troubleDesc,
+							WMSYS.wm_concat(e.name) as sparePartName,
+							WMSYS.wm_concat(d.spare_parts_num) as sparePartNum,
+							WMSYS.wm_concat(mu.name) as unitName,f.source_id as source_id
+						from EQM_TROUBLE f 
+						LEFT JOIN EQM_FIX_REC d ON d.eqmtrouble_id=f.id
+						LEFT JOIN COS_SPARE_PARTS e on e.id=d.spare_parts_id
+						LEFT JOIN MD_UNIT mu on mu.id=e.unit
+						GROUP BY f.source_id
+						
+					) t2 on t2.source_id=t1.id
+					order by t1.sCreateTime desc 
+   	]]>
+   </sql>
+   
+   <!-- 查询维修工 -->
+   <sql id="queryRepairUsers">
+   		<![CDATA[
+			SELECT 
+				id,SHIFT_ID as shiftId,TEAM_ID as teamId,
+				USER_ID as userId,USER_NAME as userName,TYPE_ID as typeId,
+				TYPE_NAME as typeName,"PATH" as imgPath,EQP_TYPE as eqpTypeName,status as status
+			from SYS_MAINTENANCE_STAFF where 1=1 
+			<#if typeId?exists && typeId!="">
+				and TYPE_ID=:typeId
+			</#if>
+			<#if shiftId?exists && shiftId!="">
+				and SHIFT_ID=:shiftId
+			</#if>
+			<#if teamId?exists && teamId!="">
+				and TEAM_ID=:teamId
+			</#if>
+			<#if eqpTypeName?exists && eqpTypeName!="">
+				and eqp_type in('-1'
+				<#list eqpTypeName?split(",") as eqpT>
+				,'${eqpT}'
+				</#list>
+				)
+			</#if>
+   		]]>
+   </sql>
+    <!-- 修改维修工状态 -->
+    <sql id="updateRepairUserStatus">
+    	<![CDATA[
+    		update SYS_MAINTENANCE_STAFF set status=:status where user_id=:userId
+    	]]>
+    </sql>
+    
+    <!-- 维修呼叫内登陆 -->
+	<sql id="repairCallLogin">
+		<![CDATA[
+			SELECT a.id,a.name as uName,c.name as rName from SYS_USER a
+				LEFT JOIN SYS_USER_ROLE b on a.id=b.UID_
+				LEFT JOIN SYS_ROLE c on c.id=b.rid 
+			where a.LOGIN_NAME=:token
+		]]>
+	</sql>
+    
+    <!-- 添加维修呼叫记录 -->
+    <sql id="saveRepairInfo">
+	    <![CDATA[
+		      INSERT INTO SYS_SERVICE_INFO
+			     ("ID","SHIFT_ID","TEAM_ID","EQP_ID","EQP_NAME",
+			     "CREATE_USER_TIME","CREATE_USER_NAME","CREATE_USER_ID","DESIGNATED_PERSON_ID","DESIGNATED_PERSON_NAME",
+			     "TYPE_NAME","STATUS","WORKORDER_ID","DEL","MES_ID") 
+		     VALUES(:id,:shiftId,:teamId,:eqpId,:eqpName,
+		     		:createTime,:loginName,:logInUId,:repairUserId,:repairUserName,
+		     		:typeName,:status,:workOrderId,:del,:mesId)
+	    ]]>
+    </sql>
+    
+    <!-- 受理维修请求 -->
+    <sql id="acceptRepair">
+    	<![CDATA[
+    		UPDATE SYS_SERVICE_INFO SET designated_person_time=:accceptTime,status=:status
+    		where id=:id
+    	]]>
+    </sql>
+    
+    <!-- 结束维修请求 -->
+    <sql id="finishRepair">
+    	<![CDATA[
+    		UPDATE SYS_SERVICE_INFO SET update_user_time=:finishTime,status=:status
+    		where id=:id
+    	]]>
+    </sql>
+    
+    <!-- 查询备品备件 -->
+    <sql id="queryForSpareParats">
+        <![CDATA[
+              select 
+                 id,(select name from MD_FIX_CODE where upcode='UNIT0001' and  code=unit) as unitName,name,attr1 as num,type 
+              from 
+                 COS_SPARE_PARTS 
+              where 
+                 del=0
+              <#if name?exists && name!=""> AND name like  '%'||:name||'%'</#if> 
+              <#if type?exists && type!=""> AND type like  '%'||:type||'%'</#if>
+        ]]>
+    </sql>
+    
+    <!-- 修改备品备件表 -->
+    <sql id="updateCosSparePartsById">
+        <![CDATA[
+               update COS_SPARE_PARTS set attr1=attr1-:num  where id=:id
+        ]]>
+    </sql>
+    
+    <!-- 查询当前运行的工单 -->
+    <sql id="queryNowWorkOrder">
+    	<![CDATA[
+	    	SELECT a.id from SCH_WORKORDER a
+				where
+				 a.EQP=:eqpId
+				 AND a.SHIFT=:shiftId 
+				 and a.TEAM=:teamId
+				AND a.sts='2'
+			]]>
+    </sql>
+    
+    <!-- 新增备件更换记录 -->
+    <sql id="saveEqpFixRec">
+        <![CDATA[
+        INSERT INTO EQM_FIX_REC (
+					"ID","SHIFT_ID","EQP_ID","MAINTAIIN_ID",
+					"MAINTAIIN_NAME","MAINTAIIN_TYPE",
+					"STATUS","SOURCE","ASK_DATE","ASK_USERID",
+					"EQMTROUBLE_ID","CREATE_USER_ID","CREATE_USER_NAME",
+					"SPARE_PARTS_ID","SPARE_PARTS_NUM")
+					VALUES
+					(
+					:id,:shiftId,:eqpId,:repairUserId,
+					:repairUserName,:repairType,
+					0,:source,:createTime,:askUserId,
+					:sourceId,:repairUserId,:repairUserName,
+					:partId,:num
+					)
+        ]]>
+    </sql>
+    
+    <!-- 新增故障记录 -->
+    <sql id="saveEqpTrouble">
+    	<![CDATA[
+    		INSERT INTO EQM_TROUBLE (
+				"ID","SHIFT_ID","SHIFT_NAME","TEAM_ID","TEAM_NAME",
+				"EQU_ID","EQU_NAME","REPAIR_NO","REPAIR_DATE","STATUS",
+				"UPDATE_USER_ID","UPDATE_USER_NAME","REPAIR_TYPE","CREATE_USER_ID","CREATE_USER_NAME",
+				"CREATE_TIME","SHUTDOWN_TYPE","SHUTDOWN_NAME","FAULT_REASON","SOLUTION",
+				"COMMENTS","DESCRIPTION","SOURCE_ID","EMWORK_ORDER_CODE") 
+				VALUES 
+				(:id,:shiftId,:shiftName,:teamId,:teamName,
+				 :eqpId,:eqpName,:repairNo,:repairDate,:status,
+				 :repairUserId,:repairUserName,:repair_type,:create_user_id,:create_user_name,
+				 :create_time,:shutDownType,:shutdown_name,:fault_reason,:solution,
+				 :comments,:tDesc,:sourceId,:mes_id
+				)
+    	]]>
+    </sql>
+    
+    <!-- 更新故障记录，更新故障维修受理时间、结束时间 并计算维修用时-->
+    <sql id="updateFinishTrouble">
+    	<![CDATA[
+			UPDATE EQM_TROUBLE SET SL_TIME=(SELECT DESIGNATED_PERSON_TIME from SYS_SERVICE_INFO where id=SOURCE_ID),UPDATE_TIME=SYSDATE,
+			DURATION=ROUND(to_number(SYSDATE-(SELECT DESIGNATED_PERSON_TIME from SYS_SERVICE_INFO where id=SOURCE_ID))*24*60),STATUS=1
+			WHERE SOURCE_ID=:id
+    	]]>
+    </sql>
+    
+    <!-- 查询上级故障信息 -->
+    <sql id="queryUpTroubleInfo">
+	    <![CDATA[
+	    SELECT a.DESCRIPTION as descInfo,a.PARENT_ID as parentId from 
+	   	 	EQM_TROUBLE_INFO a 
+	    	<#if type?exists && type!="">
+	    		WHERE a.id=:touId
+	    	<#else>
+	    		WHERE a.id=(select PARENT_ID from EQM_TROUBLE_INFO where id=:touId)
+	    	</#if>
+	    ]]>
+    </sql>
+    <!-- 根据查询故障id -->
+    <sql id="queryTruobleId">
+    	<![CDATA[
+    		SELECT s_id as s_id from (
+				SELECT id as s_id from EQM_TROUBLE 
+				WHERE SOURCE_ID=:id
+				ORDER BY CREATE_TIME desc
+				) WHERE ROWNUM=1 
+    	]]>
+    </sql>
+</sqlMap>
+
+
+

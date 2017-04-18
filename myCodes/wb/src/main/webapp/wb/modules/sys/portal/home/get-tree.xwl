@@ -1,0 +1,1 @@
+{"title":"获取模块树","inframe":false,"hidden":false,"roles":{"demo":1,"default":1,"basic":1},"children":[{"configs":{"serverMethod":"com.wb.interact.Portal.getAppList","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

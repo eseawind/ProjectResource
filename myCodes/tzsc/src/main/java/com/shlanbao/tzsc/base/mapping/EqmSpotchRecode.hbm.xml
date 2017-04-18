@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-7-17 8:40:10 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.shlanbao.tzsc.base.mapping.EqmSpotchRecode" table="EQM_SPOTCH_RECODE">
+        <id name="id" type="java.lang.String">
+            <column name="id" />
+            <generator class="uuid.hex" />
+        </id>
+        <many-to-one name="eqmId" class="com.shlanbao.tzsc.base.mapping.MdEquipment" fetch="select">
+            <column name="eqp_id" />
+        </many-to-one>
+        <property name="eqpName" type="java.lang.String">
+            <column name="eqp_name" />
+        </property>
+        <many-to-one name="shiftId" class="com.shlanbao.tzsc.base.mapping.MdShift" fetch="select">
+            <column name="shift_Id" />
+        </many-to-one>
+        <property name="shiftName" type="java.lang.String">
+            <column name="shift_name" />
+        </property>
+        <property name="teamId" type="java.lang.String">
+            <column name="team_id" />
+        </property>
+        <property name="teamName" type="java.lang.String">
+            <column name="team_name" />
+        </property>
+        <property name="chTypeId" type="java.lang.String">
+            <column name="ch_type_id" />
+        </property>
+        <property name="chTypeName" type="java.lang.String">
+            <column name="ch_type_name" />
+        </property>
+        <property name="chLocation" type="java.lang.String">
+            <column name="ch_location" />
+        </property>
+        <property name="chStandard" type="java.lang.String">
+            <column name="ch_standard" />
+        </property>
+        <property name="chMethod" type="java.lang.String">
+            <column name="ch_method" />
+        </property>
+        <property name="chDate" type="java.util.Date">
+            <column name="ch_date" />
+        </property>
+        <property name="createUserId" type="java.lang.String">
+            <column name="create_user_id" />
+        </property>
+        <property name="createUserName" type="java.lang.String">
+            <column name="create_user_Name" />
+        </property>
+        <property name="createTime" type="java.util.Date">
+            <column name="create_time" />
+        </property>
+        <property name="chStatus" type="int">
+            <column name="ch_status" />
+        </property>
+        <property name="breLocation" type="java.lang.String">
+            <column name="bre_location" />
+        </property>
+        <property name="remark" type="java.lang.String">
+            <column name="remark" />
+        </property>
+        <property name="breId" type="java.lang.String">
+            <column name="bre_id" />
+        </property>
+        <property name="updateUserId" type="java.lang.String">
+            <column name="update_user_id" />
+        </property>
+        <property name="setId" type="java.lang.String">
+        	<column name="set_id"/>
+        </property>
+        <property name="updateUserName" type="java.lang.String">
+            <column name="update_user_name" />
+        </property>
+        <property name="updateTime" type="java.util.Date">
+            <column name="update_time" />
+        </property>
+        <property name="del" type="int">
+            <column name="DEL" />
+        </property>
+    </class>
+</hibernate-mapping>

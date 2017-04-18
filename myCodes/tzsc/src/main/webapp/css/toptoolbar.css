@@ -1,0 +1,40 @@
+/**
+ * 工具栏样式表
+ * @author leejean
+ * @create 2014年11月25日下午1:31:32
+ */
+.topTool{
+	width:100%;
+}
+
+.topTool fieldset{
+	border:0px 0px 1px 0px;
+}
+
+.topTool div{
+	padding-top:2px;
+	float:left;
+	width:220px;
+}
+
+.topTool div .label{
+	width:80px; 
+	display:inline-block;
+	padding:0px 0px;
+	font-weight:bold;
+}
+
+.topTool div input{
+	width:120px;
+}
+.topTool div select{
+	width:120px;
+}
+
+.topTool div .s-input{
+	width:120px;
+}
+.topTool .combox{
+	width:120px;
+}
+.topTool .easyui-validatebox{height:18px}

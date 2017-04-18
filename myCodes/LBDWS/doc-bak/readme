@@ -1,0 +1,66 @@
+##############Oracle 数据库数据单表导入###########################
+
+1、在命令提示符输入:   sqlplus /nolog 
+2、conn  /as sysdba
+3、create tablespace  jysc datafile 'D:/oracle/jysc.dbf' size 200m autoextend on next 10m maxsize 500m
+4、create temporary tablespace jysc_data tempfile 'D:/oracle/jysc_data.dbf' size 200m autoextend on next 10m maxsize 500m
+5、create user jysc identified by lbit default tablespace jysc temporary tablespace jysc_data;
+6、grant dba to jysc;
+
+#cmd 导出数据库 ：  exp jysc/lbit@ORCL file=d:\jysc.dmp full=y
+#cmd 导入数据库：  imp jysc/lbit@ORCL  file=:\jysc.dmp
+imp jysc/lbit@ip:1521/orcl file=
+
+####Navicat Premium链接 #####
+1.安装Oracle11g客户端，
+2.Navicat Premium-->工具-->其他-->OCI
+3.选择Oracel11g客户端目录下的oci.dll
+
+/**增删改查*/
+
+//返回 实体对象   vo-实体bean
+   dalClient.queryForObject("description.queryDescriptionById", vo, CpDescription.class);
+
+//执行sql无返回   vo-实体bean
+   dalClient.execute("description.updateDescriptionById", vo);
+  
+//bootstrap 分页返回
+   PaginationResult<List<CpDescription>> result = dalClient.queryForList("description.queryDescriptionListPage", vo,CpDescription.class, pagination);
+   
+//保存实体对象 vo-实体bean
+   dalClient.persist(vo);
+   
+//事物处理（回滚-未测试）
+public String deleteNewsInfoById(final String ids) {
+		dalClient.getTransactionTemplate().execute(new CallBackTemplate<Integer>() {
+            @Override
+            public Integer invoke() {
+              /**
+                                             相关代码
+              
+              */
+               return null;
+           }
+        });
+        return null;
+}
+
+
+//--------------------------相关sqlMap处理
+<sql id="queryFixCodeByCodeType">
+    <![CDATA[
+      select * from t_fix_code where 1=1
+      <#if codeType?exists && codeType!=""> AND code_type= :codeType </#if>
+    ]]>
+</sql>
+
+
+
+
+   
+   
+   
+   
+   
+   
+   

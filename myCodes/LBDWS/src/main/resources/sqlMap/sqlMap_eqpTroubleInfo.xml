@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="eqpTrouble">
+	<!-- 查询故障信息（故障树）-->
+   <sql id="queryTrouble">
+   	<![CDATA[
+   		SELECT id as id,code as nodeCode,description as nodeDesc,type as nodeType,parent_id  as nodePid from EQM_TROUBLE_INFO where 1=1  
+   		<#if nodePid?exists && nodePid!="">
+   			and parent_id=:nodePid
+   		</#if>
+   		ORDER BY type asc,code asc
+   	]]>
+   </sql>
+   
+   <!-- 保存第五级节点数据 -->
+  
+  <sql id="saveNode">
+	  	<![CDATA[
+	  		INSERT into EQM_TROUBLE_INFO(id, code, description, type, create_date, parent_id) 
+	  		VALUES(:id,:nodeCode,:nodeDesc,:nodeType,SYSDATE,:nodePid)
+	  	]]>
+  </sql>
+  
+  <!-- 删除故障信息（第五级） -->
+  <sql id="deleteTroubles">
+  	<![CDATA[
+  		DELETE EQM_TROUBLE_INFO where id =:ids
+  	]]>
+  </sql>
+</sqlMap>
+
+
+

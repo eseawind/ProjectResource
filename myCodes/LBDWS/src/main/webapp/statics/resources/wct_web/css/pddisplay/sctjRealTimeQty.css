@@ -1,0 +1,48 @@
+@charset "utf-8";
+/* CSS Document */
+.one{/* Rectangle 15: */
+border: 1px solid #979797;
+border-radius: 14px;
+width: 1052px;
+height: 71px;
+position: relative;
+margin-top: 15px;
+}
+ li{
+font-size: 14px;
+color: #505050;
+list-style: none;
+ }
+ ol{position:absolute;
+ 	padding: 0;
+ 	top: 10px;
+ 	border:1px;
+ 	width:110px;
+ 	margin:0px auto;
+ 	text-align: center;
+ }
+ .two{/* Rectangle 16: */
+background: #979797;height: 71px;width: 1px;position: absolute;
+left: 109px;}
+.three{/* Rectangle 17: */
+border: 1px solid #979797;
+border-radius: 8px;
+width: 823px;height: 36px;
+position: absolute;
+top: 18px;left: 125px;
+}
+.four{/* Rectangle 17: */
+background-color:#01e1fa;
+border-radius: 8px;width:0%;height: 37px;
+position: absolute;
+top: 18px;left: 125px;}
+.one p{
+position: absolute;/* 58%: */
+font-family: MicrosoftYaHei;
+font-size: 20px;
+color: #505050;
+padding: 0px;
+margin: 0px;
+left: 985px;
+top: 23px;
+}

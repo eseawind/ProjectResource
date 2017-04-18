@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="eqpManager">
+
+    <!-- 通过登录名称查询用户  -->
+    <sql id="querySysUserByLoginName">
+        <![CDATA[
+           select b.name as roleName,b.id as roleId,a.id,a.name,a.eno,a.login_name as loginName from SYS_ROLE b,SYS_USER a,SYS_USER_ROLE c 
+           where c.rid=b.id and c.uid_=a.id and a.login_name=:userId
+        ]]>
+    </sql>
+  
+    <!-- 查询保养计划  -->
+    <sql id="queryForEqmWheelCovelPlan">
+        <![CDATA[
+           select * from eqm_wheel_covel_plan where del=0 and type=:type 
+           and shift_id=:shift_id 
+		   and eqp_id=:eqp_id
+		   and to_char(plan_date,'yyyy-MM-dd')=to_char(sysdate,'yyyy-MM-dd')
+		   order by shift_id asc
+        ]]>
+    </sql>
+    
+    
+   <!-- 通过保养计划Id，查询保养项  -->
+    <sql id="queryForEqmWheelCovelPlanParam">
+        <![CDATA[
+              select * from EQM_WHEEL_COVEL_PARAM where del=0 and eqm_wcp_id=:eqm_wcp_id 
+              and role_id in 
+			    ('-11' 
+			    <#list role_id?split(",") as status>
+			    ,'${status}'
+			    </#list>
+			    )
+        ]]>
+    </sql>
+    <!-- 通过保养计划Id，查询保养项  -->
+    <sql id="updateForEqmWheelCovelPlan">
+        <![CDATA[
+              update EQM_WHEEL_COVEL_PLAN set last_stime=sysdate where 1=1 
+              and last_stime is null
+              and id=:eqm_wcp_id
+        ]]>
+    </sql>
+    
+    
+    <!-- 查询备品备件表  UNIT0001 表示md_fix_code表的upcode -->
+    <sql id="queryForSpareParats">
+        <![CDATA[
+              select 
+                 id,(select name from MD_FIX_CODE where upcode='UNIT0001' and  code=unit) as unitName,name,attr1 as num,type 
+              from 
+                 COS_SPARE_PARTS 
+              where 
+                 del=0
+              <#if name?exists && name!=""> AND name like  '%'||:name||'%'</#if> 
+              <#if type?exists && type!=""> AND type like  '%'||:type||'%'</#if>
+        ]]>
+    </sql>
+   
+   <!-- 通过ID查询备品备件详细 -->
+    <sql id="queryEqmWheelCovelPlanParamBeanById">
+        <![CDATA[
+               select * from EQM_WHEEL_COVEL_PARAM where del=0 and id=:id
+        ]]>
+    </sql>
+    
+    <!-- 修改备品备件表 -->
+    <sql id="updateCosSparePartsById">
+        <![CDATA[
+               update COS_SPARE_PARTS set attr1=attr1-:num  where id=:id
+        ]]>
+    </sql>
+    
+    <!-- 插入备品备件记录表 -->
+    <sql id="insetEqmFixRceByObj">
+        <![CDATA[
+              INSERT INTO EQM_FIX_REC(
+					"ID",
+					"SHIFT_ID",
+					"EQP_ID",
+					"SPARE_PARTS_ID",
+					"SPARE_PARTS_NUM",
+					"SOURCE",
+					"REMARK",
+					"EQMTROUBLE_ID",
+					"CREATE_USER_ID",
+					"CREATE_USER_NAME",
+					"CREATE_USER_TIME",
+					"UPDATE_USER_ID",
+					"UPDATE_USER_NAME",
+					"UPDATE_USER_TIME"
+				)
+				VALUES(
+					:id,
+					:shift_id,
+					:eqp_id,
+					:spare_parts_id,
+					:spare_parts_num,
+					:source,
+					:remark,
+					:eqmtrouble_id,
+					:create_user_id,
+					:create_user_name,
+					:create_user_time,
+					:update_user_id,
+					:update_user_name,
+					:update_user_time
+				)
+        ]]>
+    </sql>
+   
+    <!-- 通过ID修改保养项状态及备注-->
+    <sql id="updateParamById">
+        <![CDATA[
+              update EQM_WHEEL_COVEL_PARAM set 
+              status=:status,
+              des=:des,
+              actual_user_id=:actual_user_id,
+			  actual_user_name=:actual_user_name,
+			  update_time=:update_time
+		     where id=:id
+        ]]>
+    </sql>
+    
+    <!-- 通过ID修改保养保养计划表状态-->
+    <sql id="updatePlanById">
+        <![CDATA[
+            update EQM_WHEEL_COVEL_PLAN set 
+			zx_user_id=:zx_user_id,
+			zx_user_name=:zx_user_name,
+			sh_status=:sh_status,
+			last_etime=:last_etime
+			where id=:id
+        ]]>
+    </sql>
+    
+    
+    <!-- 通过ID修改润滑项状态  -->
+    <sql id="updateLubricatPlanOrParam">
+        <![CDATA[
+            update EQM_WHEEL_COVEL_PARAM set 
+				actual_user_id=:actual_user_id,
+				actual_user_name=:actual_user_name,
+	            UPDATE_TIME=:update_time,
+				des='null',
+				status=:status,
+	            LAST_USER_ID=:actual_user_id,
+				last_time=:update_time
+			where id in 
+			('-11'
+			    <#list id?split(",") as status>
+			    ,'${status}'
+			    </#list>
+			 )
+			
+			
+        ]]>
+    </sql>
+    
+    
+</sqlMap>
+
+
+

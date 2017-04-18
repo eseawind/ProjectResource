@@ -1,0 +1,1 @@
+{"inframe":false,"title":"导入","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.Service.importData","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

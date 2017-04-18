@@ -1,0 +1,464 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>卷烟机、包装机辅料历史消耗</title>
+<link href="${resRoot}/wct_web/css/pddisplay/ssxh.css" rel="stylesheet"
+	type="text/css" />
+<!--覆盖样式-->
+<link href="${resRoot}/wct_web/css/pddisplay/hisSchStat.css" rel="stylesheet" type="text/css" />
+<!--日历-->
+<script src="${resRoot}/wct_web/js/pddisplay/Calendar.js" type="text/javascript" ></script>
+<!--工单信息-->
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<script src="${resRoot}/wct_web/js/wctPage.js"></script>
+<script src="${resRoot}/wct_web/js/wctUtils.js"></script>
+</head>
+<body>	
+	<div id="main" style="margin-left: 230px;">
+		<div class="clear"></div>
+		<!--右侧内容-->
+		<div class="right_content">
+			<div id="right_contentbox">
+				<!--内容标题-->
+				<div class="top_title">
+					<span><img src="${resRoot}/wct_web/images/ssxh/ssxh.png" /></span>
+					<font id="divText">
+						<#if (dataList?exists)>
+							卷烟机辅料历史消耗
+							<#elseif (packerList?exists)>
+							包装机辅料历史消耗
+						</#if>
+					</font>
+				</div>
+				<form  id="submitBu" action="${futRoot}/wct/fLConsume/getHisSchStatInput.htm?url=web_html/wct/pdStat/schStatInput_historyRoller" method="post">
+				<div class="middle_box">
+					<!--表单-->
+					<div class="gdcx_box">
+				      	<label><label class="">设备类型：</label>
+				            <select name="eqpCategory" id="chooseEqpCg" class="choose">
+				                <option value="" selected="selected">全部</option>
+				                    <#if ( EQPCATEGORY0001?size>0 )>
+									       <#list EQPCATEGORY0001 as eqpCategory>
+					                 		    <option <#if (chooseParams.eqpCategory?? && chooseParams.eqpCategory==eqpCategory.type)>selected="selected"</#if> value="${eqpCategory.type}">${eqpCategory.name}</option>
+									       </#list>
+									</#if>
+							</select> 
+							</label>
+				        	
+				            <label><label class="jihao">班次：</label>
+				            <select name="shiftName" id="chooseShift" class="choose">
+				            <option value="" selected="selected">全部</option>
+					                <#if ( SHIFT0001?size>0 )>
+									       <#list SHIFT0001 as shift>
+					                 		    <option <#if (chooseParams.shiftName?? && chooseParams.shiftName==shift.code )>selected="selected"</#if> value="${shift.code}">${shift.name}</option>
+									       </#list>
+									</#if>
+							</select>
+							</label>
+				            <label><label class="jihao">班组：</label>
+				            <select name="teamName" id="chooseTeam" class="choose">
+				                <option value="" selected="selected">全部</option>
+				                    <#if ( TEAM0001?size>0 )>
+									       <#list TEAM0001 as team>
+					                 		    <option <#if (chooseParams.teamName?? && team.code==chooseParams.teamName)>selected="selected"</#if> value="${team.code}">${team.name}</option>
+									       </#list>
+									</#if>
+							</select> 
+							</label>
+							<button type="submit" class="gd_input" value=""  name="button" id="orderResultForm">查&nbsp;询</button> 
+				        </div>
+				        <div class="clear"></div>
+				        <div class="gdcx_box">
+				        <label><label class="">牌&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</label>
+				            <select name="mat" id="chooseEqp" class="choose">
+				                <option value="" selected="selected">全部</option>
+				               <#if ( MAT?size>0 )>
+								       <#list MAT as mat>
+				                 		    <option <#if (chooseParams.mat?? && chooseParams.mat==mat.id)>selected="selected"</#if> value="${mat.id}">${mat.name}</option>
+								       </#list>
+								</#if>
+				            </select> 
+				            </label>
+							<label>
+					          <label class="time">时间：</label>
+					          <input id='rstim' name="pDate" <#if (chooseParams.pDate??)>value="${chooseParams.pDate}"</#if> type="text" id="control_date" class="rili" size="10" maxlength="10" onClick="new Calendar().show(this);" readonly="readonly" />
+				            </label> 
+				            <label>
+				               <label class="zhi">至：</label>  
+				               <input id='retim' name="pEDate" <#if (chooseParams.pEDate??)>value="${chooseParams.pEDate}"</#if>type="text" id="control_date2" class="rili" size="10" maxlength="10" onClick="new Calendar().show(this);" readonly="readonly" /></label> 
+				            </label> 
+				          <button type="reset" onclick="javascript:clearForm(submitBu)" class="gd_input" value=""> 重&nbsp;置</button>
+				        </div>
+				        <div class="clear"></div>
+				</div>
+				</form>
+				<!--表单-->
+				<div <#if !packerList?? && !dataList?? > style="display:none"</#if>>
+				<div id="rollerDiv" class="bottom_content" <#if (packerList?exists)>style="display:none"</#if>>
+					<table class="xhtable" width="100%" border="0" cellspacing="0"
+						cellpadding="0">
+						<tr>
+							<td></td>
+							<td width="285" class="ztitle">嘴棒</td>
+							<td width="285" class="ztitle">盘纸</td>
+							<td width="285" class="ztitle">接装纸</td>
+						</tr>
+						<#if (dataList?exists && dataList?size>0)>
+							<#list dataList as data>
+								<tr>
+									<td class="left_title">
+										<#if (data.eqpName??)>${data.eqpName}</#if> 
+										</br> 
+										<#if (data.matName)??>${data.matName}</#if>
+										<#if (data.qty)??>${data.qty}</#if>
+										<#if (data.unitName)??>${data.unitName}</#if>
+									</td>
+									<td width="285">
+										<div class="right_top">
+											<div class="right_top_ms">
+												<ul>
+													<li class="mxcf">标准单耗</li>
+													<li>实际单耗</li>
+												</ul>
+											</div>
+											<div class="dh_hbj">
+												<div class="skillbar clearfix ">
+													<div class="skillbar-bar" style="background: #00bcd4;width:80%"></div>
+												</div>
+												<div class="clear"></div>
+												<!--实际单耗进度条-->
+												<div class="skillbar clearfix ">
+													<div class="skillbar-bar" id="lbRS${data.eqpCode}" style="background: #8bc34a; width:${data.lbRealVal?if_exists}"></div>
+												</div>
+											</div>
+											<div class="right_top_num">
+												<ul>
+													<li class="mxcf" id="lbStd${data.eqpCode}">
+														<#if (data.lbStd)??>${data.lbStd?string('0')}</#if>
+													</li>
+													<li id="lbDH${data.eqpCode}">
+														<#if (data.lbDH)??>${data.lbDH?string('0')}<#else>0</#if>
+													</li>
+												</ul>
+											</div>
+											<div class="clear"></div>
+											<p class="dqhy">
+												实际消耗：
+												<font id="lbXH${data.eqpCode}">
+													<#if (data.lbNowVal)??>${data.lbNowVal}</#if>
+												</font>
+											</p>
+										</div>
+									</td>
+									<td width="285">
+										<div class="right_top">
+											<div class="right_top_ms">
+												<ul>
+													<li class="mxcf">标准单耗</li>
+													<li>实际单耗</li>
+												</ul>
+											</div>
+											<div class="dh_hbj">
+												<div class="skillbar clearfix " >
+													<div class="skillbar-bar" style="background: #00bcd4;width:80%"></div>
+												</div>
+												<div class="clear"></div>
+												<div class="skillbar clearfix ">
+													<div class="skillbar-bar" id="PZRS${data.eqpCode}" style="background: #8bc34a;width:${data.pzVal?if_exists}">
+													</div>
+												</div>
+											</div>
+											<div class="right_top_num">
+												<ul>
+													<li class="mxcf" id="pzStd${data.eqpCode}">
+														<#if (data.pzStd)??>${data.pzStd?string('0')}</#if>
+													</li>
+													<li id="pzDH${data.eqpCode}">
+														<#if (data.pzDH)??>${data.pzDH?string('0')}<#else>0</#if>
+													</li>
+												</ul>
+											</div>
+											<div class="clear"></div>
+											<p class="dqhy">
+												<font id="pzXH${data.eqpCode}">
+													实际消耗：
+													<#if (data.pzNowVal)??>${data.pzNowVal}</#if>
+												</font>
+											</p>
+										</div>
+									</td>
+									<td width="285">
+										<div class="right_top">
+											<div class="right_top_ms">
+												<ul>
+													<li class="mxcf">标准单耗</li>
+													<li>实际单耗</li>
+												</ul>
+											</div>
+											<div class="dh_hbj">
+												<div class="skillbar clearfix ">
+													<div class="skillbar-bar" style="background: #00bcd4;width:80%"></div>
+												</div>
+												<div class="clear"></div>
+												<div class="skillbar clearfix " >
+													<div class="skillbar-bar" id="sszRS${data.eqpCode}" style="background: #8bc34a;width:${data.sszVal?if_exists}"></div>
+												</div>
+											</div>
+											<div class="right_top_num">
+												<ul>
+													<li class="mxcf" id="sszStd${data.eqpCode}">
+														<#if (data.sszStd)??>${data.sszStd?string('0.00')}</#if>
+													</li>
+													<li id="sszDH${data.eqpCode}">
+														<#if (data.sszDH)??>${data.sszDH?string('0.00')}<#else>0.00</#if>
+													</li>
+												</ul>
+											</div>
+											<div class="clear"></div>
+											<p class="dqhy">
+												<font id="sszXH${data.eqpCode}">
+													实际消耗：
+													<#if (data.sszNowVal)??>${data.sszNowVal}</#if>
+												</font>
+											</p>
+										</div>
+									</td>
+								</tr>
+						</#list> 
+					</#if>
+					</table>
+				</div>
+				<!-- 包装机 -->
+				<div id="packerDiv" class="bottom_content" <#if (dataList?exists)> style="display: none;"</#if>>
+					<table class="xhtable" width="100%" border="0" cellspacing="0"
+						cellpadding="0">
+						<tr>
+							<td  ></td>
+							<td width="285" id="xhzTh" class="ztitle">小盒纸</td>
+							<td width="285" id="xhmTh" class="ztitle">小盒膜</td>
+							<td width="285" id="thzTh" class="ztitle">条盒纸</td>
+							<td width="285" id="thmTh" class="ztitle">条盒膜</td>
+							<td width="285" id="nczTh" class="ztitle">内衬纸</td>
+						</tr>
+						<#if (packerList?exists && packerList?size>0)>
+							<#list packerList as data>
+									<tr>
+										<td class="left_title">
+											<#if (data.eqpName??)>${data.eqpName}</#if> 
+										</br> 
+											<#if (data.matName)??>${data.matName}</#if>
+											<#if (data.qty)??>${data.qty}</#if>
+											<#if (data.unitName)??>${data.unitName}</#if>
+										</td>
+										<td width="285" id="xhzTd">
+										<div class="right_top">
+											<div class="right_top_ms">
+												<ul>
+													<li class="mxcf">标准单耗</li>
+													<li>实际单耗</li>
+												</ul>
+											</div>
+											<div class="dh_hbj">
+												<div class="skillbar clearfix " >
+													<div class="skillbar-bar" style="background: #00bcd4;width:80%"></div>
+											</div>
+											<div class="clear"></div>
+											<div class="skillbar clearfix " >
+												<div class="skillbar-bar" id="xhzRS${data.eqpCode}" style="background: #8bc34a;width:${data.xhzVal?if_exists}"></div>
+											</div>
+										</div>
+										<div class="right_top_num">
+											<ul>
+												<li class="mxcf" id="xhzStd${data.eqpCode}">
+													<#if (data.xhzStd??)>${data.xhzStd?string('0')}</#if>
+												</li>
+												<li id="xhzDH${data.eqpCode}">
+													<#if (data.xxzDH)??>${data.xxzDH?string('0')}<#else>0</#if>
+												</li>
+											</ul>
+										</div>
+										<div class="clear"></div>
+										<p class="dqhy">
+											<font id="xzhXH${data.eqpCode}">
+												实际消耗：
+												<#if (data.xhzNowVal)??>
+													${data.xhzNowVal}
+												</#if>
+											</font>
+										</p>
+									</div>
+								</td>
+								<td width="285" id="xhmTd">
+									<div class="right_top">
+										<div class="right_top_ms">
+											<ul>
+												<li class="mxcf">标准单耗</li>
+												<li>实际单耗</li>
+											</ul>
+										</div>
+										<div class="dh_hbj">
+											<div class="skillbar clearfix ">
+												<div class="skillbar-bar" style="background: #00bcd4;width:80%"></div>
+											</div>
+											<div class="clear"></div>
+											<div class="skillbar clearfix " >
+												<div class="skillbar-bar" id="xhmRS${data.eqpCode}" style="background: #8bc34a;width:${data.xhmVal?if_exists}"></div>
+											</div>
+										</div>
+										<div class="right_top_num">
+											<ul>
+												<li class="mxcf" id="xhmStd${data.eqpCode}">
+													<#if (data.xhmStd)??>${data.xhmStd?string('0.00')}</#if>
+												</li>
+												<li id="xhmDH${data.eqpCode}">
+													<#if (data.xhmDH)??>${data.xhmDH?string('0.00')}<#else>0.00</#if>
+												</li>
+											</ul>
+										</div>
+										<div class="clear"></div>
+										<p class="dqhy">
+											<font id="xhmXH${data.eqpCode}">
+												实际消耗：
+												<#if (data.xhmNowVal)??>${data.xhmNowVal}</#if>
+											</font>
+										</p>
+									</div>
+								</td>
+								<td width="285" id="thzTd">
+									<div class="right_top">
+										<div class="right_top_ms">
+											<ul>
+												<li class="mxcf">标准单耗</li>
+												<li>实际单耗</li>
+											</ul>
+										</div>
+										<div class="dh_hbj">
+											<div class="skillbar clearfix " >
+												<div class="skillbar-bar" style="background: #00bcd4;width:80%"></div>
+											</div>
+											<div class="clear"></div>
+											<div class="skillbar clearfix " >
+												<div class="skillbar-bar" id="thzRS${data.eqpCode}" style="background: #8bc34a;width:${data.thzVal?if_exists}"></div>
+											</div>
+										</div>
+										<div class="right_top_num">
+											<ul>
+												<li class="mxcf" id="thzStd${data.eqpCode}">
+													<#if (data.thzStd)??>${data.thzStd}</#if>
+												</li>
+												<li id="thzDH${data.eqpCode}">
+													<#if (data.thzDH)??>${data.thzDH}<#else>0</#if>
+												</li>
+											</ul>
+										</div>
+										<div class="clear"></div>
+										<p class="dqhy">
+											<font id="thzXH${data.eqpCode}">
+												实际消耗：
+												<#if (data.thzNowVal)??>${data.thzNowVal}</#if>
+											</font>
+										</p>
+									</div>
+								</td>
+								<td width="285" id="thmTd" >
+									<div class="right_top">
+										<div class="right_top_ms">
+											<ul>
+												<li class="mxcf">计划产量</li>
+												<li>实际产量</li>
+											</ul>
+										</div>
+										<div class="dh_hbj">
+											<div class="skillbar clearfix " >
+												<div class="skillbar-bar" style="background: #00bcd4;width:80%"></div>
+											</div>
+											<div class="clear"></div>
+											<div class="skillbar clearfix ">
+												<div class="skillbar-bar" id="thmRS${data.eqpCode}" style="background: #8bc34a;width:${data.thmVal?if_exists}"></div>
+											</div>
+										</div>
+										<div class="right_top_num">
+											<ul>
+												<li class="mxcf" id="thmStd${data.eqpCode}">
+													<#if (data.thmStd)??>${data.thmStd?string('0.00')}</#if>
+												</li>
+												<li id="thmDH${data.eqpCode}">
+													<#if (data.thmDH)??>${data.thmDH?string('0.00')}<#else>0.00</#if>
+												</li>
+											</ul>
+										</div>
+										<div class="clear"></div>
+										<p class="dqhy">
+											<font id="thmXH${data.eqpCode}">
+												实际消耗：
+												<#if (data.thmNowVal)??>${data.thmNowVal}</#if>
+											</font>
+										</p>
+									</div>
+								</td>
+								<td width="285" id="nczTd" >
+									<div class="right_top">
+										<div class="right_top_ms">
+											<ul>
+												<li class="mxcf">计划产量</li>
+												<li>实际产量</li>
+											</ul>
+										</div>
+										<div class="dh_hbj">
+											<div class="skillbar clearfix " >
+												<div class="skillbar-bar" style="background: #00bcd4;width:80%"></div>
+											</div>
+											<div class="clear"></div>
+											<div class="skillbar clearfix " >
+												<div class="skillbar-bar" id="nczRS${data.eqpCode}" style="background: #8bc34a;width:${data.nczVal?if_exists}"></div>
+													</div>
+												</div>
+												<div class="right_top_num">
+													<ul>
+														<li class="mxcf" id="nczStd${data.eqpCode}">
+															<#if (data.nczStd)??>${data.nczStd?string('0.00')}</#if>
+														</li>
+														<li id="nczDH${data.eqpCode}">
+															<#if (data.nczDH)??>${data.nczDH?string('0.00')}<#else>0.00</#if>
+														</li>
+													</ul>
+												</div>
+												<div class="clear"></div>
+												<p class="dqhy">
+													<font id="nczXH${data.eqpCode}">
+														实际消耗：
+														<#if (data.nczNowVal)??>${data.nczNowVal}</#if>
+													</font>
+												</p>
+											</div>
+										</td>
+									</tr>
+								</#list> 
+							</#if>
+					</table>
+				</div>
+				<div>
+			</div>
+			
+			<div class="page">
+               <div class="num-bar">
+				<a>共${wctPage.maxCount}条数据</a>
+				<#if (wctPage.index)!=1 >
+				    <a class="num" onclick="chengePage('submitBu','${futRoot}/wct/fLConsume/getHisSchStatInput.htm?url=web_html/wct/pdStat/schStatInput_historyRoller&index=${wctPage.index-1}')">上一页</a>
+				<#else>
+				    <a class="num" >上一页</a>  
+				</#if>
+				<a>${wctPage.index}/${maxpage}</a>
+				<#if (wctPage.index) < (maxpage) >
+				    <a class="num"  onclick="chengePage('submitBu','${futRoot}/wct/fLConsume/getHisSchStatInput.htm?url=web_html/wct/pdStat/schStatInput_historyRoller&index=${wctPage.index+1}')">下一页</a>
+				<#else>
+				    <a class="num" >下一页</a>
+				</#if>
+              </div>
+        </div>
+		</div>
+	</div>
+	<!-- 中部end -->
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>物料呼叫</title>
+<link href="${resRoot}/wct_web/css/pddisplay/yzzxwlzj.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+
+<link href="${resRoot}/wct_web/css/pddisplay/modal.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+<link href="${resRoot}/wct_web/css/pddisplay/left_nav.css" rel="stylesheet" type="text/css"/><!--left_nav-->
+<!--nav-->
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<script src='${resRoot}/wct_web/js/pddisplay/lnav_index.js' ></script>
+<!--日历-->
+<!--日历-->
+<script src="${resRoot}/wct_web/js/pddisplay/Calendar.js" type="text/javascript" ></script>
+<script src="${resRoot}/wct_web/js/wctUtils.js" type="text/javascript" ></script>
+<!-- 分页 -->
+<script src='${resRoot}/wct_web/js/wctPage.js' ></script>
+<!-- 覆盖样式 -->
+<link href="${resRoot}/wct_web/css/pddisplay/docManager.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+
+<script type="text/javascript">
+<#if (Session.loginInfo)??>
+	<#assign loginBean=Session.loginInfo>
+<#else>
+	window.parent.parent.location.href="/LBDWS/wct/index.htm";
+</#if>
+//加载物料呼叫页面
+function chooseEqp(eqpCode){
+	$("#btnDiv").hide();
+	var url="http://10.39.121.165:8899/Control_Panel.aspx?";
+	var team=${loginBean.teamId};
+	var shift=${loginBean.shiftId};
+	//根据设备code获取设备工段
+	$.ajax({
+		  url: "${futRoot}/wct/initCombobox/getEqpByCode.json",
+		  cache: false,
+		  data: "eqpCode="+eqpCode,
+		  success: function(data){
+			  var mesworkCenter=data.mesCode
+			  if(mesworkCenter!="" && mesworkCenter!=null){
+				  var params="RunsGroup="+team+"&Runs="+shift+"&MachineNumber="+mesworkCenter+"&flag=SC";
+				  url=url+params;
+				  $("#insertWeb").attr("src",url);
+				  $("#insertWeb").show();
+			  }else{
+				  alert("没有查询到设备所属工段！");
+			  }
+		  }
+	});
+	
+}
+</script>
+
+
+</head>
+<body>
+<!-- 中部start -->
+<div id="main"> 
+    <div class="right_content">
+      <div id="right_contentbox">
+    	<div class="top_title">
+   	    <span><img src="${resRoot}/wct_web/images/qm/yzzxwlzj.png" /></span>物料呼叫</div>
+      <div class="middle_box">
+      	<div class="gdcx_box" id="btnDiv">
+      		<#if (loginBean.loginType=0)>
+      			<button onclick="chooseEqp(${loginBean.rollerEquipmentCode?if_exists})" type="submit" class="gd_input" value=""  name="button" id="orderResultForm">${loginBean.rollerEquipmentName?if_exists}要料</button>
+      			<button onclick="chooseEqp(${loginBean.packerEquipmentCode?if_exists})" type="submit" class="gd_input" value=""  name="button" id="orderResultForm">${loginBean.packerEquipmentName?if_exists}要料</button>
+      		</#if>
+      		<#if (loginBean.loginType=1)>
+      			<button onclick="chooseEqp(${loginBean.boxerEquipmentCode0?if_exists})" type="submit" class="gd_input" value=""  name="button" id="orderResultForm">${loginBean.boxerEquipmentName0?if_exists}要料</button>
+      			<button onclick="chooseEqp(${loginBean.boxerEquipmentCode1?if_exists})" type="submit" class="gd_input" value=""  name="button" id="orderResultForm">${loginBean.boxerEquipmentName1?if_exists}要料</button>
+      		</#if>
+      		<#if (loginBean.loginType=2)>
+      			<button onclick="chooseEqp(${loginBean.filterEquipmentCode0?if_exists})" type="submit" class="gd_input" value=""  name="button" id="orderResultForm">${loginBean.filterEquipmentName0?if_exists}要料</button>
+      			<button onclick="chooseEqp(${loginBean.filterEquipmentCode1?if_exists})" type="submit" class="gd_input" value=""  name="button" id="orderResultForm">${loginBean.filterEquipmentName1?if_exists}要料</button>
+      		</#if>
+      		<#if (loginBean.loginType=3)>
+      			<button onclick="chooseEqp(${loginBean.launchEquipmentCode0?if_exists})" type="submit" class="gd_input" value=""  name="button" id="orderResultForm">${loginBean.launchEquipmentName0?if_exists}要料</button>
+      			<button onclick="chooseEqp(${loginBean.launchEquipmentCode1?if_exists})" type="submit" class="gd_input" value=""  name="button" id="orderResultForm">${loginBean.launchEquipmentName1?if_exists}要料</button>
+      			<button onclick="chooseEqp(${loginBean.launchEquipmentCode2?if_exists})" type="submit" class="gd_input" value=""  name="button" id="orderResultForm">${loginBean.launchEquipmentName2?if_exists}要料</button>
+      		</#if>
+      	
+			 
+        </div>
+      </div>
+    </div>
+      <div class="bottom_content"  style="margin-left:10px;">
+      	<iframe id="insertWeb" frameborder="0"  style="height:600px;overflow-x: scroll;display:none;width:1000px;margin-left: 50px;"></iframe>
+      </div>
+    </div>
+</div> 
+<!-- 中部end -->
+</body>
+</html>

@@ -1,0 +1,1 @@
+{"inframe":false,"title":"上传二进制字段","hidden":false,"roles":{},"children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"update WB_MISC set BLOB_FIELD={?blob.file?} where ID_FIELD={?ID_FIELD?}","itemId":"query1"},"children":[],"expanded":false,"type":"query"}],"expanded":true,"type":"module"}],"pageLink":"","iconCls":""}

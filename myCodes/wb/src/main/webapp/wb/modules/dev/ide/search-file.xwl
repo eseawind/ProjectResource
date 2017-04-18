@@ -1,0 +1,1 @@
+{"title":"查找文件","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.IDE.searchFile","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

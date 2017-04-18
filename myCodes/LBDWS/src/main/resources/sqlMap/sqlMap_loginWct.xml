@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="login">
+
+    <!-- 通过登录名称查询用户  -->
+    <sql id="querySysUserByLoginName">
+        <![CDATA[
+           select 
+				id,
+				shift,
+				(select name from MD_SHIFT where id=shift) as shiftName,team,
+				(select name from MD_TEAM where id=team) as teamName,
+				workshop
+			from SCH_CALENDAR 
+			where 1=1
+			and del=0
+			and workshop=:workshopId
+			and to_date(:nowTime,'yyyy-MM-dd hh24:mi:ss') between stim and etim
+        ]]>
+    </sql>
+  
+  	<!-- 初始化机台基本信息 -->
+    <sql id="initMachineData">
+     <![CDATA[
+	     SELECT 
+				a.id as orderId,a.code as workorderCode,f.name as matName,a.qty as planQty,c.name as unit,
+				a.STIM as planStim,a.ETIM as planEtim,a.BTH as bthCode,d.name as teamName,e.name as shiftName,
+				b.EQUIPMENT_NAME as equipmentEdcs,g.name as equipmentType
+				from SCH_WORKORDER a
+				LEFT JOIN MD_EQUIPMENT b on a.EQP=b."ID"
+				LEFT JOIN MD_UNIT c ON a.unit=c.id
+				LEFT JOIN MD_TEAM d on a.team=d.id
+				LEFT JOIN MD_SHIFT e on e.id=a.shift
+				LEFT JOIN MD_MAT f on a.mat=f.id
+				LEFT JOIN MD_EQP_TYPE g ON b.eqp_type_id=g.id
+				WHERE a.sts='2' and SYSDATE>a.STIM AND SYSDATE<a.ETIM
+				<#if eqpCode?exists && eqpCode!="">
+					AND b.EQUIPMENT_CODE=:eqpCode
+				</#if>
+     ]]>
+    	
+    </sql>
+    <!-- 初始化辅料 -->
+    <sql id="initFLData">
+    <![CDATA[
+    	SELECT 
+			c.val as bzDH,c.euval as euval from 
+			SCH_WORKORDER_BOM a 
+			LEFT JOIN SCH_WORKORDER b on a.oid=b.id
+			LEFT JOIN SCH_CON_STD c on c.mat=a.mat and b.mat=c.prod
+			LEFT JOIN MD_MAT d on a.mat=d.id
+			where  c.del='0' and a.del=0 
+			<#if tid?exists && tid!="">
+				and d.tid=:tid
+			</#if>
+	    	<#if oid?exists && oid!="">
+	    		and b.id=:oid
+	    	</#if>
+    ]]>
+    </sql>
+    
+    <sql id="initBoxerMachineData">
+	    <![CDATA[
+	    	SELECT 
+				a.CODE as workorderCode,d.code as equipmentType,b.EQUIPMENT_CODE as equipmentCode,b.equipment_name as equipmentEdcs,
+				c.name as matName,a.QTY as planQty,e.name as unit,to_char(a.STIM,'yyyy-MM-dd hh24:mi:ss') as planStim,to_char(a.ETIM,'yyyy-MM-dd hh24:mi:ss') as planEtim,
+				a.REAL_STIM as stim,a.bth as bthCode
+				from SCH_WORKORDER a
+				LEFT JOIN MD_EQUIPMENT b on a.eqp=b."ID"
+				LEFT JOIN MD_MAT c on a.mat=c.id
+				LEFT JOIN MD_EQP_TYPE d on b.eqp_type_id=d.id
+				LEFT JOIN MD_UNIT e on a.unit=e.id
+				where a."TYPE"='3' AND a.sts='2' AND SYSDATE >a.STIM AND SYSDATE <a.ETIM
+				AND b.equipment_code in
+				('-1'
+				    <#list eqpCodes as eqpCode>
+				    ,'${eqpCode}'
+				    </#list>
+				 )
+	    ]]>
+    </sql>
+    
+    <!-- 初始化成型机数据 -->
+    <sql id="initFilterData">
+    	<![CDATA[
+    		SELECT 
+				e.name as teamName,d.name as shiftName,c.equipment_code as equipmentCode,c.equipment_name as equipmentEdcs,f.name as equipmentType,
+				a.code as workorderCode,g.name as matName,a.qty as planQty,h.name as unit,
+				to_char(a.STIM,'yyyy-MM-dd hh24:mi:ss') as planStim,to_char(a.ETIM,'yyyy-MM-dd hh24:mi:ss') as planEtim,
+				to_char(a.REAL_STIM,'yyyy-MM-dd hh24:mi:ss') as  stim,
+				j.val as panzhiBzdh,j.euval as panzhiEuval
+				from SCH_WORKORDER a 
+				LEFT JOIN MD_EQUIPMENT c on c.id=a.eqp
+				LEFT JOIN MD_SHIFT d on a.shift=d.id
+				LEFT JOIN MD_TEAM e on e.id=a.team
+				LEFT JOIN MD_EQP_TYPE f on c.eqp_type_id=f.id
+				LEFT JOIN MD_MAT g on g.id=a.mat
+				LEFT JOIN MD_UNIT h on a.unit=h.id
+				LEFT JOIN SCH_WORKORDER_BOM i on i.oid=a.id
+				LEFT JOIN SCH_CON_STD j on j.mat=i.mat and a.mat=j.prod
+				LEFT JOIN MD_MAT k on i.mat=k.id
+			where 
+			a.sts='2' and SYSDATE>a.STIM AND SYSDATE<a.ETIM and i.del=0 
+			AND k.tid=:matType and c.equipment_code in(
+			'-1'
+			<#list eqpCodes as eqpcode>
+			,'${eqpcode}'
+			</#list>
+			)
+    	]]>
+    </sql>
+</sqlMap>
+
+
+

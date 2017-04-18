@@ -1,0 +1,427 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>外观检测</title>
+<link href="${resRoot}/wct_web/css/pddisplay/gddd.css" rel="stylesheet" type="text/css" />
+<link href="${resRoot}/wct_web/css/pddisplay/eqmlb.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+<link href="${resRoot}/wct_web/css/pddisplay/left_nav.css" rel="stylesheet" type="text/css" />
+<!--left_nav-->
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/jcDate.css" media="all" />
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/modal.css" />
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/qmAppearance.css" />
+<!--nav-->
+<script src="${resRoot}/wct_web/js/wctUtils.js" type="text/javascript" ></script>
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<!--left_nav-->
+<script src='${resRoot}/wct_web/js/pddisplay/lnav_index.js' ></script>
+<!--日历-->
+<script src="${resRoot}/wct_web/js/pddisplay/Calendar.js" type="text/javascript" ></script>
+<script src="${resRoot}/wct_web/js/wctUtils.js" type="text/javascript" ></script>
+<!-- 分页 -->
+<script src='${resRoot}/wct_web/js/wctPage.js' ></script>
+<script src="${resRoot}/wct_web/js/pddisplay/modal.js" type="text/javascript" ></script>
+<script type="text/javascript">
+<!-- 获取机台登录信息 -->
+<#if (Session.loginInfo)??>
+	<#assign loginBean=Session.loginInfo>
+<#else>
+	window.parent.parent.location.href="/LBDWS/wct/index.htm";
+</#if>
+    //保存选中的检测项code
+   var itemCode=new Array();
+   //保存选中的检测项的数量
+   var itemVal=new Array();
+   //当前批次号
+   var batchCheckNo="";
+   //当前检测时间
+   var checkTime="";
+   //工单号,页面初始化的时候赋值
+   var oid="";
+   //工单code，页面初始化赋值
+   var orderCode="";
+   //质检人id
+   var uid="";
+  
+   //添加巡检项dlg分页页数数据
+   var itemPageIndex=1;//当前页
+   var itemPageMax=1;//最大页
+   $(function(){
+	   //添加外观检测项弹出框关闭时，重置选中的数据
+	   $('#addDetailModal').on('hidden.bs.modal',function (e) {
+		   
+		   itemCode=new Array();
+		   itemVal=new Array();
+		   $("#addDetailTable").html(null);
+	       var html="<tr><td>缺陷代码</td><td>缺陷描述</td><td>数量</td></tr>";
+	       $("#addDetailTable").append(html);
+	       itemPageIndex=1;
+	       itemPageMax=1;
+	       batchCheckNo="";
+	       checkTime="";
+	       //uid="";
+	       
+	       //还原模态框头部样式
+	       $("#modalHeaderDiv").css("background-color","");
+	       
+	   });
+	   //检测是否已经登陆
+	   var loginfo="";
+	   <#if Session.qmLogUser?exists>
+	   	loginfo=${Session.qmLogUser}
+	   </#if>
+	   if(loginfo!="" && loginfo.flag){
+		    $("#userName").html(loginfo.uName);
+		    $("#userRolers").html(loginfo.rName);
+		    uid=loginfo.id;
+		    $(".nerong").show();
+			$(".nylogin2").hide();
+	   }else{
+		   /**默认隐藏登录div*/
+		   $(".nerong").hide();
+		   $(".nylogin2").hide();
+	   }
+	  
+	   /**登录按钮*/
+	   $(".dlbutton").click(function(){
+		   var userId=$("#control_date").val();
+		   if($.trim(userId)==""){
+			   $(".message").text("登陆名不能为空!");
+			   return;
+		   }
+		  //提交后台处理
+          $.ajax({
+		   		url : "${futRoot}/wct/qm/login.json",
+		   		type : "post",
+		   		dataType : "json",
+		   	    async: false,
+		   		data : {"token":userId},
+		   		success : function(data) {
+		   		    // 1-成功  2-失败
+					if(data.flag){
+					    //隐藏登录，显示用户信息
+					    $("#userName").html(data.uName);
+					    $("#userRolers").html(data.rName);
+					    uid=data.id;
+						$(".nerong").show(500);
+						$(".nylogin2").hide();
+					}else{
+						$(".message").text("登录失败!");
+					}
+		   		}
+	   	  });
+	   })
+	   
+	   //登录文本框
+	   $(".nylogin3").click(function(){
+		   $(".nylogin2").toggle(50);//隐藏或显示文本框
+		   $("#control_date").val("");//清空文本框内容
+		   $(".message").text("");
+		   $("#userName").html(null);
+		   $("#userRolers").html(null);
+		   $(".nerong").hide();
+	   })
+   });
+   //弹出添加巡检项对话框
+   function showDetailDlg(img){
+   	 var tr=img.parent().parent().parent();  
+   	 //当前批次号
+   	 batchCheckNo=tr.children().eq(1).text();
+  
+     //当前检测时间
+     checkTime=tr.children().eq(2).text();
+     //工单号
+     oid="页面加载时赋值"
+     //工单code
+     orderCode=tr.children().eq(0).text();
+     //质检人id
+     uid="检查登录时赋值";
+   	 
+	 $("#addDetailModal").modal("show");
+   }
+   
+   //添加巡检小项分页		上一页                var itemPageIndex=1;//当前页        var itemPageMax=1;//最大页
+   function addDetailUp(){
+	   if(itemPageIndex==1){
+		   return;
+	   }else{
+		   itemPageIndex -= 1;
+	   }
+	   addDetail(); 
+   }
+   //添加巡检小项分页		下一页
+   function addDetailDown(){
+	   if(itemPageIndex < itemPageMax){
+		   itemPageIndex += 1;
+	   }else{
+		   return;
+	   } 
+	   addDetail(); 
+   }
+   //改变缺陷类型时，重置分页数据
+   function resetPage(){
+	   itemPageIndex=1;
+	   itemPageMax=1;
+   }
+   //查询巡检小项，用于添加
+   function addDetail(){
+	   //大类
+	  var type= $("#chooseQmWand").val();
+	   //名称
+	  var iTemName= $("#iteamName").val();
+	  var url="${futRoot}/wct/qm/queryQmOutWardItem.json";
+	  $.ajax({
+	   		url : url,
+	   		type : "post",
+	   	    async: false,
+	   	    data:"type="+type+"&name="+iTemName+"&index="+itemPageIndex,
+	   	    success:function(data){
+	   	    	//缺陷定义项
+	   	    	var items=data.datas;
+	   	    	//分页数据
+	   	    	var wctPage=data.wctPage;
+	   	    	//查询条件
+	   	    	var chooseParams=data.chooseParam;
+	   	    	//1.填充缺陷表格填充
+   	    		$("#addDetailTable").html(null);
+   	    		var html="<tr><td style='display:none'>缺陷代码id</td><td style='width:80px'>缺陷代码</td><td>缺陷描述</td><td style='width:80px'>数量</td></tr>";
+	   	    	if(items.length>0){
+	   	    		var item=null;//缺陷项code
+	   	    		for(var i=0;i<items.length;i++){
+	   	    			item=items[i];
+	   	    			html+="<tr>";
+	   	    			html+="<td style='display:none'>"+item.id+"</td>";
+	   	    			html+="<td style='width:80px'>"+item.code+"</td>";
+	   	    			html+="<td>"+item.des+"</td>";
+	   	    			//循环当前保存的选中项，回显当前值
+	   	    			var setval="";//填写的值
+	   	    			for(var y=0;y<itemCode.length;y++){
+	   	    				if(item.id==itemCode[y]){
+	   	    					setval=itemVal[y];
+	   	    				}
+	   	    			}
+	   	    			var inputId=item.id;
+	   	    			html+="<td style='width:80px'><input id='"+inputId+"'  onclick=showKey('"+inputId+"') code='"+item.id+"' onblur='checkedItem($(this))' class='itemValInput' value='"+setval+"'></td>";
+	   	    		}
+	   	    	}
+		   	    $("#addDetailTable").append(html);
+	   	  	 	//2.查询条件赋值
+	   	  	 	$("#chooseQmWand").val(chooseParams.type);
+	   	  	 	$("#iteamName").val(chooseParams.name);
+	   	    	//3.分页数据修改
+	   	    	//总条数
+	   	    	$("#rowsAll").html(wctPage.maxCount);
+	   	    	//当前页
+	   	    	$("#nowPageIndex").html(wctPage.index);
+	   	    	//所有页
+	   	    	$("#allPageNum").html(wctPage.maxPage);
+	   	    	itemPageMax=wctPage.maxPage;
+	   	    }
+	  });
+   }
+   //编辑选中的巡检小项
+   function checkedItem(input){
+	 var  code=input.attr("code");
+	 var  val=input.val();
+	 var codeIndex=-1;
+	 //判断正整数正则表达式
+	 var reg= /^[0-9]*[1-9][0-9]*$/;
+	 if(!reg.test(val) && $.trim(val)!=""){
+		 alert("数值必须是正整数！");
+		 input.val("");
+		 input.focus();
+		 return;
+	 }
+	 //更新数据
+	 //查找数据，将该数据移除
+	 codeIndex=$.inArray(code,itemCode);
+	 if(codeIndex!=-1){
+		 itemCode.splice(codeIndex,1);
+		 itemVal.splice(codeIndex,1);
+	 }
+	 if($.trim(val)!=""){
+		 itemCode.push(code);
+		 itemVal.push(val);
+	 }
+   }
+   
+   //保存巡检项
+  function saveItems(){
+  	var jsonData=""
+		jsonData+='{"order":"'+orderCode//工单code
+    	+ '","oid":"'+ oid//工单id
+    	+ '","batchID":"'+ batchCheckNo//批次号
+    	+ '","checkTime":"'+ checkTime//检测时间
+		+ '","uid":"'+ uid//用户id
+		+ '"}';
+	   $.ajax({
+	   		url : "${futRoot}/wct/qm/saveAppearances.json",
+	   		type : "post",
+	   	    async: false,
+	   	 	dataType:"json",
+	   	    data:"url=web_html/wct/qm/qmAppearance&jsonData="+jsonData+"&checkVals="+itemVal+"&checkItemCodes="+itemCode,
+	   	    success:function(json){
+	   	    	if(json.flag){
+	   	    		$("#addDetailModal").modal('hide');
+	   	    	}else{
+	   	    		$("#modalHeaderDiv").css("background-color","red");
+	   	    	}
+	   	    },
+ 	  });
+  } 
+   
+   function checkLogin(type){
+	   if(uid==""){
+		   //显示登陆框
+		   $(".nylogin3").click();
+		   return;
+	   }
+	   //工单id暂时没有
+	   window.location.href="${futRoot}/wct/qm/saveQmOutWand.htm?url=web_html/wct/qm/qmAppearance&checkType="+type
+   }
+   
+
+</script>
+</head>
+<body>
+<!-- 中部start -->
+
+    <div class="right_content" >
+      <div id="right_contentbox"  style="height: 600px;">
+    	<div class="top_title">
+   	    	<span><img src="${resRoot}/wct_web/images/gdxx/gdan.png" /></span>外观检测
+   	    </div>
+   	    <!-- 用户登录start -->
+   	    <div class="nylogin">
+   	    	<#if loginBean??>
+   	    		<#if (loginBean.loginType==0)>
+		   	        <a onclick="javaScript:checkLogin(1)" class="gd_input" value=""  name="button" >添加卷烟机数据</a>
+		   	        <a onclick="javaScript:checkLogin(2)" class="gd_input" value=""  name="button" >添加包装机数据</a>
+   	    		</#if>
+   	    		<#if (loginBean.loginType==1)>
+   	    			<a onclick="javaScript:checkLogin(3)" class="gd_input" value=""  name="button" >添加${loginBean.boxerEquipmentName0?if_exists}数据</a>
+		   	        <a onclick="javaScript:checkLogin(4)" class="gd_input" value=""  name="button" >添加${loginBean.boxerEquipmentName1?if_exists}数据</a>
+   	    		</#if>
+   	    		<#if (loginBean.loginType==2)>
+   	    			<a onclick="javaScript:checkLogin(5)" class="gd_input" value=""  name="button" >添加${loginBean.filterEquipmentName0?if_exists}数据</a>
+		   	        <a onclick="javaScript:checkLogin(6)" class="gd_input" value=""  name="button" >添加${loginBean.filterEquipmentName1?if_exists}数据</a>
+   	    		</#if>
+   	    	</#if>
+   	        <span class="nylogin3" ><img src="${resRoot}/wct_web/images/gdxx/nylogin.png" /></span>
+   	        <span class="nylogin2">
+   	            <input  type="text" onclick="showKey('control_date')" name="token"  id="control_date" placeholder="登录名"  />
+   	            <input  type="button" class="dlbutton" value="登录" />
+   	            <font class="message"></font>
+   	        </span>
+   	        <span class="nerong">
+   	           <img  src="${resRoot}/wct_web/images/icon/xf.png" /><i><font id="userName"></font></i>                
+   	        </span>
+   	        <div class="rolerTxt">
+   	        <span class="nerong">
+   	           <img  src="${resRoot}/wct_web/images/icon/wc.png" /><i><font class="" id="userRolers"></font></i>
+   	        </span>
+   	        </div>
+   	    </div>
+      <!--用户登录end-->
+        <div class="bottom_content"  >
+        	<table class="table" cellspacing="0" border="0" id="tableData">
+        	            <tr>
+                            <th width="120px;" >工单号</th>
+                            <th width="100px;" >批次号</th>
+                            <th width="100px;" >机台</th>
+                            <th width="100px;">检测时间</th>
+                            <th width="100px;">检测人</th>
+                            <th width="100px;">检测项目</th>
+                            <th width="100px;">查看明细</th>
+                        </tr>
+                        <#if (dataList?size>0)>
+                        	<#list dataList as data>
+                        		<tr>
+                        			<td><#if (data.order??)>${data.order}</#if></td>
+                        			<td id="batchNO"><#if (data.BATCH_NO??)>${data.BATCH_NO}</#if></td>
+                        			<td>${data.eqpName?if_exists}</td>
+                        			<td><#if (data.checkTime??)>${data.checkTime}</#if></td>
+                        			<td><#if (data.uName??)>${data.uName}</#if></td>
+                        			<td><span class="imgFont"><font>添加检测项</font><img onclick="javaScript:showDetailDlg($(this))" src="${resRoot}/wct_web/images/qm/add_detail.png" alt="" align="middle"/></span></td>
+                        			<td><a  href="${futRoot}/wct/qm/queryQmOutWardDelInfo.htm?url=web_html/wct/qm/qmOutWandDelInfo&outWandIndex=${wctPage.index}&batchNo=${data.BATCH_NO}" class="detail_input" name="button" >查看明细</a></td>
+                        		</tr>
+                        	</#list>
+                        <#else>
+                                <tr></tr>
+                     			<tr><td colspan="7"><font color="red" >没有查询到当前工单检测数据</font></td></tr>
+                        </#if>
+                 </table>
+        </div>
+        <div class="page">
+               <div class="num-bar">
+				<a>共${wctPage.maxCount}条数据</a>
+				<#if (wctPage.index)!=1 >
+				    <a class="num" href="${futRoot}/wct/qm/getAppearancePagePath.htm?url=web_html/wct/qm/qmAppearance&index=${wctPage.index-1}">上一页</a>
+				<#else>
+				    <a class="num" >上一页</a>  
+				</#if>
+				<a>${wctPage.index}/${wctPage.maxPage}</a>
+				<#if (wctPage.index) < (wctPage.maxPage) >
+				    <a class="num"  href="${futRoot}/wct/qm/getAppearancePagePath.htm?url=web_html/wct/qm/qmAppearance&index=${wctPage.index+1}">下一页</a>
+				<#else>
+				    <a class="num" >下一页</a>
+				</#if>
+              </div>
+        </div>
+    </div>
+   </div>
+    <!-- 中部end -->
+ <!-- 添加巡检项弹出窗start -->
+<div class="modal fade" id="addDetailModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" id="modalHeaderDiv">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <label>
+      			<label class="">缺陷类型：</label>
+	            <select  id="chooseQmWand" class="choose" onchange="resetPage()">
+	                <option value="" selected="selected">全部</option>
+	                    <#if ( QMOUTWAND?size>0 )>
+						       <#list QMOUTWAND as qmWand>
+		                 		    <option value="${qmWand.code}">${qmWand.name}</option>
+						       </#list>
+						</#if>
+				</select> 
+			</label>
+			<label>
+      			<label class="">缺陷名称：</label>
+	            <input  class="qinput" id="iteamName" onclick="showKey('iteamName')"/>
+			</label>
+			<button  class="item_inputSearch" onclick="javaScript:"  name="button" id="orderResultForm">重&nbsp;置</button>
+			<button  class="item_inputSearch" onclick="javaScript:addDetail(1)"  name="button" id="orderResultForm">查&nbsp;询</button>
+      </div>
+      <div class="modal-body" id="DetailDiv">
+      		<table class="dlgTable" cellspacing="0" border="0" id="addDetailTable">
+				<tr>
+					<td style="display:none">缺陷代码id</td>
+					<td style="width:80px">缺陷代码</td>
+					<td>缺陷描述</td>
+					<td style="width:80px">数量</td>
+				</tr>
+      		</table>
+      </div>
+      <!-- 底部 -->
+      <div class="modal-footer">
+      		<!-- 分页 -->
+      		<div class="page">
+	      		<button class="item_input"  data-dismiss="modal">返回</button>
+	        	<button class="item_inputSave" onclick="saveItems()" >保存</button>
+	      		<div class="num-bar">
+		           	<a>共<font id="rowsAll">0</>条数据</a>
+		           	<a class="num" onclick="addDetailUp()" >上一页</a>
+		            <a><font id="nowPageIndex">0</font>/<font id="allPageNum">0</font></a>
+		           	<a class="num" onclick="addDetailDown()">下一页</a>
+	        	</div>
+        	</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 弹出窗end -->
+</body>
+</html>

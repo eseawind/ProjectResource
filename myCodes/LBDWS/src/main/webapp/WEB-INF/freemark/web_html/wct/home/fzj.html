@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>封装机</title>
+<link href="${resRoot}/wct_web/css/filterAndBoxer/css.css" rel="stylesheet" type="text/css" />
+<link href="${resRoot}/wct_web/css/filterAndBoxer/fzj.css" rel="stylesheet" type="text/css" />
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<script>
+<!-- 获取机台登录信息 -->
+<#if (Session.loginInfo)??>
+	<#assign loginBean=Session.loginInfo>
+<#else>
+	window.parent.parent.location.href="/LBDWS/wct/index.htm";
+</#if>
+//切换封箱机界面
+function setTab(name,cursel){
+	for(var i=1; i<=2; i++){
+		var menu = $("#"+name+i);
+		var menudiv = $("#con_"+name+"_"+i);
+		if(i==cursel){
+			menu.css("background","#fff");
+			menu.css("color","#000");
+			menudiv.show();
+		}else{
+			menu.css("background","#02a55c");
+			menu.css("color","##fff");
+			menudiv.hide();
+		}
+	}
+}
+//初始化界面数据
+$(function(){
+	$.ajax({
+		type: "POST",
+		url: "/LBDWS/wct/realTimeData/initBoxerData.json",
+		success: function(msg){
+			var bean=null;
+			var eqpCode=null;
+			for(var i=0;i<msg.length;i++){
+				bean=msg[i];
+				//设置tab文字
+				eqpCode=bean.equipmentCode;
+				if(eqpCode==61 || eqpCode==63){
+					$("#one1").html(bean.equipmentEdcs);
+				}else{
+					$("#one2").html(bean.equipmentEdcs);
+				}
+				$("#eqpType"+eqpCode).html(bean.equipmentType);//设备型号
+				$("#orderCode"+eqpCode).html(bean.workorderCode);//工单号
+				$("#pstim"+eqpCode).html(bean.planStim);//计划开始时间
+				$("#petim"+eqpCode).html(bean.planEtim);//计划结束时间
+				$("#pqty"+eqpCode).html(bean.planQty);//计划产量
+				$("#matName"+eqpCode).html(bean.matName);//牌号
+				$("#stim"+eqpCode).html(bean.stim);//实际开始时间
+				$("#qtyUnit"+eqpCode).html(bean.unit);//产量单位
+				$("#realUnit"+eqpCode).html(bean.unit);//产量单位
+			}
+		}
+	});
+	//定时刷新数据
+	window.timerTaskFunction0=setInterval('reFrushData()',3000);
+});
+//刷新数据
+	function reFrushData(){
+		$.ajax({
+			type: "POST",
+			url: "/LBDWS/wct/realTimeData/getRealTimeBoxerData.json",
+			success: function(msg){
+				 var bean=null;
+				 var eqpCode=null;
+				 var online="离线";
+				 for(var i=0;i<msg.length;i++){
+					 bean=msg[i];
+					 eqpCode=bean.equipmentCode;
+					 $("#realQty"+eqpCode).html(bean.qty);//实际产量
+					 if(bean.online==1){
+						 online="在线";
+					 }
+					 $("#online"+eqpCode).html(online);//在线状态
+				 }
+			}
+		});
+	}
+</script>
+</head>
+
+<body>
+<div id="content">
+<div class="tab1" id="tab1">
+	<div class="menu">
+		<ul>
+			<li id="one1" onclick="setTab('one',1)"></li>
+			<li id="one2" onclick="setTab('one',2)"></li>
+		</ul>
+	</div>
+	<div class="menudiv">
+		<div id="con_one_1">
+			<!-- start -->
+        	 <div class="cxj_middle">
+   			 <!--left-->
+                  <div class="left_middle">
+                  	<div class="fsj_img"><img src="${resRoot}/wct_web/images/filterAndBoxer/fzj/fzj.png" width="668" height="443" /></div>
+                    <p>
+	                    <span class="fsj_lname1">设备型号：<font id="eqpType${loginBean.boxerEquipmentCode0}"></font></span>
+	                    <span class="fsj_rname1">通讯状态：<font id="online${loginBean.boxerEquipmentCode0}"></font></span>
+                    </p>
+				  </div>
+  			<!--列表-->
+                  <div class="right_middle">
+                  	<!--数据条-->
+                    <div class="right_top_ms">
+                    <div class="fzj_title">概要信息</div>
+                    <table class="fzj_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td>工单编号：<font id="orderCode${loginBean.boxerEquipmentCode0}"></font></td>
+                      </tr>
+                      <tr>
+                        <td>牌号：<font id="matName${loginBean.boxerEquipmentCode0}"></font></td>
+                      </tr>
+                       <tr>
+                        <td>计划产量： <font id="pqty${loginBean.boxerEquipmentCode0}"></font><font id="qtyUnit${loginBean.boxerEquipmentCode0}"></font></td>
+                      </tr>
+                      <tr>
+                        <td>计划开始时间：<font id="pstim${loginBean.boxerEquipmentCode0}"></font></td>
+                      </tr>
+                      <tr>
+                        <td>计划结束时间：<font id="petim${loginBean.boxerEquipmentCode0}"></font></td>
+                      </tr>
+                      <tr>
+                        <td>实际开始时间：<font id="stim${loginBean.boxerEquipmentCode0}"></font></td>
+                      </tr>
+                      <tr>
+                        <td>实际产量： <font id="realQty${loginBean.boxerEquipmentCode0}"></font><font id="realUnit${loginBean.boxerEquipmentCode0}"></font></td>
+                      </tr>
+                    </table>
+                </div>
+               </div>
+              </div>
+              <!-- end -->
+           </div>
+           
+           
+		<div id="con_one_2" style="display:none;">
+        	<!-- start -->
+        	 <div class="cxj_middle">
+   			 <!--left-->
+                  <div class="left_middle">
+                  	<div class="fsj_img"><img src="${resRoot}/wct_web/images/filterAndBoxer/fzj/fzj.png" width="668" height="443" /></div>
+                    <p>
+	                    <span class="fsj_lname1">设备型号：<font id="eqpType${loginBean.boxerEquipmentCode1}"></font></span>
+	                    <span class="fsj_rname1">通讯状态：<font id="online${loginBean.boxerEquipmentCode1}"></font></span>
+                    </p>
+				  </div>
+  			<!--列表-->
+                  <div class="right_middle">
+                  	<!--数据条-->
+                    <div class="right_top_ms">
+                    <div class="fzj_title">概要信息</div>
+                    <table class="fzj_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td>工单编号：<font id="orderCode${loginBean.boxerEquipmentCode1}"></font></td>
+                      </tr>
+                      <tr>
+                        <td>牌号：<font id="matName${loginBean.boxerEquipmentCode1}"></font></td>
+                      </tr>
+                       <tr>
+                        <td>计划产量： <font id="pqty${loginBean.boxerEquipmentCode1}"></font><font id="qtyUnit${loginBean.boxerEquipmentCode1}"></font></td>
+                      </tr>
+                      <tr>
+                        <td>计划开始时间：<font id="pstim${loginBean.boxerEquipmentCode1}"></font></td>
+                      </tr>
+                      <tr>
+                        <td>计划结束时间：<font id="petim${loginBean.boxerEquipmentCode1}"></font></td>
+                      </tr>
+                      <tr>
+                        <td>实际开始时间：<font id="stim${loginBean.boxerEquipmentCode1}"></font></td>
+                      </tr>
+                      <tr>
+                        <td>实际产量： <font id="realQty${loginBean.boxerEquipmentCode1}"></font><font id="realUnit${loginBean.boxerEquipmentCode1}"></font></td>
+                      </tr>
+                    </table>
+                </div>
+               </div>
+              </div>
+              <!-- end -->
+      	</div> 
+      </div> 
+  </div>
+</div>
+</div>
+</body>
+</html>

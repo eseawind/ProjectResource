@@ -1,0 +1,1 @@
+{"inframe":false,"title":"查询人员","hidden":false,"roles":{"demo":1},"children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select * from WB_EMPLOYEE where DEPT_ID={?DEPT_ID?} order by REAL_NAME","itemId":"dataprovider1"},"children":[],"expanded":false,"type":"dataprovider"}],"expanded":true,"type":"module"}],"pageLink":"","iconCls":""}

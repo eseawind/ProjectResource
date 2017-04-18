@@ -1,0 +1,239 @@
+@charset "utf-8";
+	body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+	padding:0;
+	margin:0;
+}
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+fieldset,img {
+	border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+	font-weight:normal;
+	font-style:normal;
+}
+ol,ul {
+	list-style:none;
+}
+caption,th {
+	text-align:left;
+	text-indent:10px;
+}
+h1,h2,h3,h4,h5,h6 {
+	font-weight:normal;
+	font-size:100%;
+}
+q:before,q:after {
+	content:'';
+}
+abbr,acronym {
+	border:0;
+}
+.clear {
+	clear:both;
+}
+input[type="button"],input[type="submit"],input[type="reset"] {
+	background-color:transparent;
+	padding:0;
+	border:0;
+}
+h1.title {
+	font:32px "microsoft yahei";
+	margin:10px 20px;
+	color:#666;
+}
+.signup_box {
+	background:url(../images/login_bg.gif) no-repeat center center;
+	height: 420px;
+	padding: 134px;
+}
+.signup_container {
+	width:500px;
+	height:auto;
+	margin:1.5% auto 0;
+	padding-bottom:20px;
+	background:#EDEDED;
+	text-align:center;
+	border-radius:8px;
+	box-shadow:1px 2px 4px rgba(0,0,0,0.6);
+	-webkit-user-select:none;
+	-ms-user-select:none;
+}
+h1.signup_title {
+	background:#41b4e3 url(../images/logintitlebg.png) no-repeat top center;
+	width:100%;
+	height:40px;
+	font:17px/1 "microsoft yahei";
+	text-align:left;
+	text-indent:20px;
+	letter-spacing:3px;
+	color:#FDFDFD;
+	line-height:40px;
+	border-top-left-radius:6px;
+	border-top-right-radius:6px;
+	text-indent: -999px;
+}
+.signup_container img {
+	margin:20px 0 0;
+}
+.signup_container .loading {
+	color:#ABABAB;
+}
+.signup_container .copyright {
+	margin:20px 0;
+	color:#ABABAB;
+}
+.signup_forms {
+	width:360px;
+	margin:30px auto 0;
+	padding:0;
+	text-align:left;
+	border:1px solid #ccc;
+	border-radius:8px;
+	box-shadow:inset 0 1px 3px rgba(0,0,0,0.36),0 1px 0 rgba(255,255,255,0.15);
+}
+.signup_forms .form_row {
+	position:relative;
+	border-top:1px solid #CCC;
+	border-top:1px solid rgba(0,0,0,0.12);
+	z-index:999;
+}
+.signup_forms .form_row2 {
+	position:relative;
+	border-top:1px solid #CCC;
+	border-top:1px solid rgba(0,0,0,0.12);
+}
+.signup_forms label {
+	display:none
+}
+.signup_forms input {
+	width:100%;
+	padding:5px 0;
+	text-indent:40px;
+	display:block;
+	margin:0;
+	border:0;
+	outline:none;
+	font:bold 14px/1.4 "microsoft yahei";
+	line-height:25px;
+	color:#888;
+}
+#signup_name {
+	background:url('../images/login_icon.png') no-repeat 10px 1px;
+}
+#signup_password {
+	background:url('../images/login_icon.png') no-repeat 10px -41px;
+}
+#signup_select {
+	background:url('../images/login_icon.png') no-repeat 10px -125px;
+}
+#signup_select2 {
+	background:url('../images/login_icon.png') no-repeat 10px -165px;
+}
+#signup_select0 {
+	background:url('../images/login_icon.png') no-repeat 10px -82px;
+}
+#d {
+	position:absolute;
+	right:10px;
+	top:-14px;
+	cursor:pointer;
+}
+#d2 {
+	position:absolute;
+	right:10px;
+	top:-14px;
+	cursor:pointer;
+}
+#admin {
+	background:#FFF;
+	padding:5px;
+}
+.form_row2 ul {
+	background:#EDEDED;
+	width:316px;
+	position:absolute;
+	display:none;
+	border:1px solid #CCC;
+	border-top:none;
+	cursor:pointer;
+}
+.form_row ul {
+	background:#EDEDED;
+	width:316px;
+	position:absolute;
+	display:none;
+	border:1px solid #CCC;
+	border-top:none;
+	cursor:pointer;
+	z-index:999;
+}
+.form_row li {
+	width:100%;
+	padding:6px 0;
+	line-height:25px;
+	text-indent:30px;
+	background:#EDEDED;
+	z-index:999;
+}
+.form_row2 li {
+	width:100%;
+	padding:6px 0;
+	line-height:25px;
+	text-indent:30px;
+}
+.form_row ul li:hover {
+	background:#19B4EA;
+	color:#FFF;
+}
+.form_row2 li:hover {
+	background:#19B4EA;
+	color:#FFF;
+}
+.login-btn-set {
+	width:360px;
+	height:auto;
+	overflow:hidden;
+	margin:10px auto;
+}
+.login-btn {
+	display:block;
+	float:left;
+	background:url(../images/login_btn.png) no-repeat;
+	width: 120px;
+	height: 40px;
+}
+.login-btn-close {
+	display:block;
+	float:right;
+	background:url(../images/login_btn_close.png) no-repeat;
+	width: 120px;
+	height:40px;
+}
+.login-btn:hover {
+	background-position:0 -48px;
+}
+.login-btn:active {
+	background-position:0 -95px;
+}
+.login-btn-close:hover {
+	background-position:0 -48px;
+}
+.login-btn-close:active {
+	background-position:0 -95px;
+}
+.login-btn-set .rem {
+	display:block;
+	float:left;
+	margin:15px 6px;
+	background:url(../images/remember.png) no-repeat;
+	background-position:-2px -23px;
+	width:90px;
+	height:22px;
+	cursor:pointer;
+}
+.login-btn-set .rem.selected {
+	background-position:0 0;
+}

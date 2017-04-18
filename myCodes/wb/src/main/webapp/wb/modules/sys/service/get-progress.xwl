@@ -1,0 +1,1 @@
+{"inframe":false,"title":"检查上传进度","hidden":false,"roles":{"demo":1,"default":1,"basic":1},"children":[{"configs":{"serverMethod":"com.wb.interact.Service.getProgress","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

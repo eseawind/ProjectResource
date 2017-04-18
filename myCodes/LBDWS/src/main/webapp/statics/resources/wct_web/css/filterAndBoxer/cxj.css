@@ -1,0 +1,77 @@
+@charset "utf-8";
+/* CSS Document */
+/* reset */
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0; font-family:"microsoft yahei", "宋体"; }
+header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn{font-style:normal;}
+[hidefocus],summary{outline:0;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%; font-weight:normal}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+q:before,q:after{content:none;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{cursor:pointer;}
+del,ins,u,s,a,a:hover{text-decoration:none;}
+a,a:hover{color:#333;}
+
+/* 避免因子元素浮动而导致的父元素高度缺失能问题 */
+.cl:after { content:"."; display:block; height:0; clear:both; visibility:hidden; } .cl { zoom:1; }
+.clearfix::before, .clearfix::after {
+  clear:both;
+  content:" ";
+  display:block;
+}
+.clear{clear:both;}
+/*cxj_top*/
+.cxj_top{width:1275px; font-size:18px; color:#000; height:50px; line-height:50px; margin:0 auto;background:#84d0ef; border-radius:4px; margin-top:10px;}
+.cxj_top .bc1{float:left; color:#fff; margin-left:22px;}
+.cxj_top .bc{float:left; color:#fff; margin-left:100px;}
+/*cxj_middle*/
+.cxj_middle{margin-top:29px; margin-bottom:22px;}
+.cxj_middle .left_middle{width:815px;float:left;}
+.cxj_sbxh{font-size:18px; margin-left:22px;}
+
+.right_middle{width:312px; float:right;}
+.gdxx_contect{border-left:#84d0ef 1px solid; border-right:#84d0ef 1px solid; padding-left:10px;}
+.gdxx_contect1{border-bottom:#84d0ef 1px solid !important;border-left:#84d0ef 1px solid; border-right:#84d0ef 1px solid; padding-left:10px;}
+.right_middle ul li{border-bottom:#e8e5e5 1px solid; height:48px; line-height:48px;}
+.gd_title{width:312px;background:#84d0ef; height:46px; text-align:center; color:#fff; line-height:46px; border-radius:4px;}
+
+.cxj_foot{width:1260px; margin:0 auto; border:#e2e2e2 1px solid; border-radius:3px; margin-top:22px; padding-top:25px; padding-left:10px; padding-bottom:19px;}
+/*成型机运行状态*/
+.cxj_name{width:105px;float:left; font-size:18px;}
+.cxj_sjt{width:250px;float:left;}
+.cxj_time{width:95px; float:left; margin-left:10px;font-size:18px;}
+.cxj_sjt1{width:560px;float:left;}
+.cxj_yxzt{font-size:24px;}
+.right_top_ms tr{height:50px;}
+
+.left_title{font-size:22px; text-align:center; line-height:30px;}
+.mxcf{line-height:40px;}
+
+/**  单耗 样式*/
+.skillbar{position:relative;display:block;margin-bottom:10px;	width:100%;	background:#eee;height:25px;	border-radius:50px !important;-moz-border-radius:3px;-webkit-border-radius:3px;-webkit-transition:0.4s linear;-moz-transition:0.4s linear;	-ms-transition:0.4s linear;	-o-transition:0.4s linear;
+transition:0.4s linear;	-webkit-transition-property:width, background-color;-moz-transition-property:width, background-color;-ms-transition-property:width, background-color;-o-transition-property:width, background-color;transition-property:width, background-color;
+} 
+/* 虚拟背景线条*/
+.skillbar clearfix{float:left;}
+.skillbar-title span {
+	display:block;
+	background:rgba(0, 0, 0, 0.1);
+	padding:0 20px;
+	height:25px;
+	line-height:25px;
+	-webkit-border-top-left-radius:3px;
+	-webkit-border-bottom-left-radius:3px;
+	-moz-border-radius-topleft:3px;
+	-moz-border-radius-bottomleft:3px;
+	border-top-left-radius:3px;
+	border-bottom-left-radius:3px;
+}/*********/
+
+.skillbar-bar {	height:25px;width:0px;	background:#6adcfa;	border-radius:50px !important;-moz-border-radius:3px;-webkit-border-radius:3px;}

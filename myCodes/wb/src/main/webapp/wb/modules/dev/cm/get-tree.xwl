@@ -1,0 +1,1 @@
+{"title":"获取控件树","hidden":false,"roles":{"demo":1},"children":[{"configs":{"serverMethod":"com.wb.interact.Controls.getControlTree","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"iconCls":""}

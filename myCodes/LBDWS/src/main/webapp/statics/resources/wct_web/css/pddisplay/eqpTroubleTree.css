@@ -1,0 +1,64 @@
+@charset "utf-8";
+/* CSS Document */
+
+.node ul{ 
+margin-left:30px; 
+} 
+.node .node{ 
+display:none; 
+} 
+
+.ce_ceng_close{ 
+background:url(../../images/trouble/cd_zd1.png) left  no-repeat; 
+padding-left: 15px; 
+} 
+.ce_ceng_open{ 
+background:url(../../images/trouble/cd_zd.png) left  no-repeat; 
+} 
+.right_content{
+margin-right: 0px;
+}
+/*右侧div*/
+.rightTextDiv{
+	margin-left:20px; 
+	margin-top:30px;
+	width:40%;
+	float:left; 
+}
+/*树div*/
+.troubleTreeDiv{
+	margin-left:5%; 
+	margin-top:0px;
+	width:45%;
+    float:left; 
+    height:550px; 
+    overflow:auto;
+}
+/*故障框*/
+.troubleTextarea{
+	background-color: #F4F4F4;
+	height: 200px;
+	width: 100%;
+}
+/*添加故障*/
+.addTroubleTextarea{
+	background-color: #F4F4F4; 
+	margin-top:5px;
+	height: 100px;
+	width: 80%;
+	float: left;
+	display: block;
+}
+/*添加按钮*/
+.addButton{
+	width:82px; margin-left:8px; margin-top:-32px;height:32px; line-height:32px; text-decoration:none; font-size:18px; float:right; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;
+}
+
+/*返回*/
+.returnButton{
+	width:120px; margin-left:0px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:left; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;
+}
+/*重置*/
+.resetBuffon{
+	width:82px; margin-left:15px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:left; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;
+}

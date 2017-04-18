@@ -1,0 +1,1 @@
+{"inframe":false,"title":"查询员工","hidden":false,"roles":{"demo":1},"children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select * from WB_EMPLOYEE","itemId":"dataprovider1","dictTableNames":"WB_EMPLOYEE"},"children":[],"expanded":false,"type":"dataprovider"}],"expanded":true,"type":"module"}],"pageLink":"","iconCls":""}

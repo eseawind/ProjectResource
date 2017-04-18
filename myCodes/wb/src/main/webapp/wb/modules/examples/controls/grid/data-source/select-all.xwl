@@ -1,0 +1,1 @@
+{"inframe":false,"title":"查询全部","hidden":false,"roles":{"demo":1},"children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select * from WB_PAGING","limitRecords":"-1","itemId":"dataprovider1"},"children":[],"expanded":false,"type":"dataprovider"}],"expanded":true,"type":"module"}],"pageLink":"","iconCls":""}

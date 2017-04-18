@@ -1,0 +1,1 @@
+{"title":"移动","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.Controls.moveControls","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

@@ -1,0 +1,1 @@
+{"inframe":false,"title":"模块列表","hidden":false,"roles":{"demo":1},"children":[{"configs":{"serverMethod":"com.wb.interact.Portal.getPermList","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

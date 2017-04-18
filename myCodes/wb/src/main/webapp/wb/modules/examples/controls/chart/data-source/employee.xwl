@@ -1,0 +1,1 @@
+{"title":"查询人员","inframe":false,"hidden":false,"roles":{"demo":1},"pageLink":"","children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select REAL_NAME,VACATION_HOURS from WB_EMPLOYEE order by REAL_NAME","itemId":"dataprovider1"},"children":[],"type":"dataprovider","expanded":false}],"type":"module","expanded":true}],"iconCls":""}

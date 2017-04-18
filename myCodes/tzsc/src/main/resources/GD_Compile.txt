@@ -1,0 +1,134 @@
+1ST PACKET COMPLETED                     	^第一个完整的烟包
+2ND GUARD - BLANK CHANNEL                 	^商标纸通道第二防护罩
+2ND-3RD WHEEL JAM                           	^2号轮至3号轮堵塞
+6TH-7TH WHEEL JAM                         	^6号轮至7号轮堵塞
+8TH WHEEL DOOR                               	^8号轮门
+REAL CT PRODUCTION                        	^CT实际产量
+PACKETS DAMAGED BY FRICTION IN HOPPER       	^烟库内摩擦损坏的烟包
+FOIL SPLICE PACKETS                     	^铝箔纸拼接烟包
+INNER-FRAME SPLICE PACKETS                 	^内框纸拼接烟包
+BAD PACKETS REJECTED                      	^剔除的坏包
+BLANK GLUER OUT OF PHASE                 	^商标纸涂胶器相位错误
+BLANK SLIDE PLATFORM                      	^商标纸滑动平台
+BURNT PACKETS                           	^烤焦的烟包
+BURNT PACKETS ON THE BELTS                   	^皮带上烤焦的烟包
+3RD WHEEL LABEL POSITION                 	^3号轮商标纸错位
+5WH_6WH MISS FLAP                            	^五六轮烟包缺盖
+5WHEEL MISS INNER FRAME                   	^五轮飞内框纸
+CH MISS FOIL PACKET                        	^CH缺铝箔纸烟包
+CH MISS STAMP PACKET                         	^CH缺封签烟包
+DAMAGED FOIL ON 4WHEEL                    	^四轮烂铝箔
+OPTICAL CIGARETTE DETECTOR FAULT            	^光电式烟支检测器故障
+PROLONGED PAUSE - CH LONG SEAM            	^CH长边加热器长停
+CH FILM JAM                                	^CH透明纸堵塞
+CH FILM SPLICE                               	^CH透明纸拼接
+CH FILM SPLICE DUE TO MANUAL CHANGE          	^手动换纸引起CH透明纸拼接
+CH TEAR-TAPE MISSING OR MISALIGNED          	^CH拉带丢失或未对齐
+CIGARETTE HOPPER PUSHERS ENGAGED             	^烟库推杆啮合
+CIGARETTE HOPPER PUSHERS RELEASED          	^烟库推杆脱开
+CIGARETTE JAMS IN POCKETS                	^模盒内烟支堵塞
+CT BLANK DISALIGNED ON WRAPPING PATH          	^CT包装通道上条盒纸不对齐
+CT REJECTED PRODUCTION                     	^CT剔除产量
+DRIED GLUE ON CT CARTON                   	^CT条盒胶水干
+EMPTY POCKETS CHECK                         	^空模盒检测
+END OF REEL OR INNER-FRAME SPLICE            	^内框纸卷用完或拼接
+ERROR ON BLANK PRINT CHECK                 	^商标纸印刷检测出错
+EXCESS PACKET                            	^多余的烟包
+EXITING PACKETS REJECTED MANUALLY            	^出口处手动剔除烟包
+FAIL: BLANK VACUUM                      	^商标纸真空故障
+FAIL: BLANK VACUUM BLOCK                  	^商标纸真空堵塞故障
+FAIL: CIGARETTE REJECT                   	^烟支剔除失败
+FILM UNWINDING JAM, CH                     	^CH透明纸展开堵塞
+FLAP GLUER OUT OF PHASE                    	^盖舌涂胶器错位
+FLEXIBLE WALL JAM                          	^弹性壁堵塞
+FOIL SLIPS MISSING                        	^没有铝箔纸
+FOIL SLIPS OUT OF POSITION                	^铝箔纸错位
+FOIL SLIPS UNWOUND                         	^铝箔纸展开
+FOIL SLIPS UNWOUND HAVE NO DEFECTS           	^展开铝箔纸无损伤
+FOIL SPLICE                               	^铝箔纸拼接
+GOOD PACKETS REJECTED                     	^剔除的合格烟包
+GUARD HOUSING - 1ST BLANK CHANNEL         	^商标纸第一通道防护罩
+INCOMPLETE CARTON                            	^条盒缺包
+INCOMPLETE CIGARETTE POCKETS              	^模盒缺支
+INCOMPLETE STACK                          	^烟包堆叠缺包
+INNER/OUTER FOIL CHECK FAIL             	^内/外铝箔纸检测失败
+JAM - 3RD WHEEL ENTRANCE                	^3号轮入口堵塞
+JAM - 5TH/6TH WHEEL                     	^5/6号轮堵塞
+JAM DUE TO BLANK SUCTION                  	^商标纸吸取堵塞
+LABEL GLUER CONTRAST OPEN                  	^商标纸涂胶器压杆打开
+LABELS UNWOUND                            	^展开的商标纸
+LABELS UNWOUND HAVE NO DEFECTS                	^展开的商标纸无损伤
+LOOSE ENDS                                  	^空头
+MACHINE CYCLES RUNNING EMPTY                	^机器排空运行周期
+MACHINE CYCLES WITH PROD. DATA DISABLED    	^生产数据关闭的机器周期
+MACHINE ROUNDS WITH NO MATERIALS          	^机器没有原材料运行转数
+MANUAL CH REJECTION                       	^CH手动剔除
+MISSING PACKET ON 5TH WHEEL                	^5号轮缺烟包
+MISSING STAMP AT EXIT BELT ENTRANCE         	^出口皮带入口处封签丢失
+NO BLANK AT STEP 15                      	^第15步无商标纸
+NO BLANK ON 5TH WHEEL                       	^5号轮缺商标纸
+NO CT BLANK ON UNWINDING PLATFORM           	^展开平台上无条盒纸
+NO CT BLANK ON WRAPPING LINE               	^包装线上无条盒纸
+NO INNER-FRAME ON 4TH WHEEL               	^4号轮无内框纸
+NUMBER OF FOIL REELS USED                 	^用完的铝箔纸卷数
+NUMBER OF INNER-FRAME REELS USED           	^用完的内框纸卷数
+NUMBER OF PACKETS REJECTED AT EXIT         	^出口处烟包剔除数量
+NUMBER OF TRAYS USED                     	^用完的烟盘数
+PACKETS JAMMED AT ENTRY TO 4TH WHEEL         	^4号轮入口烟包堵塞
+PACKETS MISSING ON 4TH WHEEL               	^4号轮烟包缺失
+PACKETS REJECTED OR MISSING               	^剔除或丢失的烟包
+PACKETS WITH DRIED GLUE: BLANK              	^商标纸胶水干涸的烟包
+PACKETS WITH DRIED GLUE: FLAP              	^盖舌胶水干涸的烟包
+PACKETS WITH DRIED LABEL GLUE             	^商标纸胶水干涸的烟包
+PACKETS WITH DRIED STAMP GLUE                	^封签胶水干涸的烟包
+PACKETS WITH NO FOIL ON 5TH WHEEL            	^5号轮无铝箔纸的烟包
+PACKETS WITH NO LABEL ON 3RD WHEEL          	^3号轮上无商标纸的烟包
+PACKETS WITH NO STAMP ON 5TH WHEEL         	^5号轮无封签的烟包
+POCKETS REJECTED OR EMPTIED               	^剔除过的或空的模盒
+PROLONGED PAUSE - CH FILM HEATERS          	^CH透明纸加热器长停
+PULL ABSENCE                            	^缺拉片
+REAL CH PRODUCTION                       	^CH实际产量
+REAL PACKET PRODUCTION                     	^烟包实际产量
+REAL PACKET PRODUCTION ON X               	^小包机实际烟包产量
+REJECTED PRODUCTION                      	^剔除产量
+REJECTED PRODUCTION ON X                	^小包机剔除产量
+REJECTIONS FOR FOIL CUT                  	^铝箔纸切割剔除
+STACK LEVEL INCORRECT                     	^烟包堆叠位置不正确
+STAMP GLUING CONTRAST OPEN                 	^封签涂胶压板打开
+STAMPS UNWOUND                              	^展开的封签
+STAMPS UNWOUND HAVE NO DEFECTS              	^展开的封签未受损
+TOTAL 3RD WHEEL REJECTS                    	^3号轮剔除数
+TOTAL BLANK REJECTIONS                        	^商标纸剔除数
+TOTAL CIGARETTE POCKET REJECTIONS            	^模盒剔除数
+TOTAL FOIL REJECTIONS                      	^铝箔纸剔除数
+TOTAL REJECTS AT 8TH WHEEL                 	^8号轮剔除数
+TOTAL REJECTS ON 6TH WHEEL                   	^6号轮剔除数
+FILM SLIPS OUT OF POSITION                 	^透明纸偏移
+FILM SLIPS MISSING                       	^透明纸缺失
+CT ENTRY PACKET ABSENT                    	^CT入口处烟包缺失
+CT ENTRY PACKET MISSING                    	^CT入口处烟包缺失
+INNER FRAME SPLICE                        	^内框纸拼接
+CH FILM OUT OF POSITION                  	^CH透明纸错位
+CH FILM MISSING OR MISALIGNED              	^CH透明纸缺少或未对齐
+VACUUM INSUFFICIENT                         	^真空不足
+REJECTED PACKETS AT MACHINE STARTUP          	^机器启动后剔除烟包 
+X1 REJECTED PRODUCTS                          	^小包机剔除产品 
+STAMP STOP DUE TO EXTENDED TIME              	^由于超时封签停止 
+REJECTIONS DUE TO PUSHER RELEASE              	^推杆脱开导致剔除 
+REJECTIONS DUE TO PUSHER RE-ENGAGEMENT        	^推杆重新启用导致剔除 
+STAMP GLUER REJECTION CONTRAST OPEN           	^封签涂胶器压杆打开导致剔除 
+BURNT PACKETS ON 4TH WHEEL                  	^烤焦烟包在4号轮 
+PACKETS WITH NO LABEL ON 5TH WHEEL           	^没有商标纸的烟包在5号轮 
+NO LABEL ON GLUER                            	^涂胶器上没有商标纸 
+LABEL GLUER PLATFORM OPEN                     	^商标纸涂胶器平台打开 
+STAMPS WITH CENTERING ERROR                   	^封签中心位置错误                  
+NUMBER OF STAMP REELS USED                    	^封签卷数量     
+NO LABEL MARKS                               	^没有商标纸标志    
+LABEL WITH CENTERING ERROR                   	^商标纸中心位置错误     
+STOP DUE TO LABEL CENTERING                  	^商标纸中心位置导致停机     
+METAL SPLICES ON LABEL REEL                   	^商标纸拼接在商标纸轮    
+NUMBER OF LABEL REELS USED                   	^商标纸卷数量     
+LABEL CUT REJECTIONS                          	^商标纸剪切剔除
+NO LOWER FOIL                                	^低位无铝箔纸             
+NO WRAP ON 2ND-3RD WHEEL                    	^第2号-3号轮无包装纸 
+MANUFACTURER FOIL SPLICE                	^铝箔纸接头

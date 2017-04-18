@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="../../wct_web/css/pddisplay/yzzxwlzj.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+    <link href="../../wct_web/css/pddisplay/docManager.css" rel="stylesheet" type="text/css"/>
+	<link href="keyboardHtml.css" rel="stylesheet" type="text/css" />
+    <title>键盘</title>
+    <script type="text/javascript" src="vk_loader.js?vk_layout=CN%20Chinese%20Simpl.%20Pinyin&vk_skin=flat_gray" ></script>
+	<script type="text/javascript" src="jquery-1.8.2.min.js" ></script>
+</head>
+<script type="text/javascript">
+	function show(){
+		VirtualKeyboard.toggle('filedName', 'keyBoardHtml');
+		$("#kb_langselector,#kb_mappingselector,#copyrights").css("display", "none");
+	}
+	function closeDig(){
+		var url=window.location.search;
+		var indexW=url.indexOf("?");
+		if(indexW!=-1){
+			var pStr=url.substr(indexW+1);
+			var pStrs=pStr.split("=");
+			var paramName=pStrs[1];
+			var val=$("#filedName").val();
+			//回调
+			this.opener.setInputVal(paramName,val);
+		}
+		window.close();
+	}
+	$(function(){
+		 show();
+	});
+    </script>
+<body>
+	<input id="filedName" class="inputKeyBoard"></input>
+	<button onclick="closeDig()" type="submit" class="searchKeyBoard" value=""  name="button">确认提交</button>
+	<div id="keyBoardHtml">
+	</div>
+</body>
+</html>

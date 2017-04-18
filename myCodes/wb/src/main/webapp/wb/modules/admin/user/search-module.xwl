@@ -1,0 +1,1 @@
+{"inframe":false,"title":"查找模块","hidden":false,"roles":{"demo":1},"children":[{"configs":{"serverMethod":"com.wb.interact.Portal.searchPermModule","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

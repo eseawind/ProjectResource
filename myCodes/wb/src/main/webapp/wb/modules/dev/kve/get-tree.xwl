@@ -1,0 +1,1 @@
+{"title":"获取键列表树","inframe":false,"hidden":false,"roles":{"demo":1},"pageLink":"","children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select distinct KEY_NAME,TYPE,'true' as \"leaf\" from WB_KEY order by KEY_NAME","itemId":"dataprovider1","type":"tree"},"children":[],"type":"dataprovider","expanded":false}],"type":"module","expanded":true}],"iconCls":""}

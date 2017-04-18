@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="initCombobox">
+    
+  <!-- 初始化数据 -->
+  
+    <!-- 查询所有设备-->
+    <sql id="queryEqps">
+        <![CDATA[
+          SELECT * from MD_EQUIPMENT a WHERE a.DEL='0' AND a.ENABLED='1' 
+          ORDER BY cast(EQUIPMENT_CODE as int) asc
+        ]]>
+    </sql>
+     <!-- 所有卷烟机-->
+     <sql id="queryRollerEqps">
+        <![CDATA[
+            SELECT * from MD_EQUIPMENT a 
+			LEFT JOIN MD_EQP_TYPE b on a.EQP_TYPE_ID=b.id 
+			LEFT JOIN MD_EQP_CATEGORY c on c.id=b.cid 
+			WHERE a.DEL='0' AND a.ENABLED='1' and c.code='1' 
+			ORDER BY cast(EQUIPMENT_CODE as int) asc
+        ]]>
+    </sql>
+    
+     <!-- 所有包装机-->
+     <sql id="queryPackerEqps">
+        <![CDATA[
+            SELECT * from MD_EQUIPMENT a 
+			LEFT JOIN MD_EQP_TYPE b on a.EQP_TYPE_ID=b.id 
+			LEFT JOIN MD_EQP_CATEGORY c on c.id=b.cid 
+			WHERE a.DEL='0' AND a.ENABLED='1' and c.code='2'  
+			ORDER BY cast(EQUIPMENT_CODE as int) asc
+        ]]>
+    </sql>
+    
+    <!-- 所有成型机-->
+     <sql id="queryFilterEqps">
+        <![CDATA[
+            SELECT * from MD_EQUIPMENT a 
+			LEFT JOIN MD_EQP_TYPE b on a.EQP_TYPE_ID=b.id 
+			LEFT JOIN MD_EQP_CATEGORY c on c.id=b.cid 
+			WHERE a.DEL='0' AND a.ENABLED='1' and c.code='4' 
+			ORDER BY cast(EQUIPMENT_CODE as int) asc
+        ]]>
+    </sql>
+    
+    <!-- 所有封箱机-->
+     <sql id="queryFXEqps">
+        <![CDATA[
+            SELECT * from MD_EQUIPMENT a
+			LEFT JOIN MD_EQP_TYPE b on a.EQP_TYPE_ID=b.id 
+			LEFT JOIN MD_EQP_CATEGORY c on c.id=b.cid 
+			WHERE a.DEL='0' AND a.ENABLED='1' and c.code='3' 
+			ORDER BY cast(EQUIPMENT_CODE as int) asc
+        ]]>
+    </sql>
+    
+    
+     <!-- 综合基础数据-->
+     <sql id="queryFixCode">
+        <![CDATA[
+          SELECT * from MD_FIX_CODE where del='0'
+        ]]>
+     </sql>
+    
+    
+     <!--牌号-->
+     <sql id="queryMat">
+        <![CDATA[
+           SELECT * from MD_MAT WHERE DEL='0' AND "ENABLE"='1' AND TID='1'
+        ]]>
+    </sql>
+    
+    <!--物料组-->
+     <sql id="queryMatGroup">
+        <![CDATA[
+          SELECT * from MD_MAT_GRP WHERE "ENABLE"='1' AND DEL='0'
+        ]]>
+    </sql>
+    
+  
+     <!--当前时间，所有需要启动的工单 -->
+     <sql id="querySchWorkOrder">
+        <![CDATA[
+			select 
+			   id,type,shift,team,eqp,mat,date_ ,
+			   (
+					select code from MD_EQP_TYPE where id=(
+					  select eqp_type_id from MD_EQUIPMENT where id=eqp
+					) 
+			    ) as eqptype,
+			    ( 
+			    select equipment_code from MD_EQUIPMENT where id=eqp
+			    ) as eqpcode
+			from SCH_WORKORDER where del=0 
+			<#if sts?exists && sts!=""> and sts=:sts </#if>
+			and to_char(date_,'yyyy-MM-dd')= to_char(:fdate,'yyyy-MM-dd')
+			and shift in (
+			   select shift from SCH_CALENDAR  where 1=1 and del=0  and :fdate between stim and etim
+			) 
+			
+        ]]>
+    </sql>
+    
+    
+     <!--牌号辅料-->
+     <sql id="queryMdMatParam">
+        <![CDATA[
+           select 
+              mp.val as flxsVal,
+              MP.EQP_TYPE as eqptype,
+              (
+              select code from MD_MAT_TYPE where id=(select tid from MD_MAT where id=mp.mat) 
+              ) as matTypeCode 
+           from Sch_Workorder_Bom bom,Md_Mat_Param mp where 1=1
+           and bom.del=0
+		   and bom.mat=mp.mat
+		   and bom.oid=:id 
+        ]]>
+    </sql>
+    
+    
+     <!--滚轴系数-->
+     <sql id="queryMdEquipmentParam">
+        <![CDATA[
+            select 
+			  axle_pz,
+			  axle_ssz 
+			from MD_EQUIPMENT_PARAM 
+			where eqp=(select id from MD_EQUIPMENT where equipment_code=:eqpcode )
+        ]]>
+    </sql>
+    
+   
+    
+</sqlMap>
+
+
+

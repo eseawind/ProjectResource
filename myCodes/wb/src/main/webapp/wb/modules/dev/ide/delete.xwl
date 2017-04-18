@@ -1,0 +1,1 @@
+{"title":"删除文件","inframe":false,"hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.IDE.deleteFiles","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

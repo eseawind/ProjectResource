@@ -1,0 +1,132 @@
+@charset "utf-8";
+.clear {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+.radiostyle{
+	width:20px;
+	height: 20px;
+}
+.submenu li span{ padding-left:100px;}    
+.accordion li a {color: #8d8c8c; border-bottom:#ccc 1px solid;}
+/* CSS Document */
+/* reset */
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0; font-family:"microsoft yahei", "宋体"; }
+header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn{font-style:normal;}
+[hidefocus],summary{outline:0;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%; font-weight:normal}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+q:before,q:after{content:none;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{cursor:pointer;}
+del,ins,u,s,a,a:hover{text-decoration:none;}
+a,a:hover{color:#333;}
+
+/* 避免因子元素浮动而导致的父元素高度缺失能问题 */
+.cl:after { content:"."; display:block; height:0; clear:both; visibility:hidden; } .cl { zoom:1; }
+.clearfix::before, .clearfix::after {
+  clear:both;
+  content:" ";
+  display:block;
+}
+#main{
+	width:1366px !important;
+	height:auto !important;
+	}
+#box{
+	margin:0px;
+	padding:0px;
+	width:1366px !important;
+	height:auto !important;
+}
+/*----left----*/
+.left_nav{width:230px; height:673px; background:#fff url(../../images/gdxx/left_bj.jpg) no-repeat center -21px; border-right:#bdbebe 1px solid; position: absolute; left:0; }
+#left h1 {color: #FFF;font-size: 24px;font-weight: 400;text-align: center; margin-top: 80px; }
+#left h1 a {color: #c12c42;font-size: 16px; }
+.left_nav .cur{color:#8ec44e;}
+.left_nav .cur .i-nav2 { display: block; margin: 0 auto; text-align: center; background: url(../../images/gdxx/left_nav2h.png) no-repeat;background-position: 0 0;	margin-left: 15px; color:#8ec44e; }
+.left_nav .cur .i-nav3 { display: block; margin: 0 auto; text-align: center; background: url(../../images/gdxx/left_nav3h.png) no-repeat;background-position: 0 0;	margin-left: 15px; color:#8ec44e; }
+.left_nav .cur .i-nav4 { display: block; margin: 0 auto; text-align: center; background: url(../../images/gdxx/left_nav4h.png) no-repeat;background-position: 0 0;	margin-left: 15px; color:#8ec44e; }
+.accordion li{ width:230px;}
+/*修改*/
+.accordion .link { width:230px; height:59px; line-height:59px; border-bottom:#ccc 1px solid; font-size: 16px; position: relative;-webkit-transition: all 0.4s ease;-o-transition: all 0.4s ease;transition: all 0.4s ease;}
+.accordion .ico{width:25px; height:25px;}
+.accordion li p {
+    float:right;
+	width:148px;
+}
+/*----left_nav----*/
+/* .accordion li a {color: #8d8c8c; border-bottom:#ccc 1px solid;}
+.accordion li a :hover{color:#8ec44e;} */
+/*删除*/
+ .ico {
+  
+	margin-left: 15px;
+}
+
+.accordion li i {position: absolute;top: 16px;left: 12px;font-size: 18px;color: #595959;-webkit-transition: all 0.4s ease;-o-transition: all 0.4s ease;transition: all 0.4s ease;}
+
+.linkbg1{ float:left; padding:10px 15px 0 14px;}
+.linkbg2{ float:left; padding:12px 9px 0 11px;}
+.linkbg3{ float:left; padding:14px 12px 0 15px;}
+.linkbg4{ float:left; padding:13px 12px 0 15px;}
+.linkbg5{ float:left; padding:8px 8px 0 13px;}
+
+/*-----------------------------*/
+.submenu { display:none;font-size: 14px; }
+.submenu li { width:230px; height:35px; line-height:35px; color:#1a2229; font-size:14px;}
+
+.submenu li span{ padding-left:28px;}
+.submenu a {display: block;text-decoration: none;color: #d9d9d9;-webkit-transition: all 0.25s ease;-o-transition: all 0.25s ease;transition: all 0.25s ease;}
+
+/*----left-end----*/
+
+.left_nav .jc{display:block; text-align:center;margin:0 auto;position:absolute; }
+
+
+/*--right--*/
+.right_content{width:1136px;float:left; padding-left:230px;  margin:0 auto;}
+#right_contentbox{ margin:0 auto; overflow:auto;}
+.right_content .top_title{background:#53d1e2;line-height:44px; color:#fff; font-size:30px; padding-left:40px;}
+.top_title span{width:33px; height:33px; float: left; display: block; margin-top:5px;}
+.gdcx_box {font-size:18px; color:#afaeae; margin:30px;}
+
+/* 下拉框 */
+.gdcx_box label{float:left;}
+.jihao{display:block; width:75px; text-align:center; line-height:30px; }
+.gdcx_box .time{width:75px;display:block; text-align:center;line-height:30px;}
+.zhi{width: 75px;text-align: center;}
+select{
+width: 202px; background:#f4f8ff;height: 30px; font-size:18px;color:#afaeae;
+border:1px solid;
+}
+
+.select_box{width: 202px; float:left; background:#f4f8ff;line-height: 30px; font-size:18px;color:#afaeae;}
+.select_showbox{height:30px;padding-left: 5px;background:url(../../images/gdxx/icon18.jpg) no-repeat 170px 0;line-height:30px; border:#afaeae 1px solid;}
+.select_option{border: none;border-top: none;display: none;  position:absolute; background:#f4f8ff;}
+.select_option li{padding-left: 5px; }
+.select_option li.selected{width:198px;}
+.select_option li.hover{ color: #8ec44e;}
+
+
+.gd_input{width:92px; margin-left:30px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:left; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;}
+.gd_input:hover{width:92px; height:32px; line-height:32px; text-decoration:none; float:left; border-radius:4px; background:#8ec44e; display:block; color:#fff; text-align:center;cursor: pointer; }
+.cz_input{width:92px; margin-left:8px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:left; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;}
+.cz_input:hover{width:92px; height:32px; line-height:32px; text-decoration:none; float:left; border-radius:4px; background:#8ec44e; display:block; color:#fff; text-align:center;cursor: pointer; }
+
+/*弹出框顶部数据样式*/
+.fontDIV{
+	margin-right: 60px;
+}

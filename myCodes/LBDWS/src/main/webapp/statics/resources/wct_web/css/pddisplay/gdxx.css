@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*日期*/
+.rili{width:195px; padding-left:5px; height:30px; line-height:30px; background:url(../../images/gdxx/left_nav1.png) no-repeat right center; border:#afaeae 1px solid;}
+
+/* 分页 */
+.page {	margin-bottom:16px;	height:30px;margin-right: 30px;
+}
+.page::before, .page::after { clear:both;  content:" "; display:block;}
+.page .num-bar {height:30px;float:right;font-size:12px;
+}
+.page .num-bar a {height:30px;line-height:30px;	display:block;
+float:left;	padding:0 10px;	color:#333;
+}
+.page .num-bar .num:hover {	background:#8ec44e;	color:#fff;	
+margin-right:2px;}
+
+.page .num-bar .num {width: 92px;height: 32px; line-height: 32px; margin-right: 2px; font-size: 18px; border-radius: 4px; color: #fff; background: #53d1e2; text-align: center; border: none;}
+
+.page a{font-size:18px;}
+/* 数据表格 */
+.table {max-width:100%;	width:100%;	margin-bottom:14px;	color:#333; font-size:14px; 
+}
+.table th, .table td {border:#afaeae solid 1px;padding:6px 8px;text-align:center; height:50px; line-height:50px;}
+.bottom_content{margin:0 auto; margin-top:20px; margin-bottom:20px; width:94%; }

@@ -1,0 +1,1 @@
+{"title":"作为子控件","inframe":false,"hidden":false,"roles":{"demo":1},"pageLink":"","children":[{"configs":{"itemId":"module"},"children":[{"configs":{"title":"使用xwl添加的页","itemId":"panel1","padding":"8"},"children":[{"configs":{"itemId":"text1"},"children":[],"type":"text","expanded":false}],"type":"panel","expanded":true}],"type":"module","expanded":true}],"iconCls":""}

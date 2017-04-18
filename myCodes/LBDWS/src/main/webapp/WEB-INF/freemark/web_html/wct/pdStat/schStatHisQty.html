@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>卷烟机、包装机历史产量</title>
+<link href="${resRoot}/wct_web/css/pddisplay/ssxh.css" rel="stylesheet"
+	type="text/css" />
+<!--覆盖样式-->
+<link href="${resRoot}/wct_web/css/pddisplay/hisSchStat.css" rel="stylesheet" type="text/css" />
+<link href="${resRoot}/wct_web/css/pddisplay/scthHisQty.css" rel="stylesheet" type="text/css" />
+<!--日历-->
+<script src="${resRoot}/wct_web/js/pddisplay/Calendar.js" type="text/javascript" ></script>
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<script src="${resRoot}/wct_web/js/wctPage.js"></script>
+<script src="${resRoot}/wct_web/js/wctUtils.js"></script>
+<!-- echarts 图表-->
+<script src='${resRoot}/jslib/echarts/echarts.min.js'></script>
+<!-- 中部end -->
+<script type="text/javascript">
+//排序条件
+	function orderBy(type){
+		if(type==1){
+			$("#orderByTimeVal").val("1");
+			$("#orderByQtyVal").val("")
+		}else if(type==2){
+			$("#orderByQtyVal").val("1")
+			$("#orderByTimeVal").val("");
+		}
+		$("#submitBu").submit();
+	}
+/*****echarts图表*****/
+	//x轴数据
+	var xdata=new Array();
+	<#list  (beanData.xText) as xT>
+		xdata.push("${xT}");
+	</#list>
+	//计划
+	var yPdata=new Array();
+	<#list  (beanData.yPData) as yd>
+		yPdata.push(${yd});
+	</#list>
+	//实际
+	var yRdata=new Array();
+	<#list  (beanData.yRData) as yr>
+		yRdata.push(${yr});
+	</#list>
+	/**/
+	$(function(){
+		var myChart = echarts.init(document.getElementById('rollerDiv'));
+		option = {
+			title: {
+				text: '历史产量',
+				subtext: '纯属虚构',
+				show:false
+			},
+			tooltip: {
+				trigger: 'axis',
+				show:false,//鼠标悬浮动作
+			},
+			color:['#53d1e2','#8bc34a'],
+			legend: {
+				data: ['计划产量', '实际产量'],
+				x: 'right',
+			},
+			toolbox: {//工具条
+				show: true,
+				orient:'vertical',
+				x: 'right',
+				y:'center',
+				feature: {
+					mark: {
+						show: true
+					},
+					dataView: {
+						show: false,
+						readOnly: false
+					},
+					magicType: {
+						show: true,
+						type: ['line', 'bar']
+					},
+					restore: {
+						show: true
+					},
+					saveAsImage: {
+						show: true
+					},
+				}
+			},
+			calculable: true,
+			xAxis: [{
+				splitLine: {
+					show: false
+				},
+				type: 'category',
+				data:  xdata,
+				axisLabel :{  
+				    interval:0 ,
+				    formatter:function(val){
+				        return val.split("。").join("\n");
+				    },
+				},
+			}],
+			yAxis: [{
+				type: 'value',
+				name:'单位：箱',
+			}],
+			series: [{
+				name: '计划产量',
+				type: 'bar',
+				data:  yPdata,
+				itemStyle: {//设置柱状图上面的数字显示格式
+					normal: {
+						label: {
+							show: true,
+							position: 'top',
+							formatter: '{c}'
+						}
+					}
+				},
+				barWidth: 30,//设置柱状图宽度
+			}, {
+				name: '实际产量',
+				type: 'bar',
+				data: yRdata,
+				itemStyle: {//设置柱状图上面的数字显示格式
+					normal: {
+						label: {
+							show: true,
+							position: 'top',
+							formatter: '{c}'
+						}
+					}
+				},
+				barWidth: 30,//设置柱状图宽度
+			}]
+		};
+		myChart.setOption(option);
+	});
+	
+</script>
+</head>
+<body>	
+	<div id="main" style="margin-left: 230px;">
+		<div class="clear"></div>
+		<!--右侧内容-->
+		<div class="right_content">
+			<div id="right_contentbox">
+				<!--内容标题-->
+				<div class="top_title">
+					<span><img src="${resRoot}/wct_web/images/ssxh/ssxh.png" /></span>
+					<font id="divText">
+							卷包烟机历史产量
+					</font>
+				</div>
+				<form  id="submitBu" action="${futRoot}/wct/pdQty/getHisQtyPagePath.htm?url=web_html/wct/pdStat/schStatHisQty" method="post">
+				<div class="middle_box">
+					<!--表单-->
+					<div class="gdcx_box">
+						<input id="orderByQtyVal" style="display:none" name="orderByQty" <#if (chooseParams.orderByQty??)>value="${chooseParams.orderByQty}"<#else>value=""</#if> />
+						<input id="orderByTimeVal" style="display:none" name="orderByTime" <#if (chooseParams.orderByTime??)>value="${chooseParams.orderByTime}"<#else>value=""</#if> />
+				      	<label><label class="">设备名称：</label>
+				            <select name="eqpName" id="chooseEqpCg" class="choose">
+				                <option value="" selected="selected">全部</option>
+				                    <#if ( ALLEQPS?size>0 )>
+									       <#list ALLEQPS as eqp>
+					                 		    <option <#if (chooseParams.eqpName?? && chooseParams.eqpName==eqp.id)>selected="selected"</#if> value="${eqp.id}">${eqp.equipmentName}</option>
+									       </#list>
+									</#if>
+							</select> 
+							</label>
+				        	
+				            <label><label class="jihao">班次：</label>
+				            <select name="shiftName" id="chooseShift" class="choose">
+				            <option value="" selected="selected">全部</option>
+					                <#if ( SHIFT0001?size>0 )>
+									       <#list SHIFT0001 as shift>
+					                 		    <option <#if (chooseParams.shiftName?? && chooseParams.shiftName==shift.code )>selected="selected"</#if> value="${shift.code}">${shift.name}</option>
+									       </#list>
+									</#if>
+							</select>
+							</label>
+				            <label><label class="jihao">班组：</label>
+				            <select name="teamName" id="chooseTeam" class="choose">
+				                <option value="" selected="selected">全部</option>
+				                    <#if ( TEAM0001?size>0 )>
+									       <#list TEAM0001 as team>
+					                 		    <option <#if (chooseParams.teamName?? && team.code==chooseParams.teamName)>selected="selected"</#if> value="${team.code}">${team.name}</option>
+									       </#list>
+									</#if>
+							</select> 
+							</label>
+							<button type="submit" class="gd_input" value=""  name="button" id="orderResultForm">查&nbsp;询</button> 
+				        </div>
+				        <div class="clear"></div>
+				        <div class="gdcx_box">
+				        <label><label class="">牌&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</label>
+				            <select name="mat" id="chooseEqp" class="choose">
+				                <option value="" selected="selected">全部</option>
+				               <#if ( MAT?size>0 )>
+								       <#list MAT as mat>
+				                 		    <option <#if (chooseParams.mat?? && chooseParams.mat==mat.id)>selected="selected"</#if> value="${mat.id}">${mat.name}</option>
+								       </#list>
+								</#if>
+				            </select> 
+				            </label>
+							<label>
+					          <label class="time">时间：</label>
+					          <input id='rstim' name="pDate" <#if (chooseParams.pDate??)>value="${chooseParams.pDate}"</#if> type="text" id="control_date" class="rili" size="10" maxlength="10" onClick="new Calendar().show(this);" readonly="readonly" />
+				            </label> 
+				            <label>
+				               <label class="zhi">至：</label>  
+				               <input id='retim' name="pEDate" <#if (chooseParams.pEDate??)>value="${chooseParams.pEDate}"</#if>type="text" id="control_date2" class="rili" size="10" maxlength="10" onClick="new Calendar().show(this);" readonly="readonly" /></label> 
+				            </label> 
+				          <button type="reset" onclick="javascript:clearForm(submitBu)" class="gd_input" >重&nbsp;置</button> 
+				        </div>
+				        <div class="clear"></div>
+				</div>
+				</form>
+				<!--表单-->
+				<div id="rollerDiv" class="bottom_content" >
+					
+				</div>
+			<div class="page">
+				<div class="orderDiv">
+					<button onclick="javaScript:orderBy(1)" class="gd_input"  name="button" id="orderResultForm">时间排序</button> 
+					<button onclick="javaScript:orderBy(2)" class="gd_input"   name="button" id="orderResultForm">产量排序</button> 
+				</div>
+               <div class="num-bar">
+				<a>共${wctPage.maxCount}条数据</a>
+				<#if (wctPage.index)!=1 >
+				    <a class="num" onclick="chengePage('submitBu','${futRoot}/wct/pdQty/getHisQtyPagePath.htm?url=web_html/wct/pdStat/schStatHisQty&index=${wctPage.index-1}')">上一页</a>
+				<#else>
+				    <a class="num" >上一页</a>  
+				</#if>
+				<a>${wctPage.index}/${wctPage.maxPage}</a>
+				<#if (wctPage.index) < (wctPage.maxPage) >
+				    <a class="num"  onclick="chengePage('submitBu','${futRoot}/wct/pdQty/getHisQtyPagePath.htm?url=web_html/wct/pdStat/schStatHisQty&index=${wctPage.index+1}')">下一页</a>
+				<#else>
+				    <a class="num" >下一页</a>
+				</#if>
+              </div>
+        </div>
+	</div>
+</body>
+</html>

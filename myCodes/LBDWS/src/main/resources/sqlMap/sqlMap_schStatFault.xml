@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="sch_stat_fault">
+<!-- 说明：故障信息统计  -->
+  
+	<sql id="queryStartWorkOrderFaul">
+	   <![CDATA[  
+		   SELECT
+				e.EQUIPMENT_CODE as eqp,
+				ou.ID as outId,
+			    fault.ID as faultId,
+				fault.NAME as faultName,
+				wo.DATE_
+		   FROM
+				SCH_WORKORDER wo
+				left join SCH_STAT_OUTPUT ou on wo.ID=ou.OID 
+				left join SCH_STAT_FAULT fault on ou.ID=fault.OID 
+				left join MD_EQUIPMENT e on wo.EQP=e.ID 
+		   WHERE
+		        wo.del=0  and wo.sts=2
+				and ou.ID is not null order by wo.DATE_ desc 
+	     ]]>
+	</sql>
+	
+	<sql id="insertSchStatFault">
+	   <![CDATA[  
+			INSERT INTO SCH_STAT_FAULT 
+			    (id,oid,name,time,times,flag)
+			VALUES
+				(:id,:oid,:name,:time,:times,:flag)
+	     ]]>
+	</sql>
+	
+	<sql id="updateSchStatFault">
+	   <![CDATA[  
+			update sch_stat_fault set time=:time,times=:times where id=:id
+	     ]]>
+	</sql>
+	
+	
+	<sql id="querySchStatFault">
+	   <![CDATA[  
+			select * From sch_stat_fault where name=:name and oid=:oid
+	     ]]>
+	</sql>
+	
+</sqlMap>
+
+
+

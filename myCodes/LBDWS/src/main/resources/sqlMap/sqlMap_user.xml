@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="user">
+    
+  
+    <!-- 查询所有用户 -->
+    <sql id="queryUserByAll">
+        <![CDATA[
+           select * from sys_user
+        ]]>
+    </sql>
+    
+    
+    
+    
+</sqlMap>
+
+
+

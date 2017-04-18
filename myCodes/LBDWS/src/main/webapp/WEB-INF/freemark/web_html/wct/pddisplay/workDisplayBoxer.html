@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>封箱机工单</title>
+<link href="${resRoot}/wct_web/css/pddisplay/gddd.css" rel="stylesheet" type="text/css" />
+<link href="${resRoot}/wct_web/css/pddisplay/gdxx.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+<!--工单调度-->
+<link href="${resRoot}/wct_web/css/pddisplay/left_nav.css" rel="stylesheet" type="text/css" />
+<!--left_nav-->
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/jcDate.css" media="all" />
+<!--日期-->
+<!--nav-->
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+
+<!--left_nav-->
+<script src='${resRoot}/wct_web/js/pddisplay/lnav_index.js'></script>
+<script>
+  $(function(){
+	  //运行
+	  $("input[name='buttonRun']").click(function(){
+		  //获取工单ID
+		  var id=$("input[name='radio']:checked").val();
+		  var sts=$("input[name='radio']:checked").attr("status");
+		  var stim = $("#"+id+"stim").val();//班次开始时间
+		  var etim = $("#"+id+"etim").val();//班次结束时间
+		  var now = new Date().format("yyyy-MM-dd hh:mm:ss");//当前系统时间
+		  if(stim<=now && etim >=now){
+			  if(sts==2 || sts==4){
+				  alert("提示：工单已启动或完成状态不能运行！");
+				  return false;
+			  }
+			  var url="${futRoot}/wct/pddisplay/boxerRunWorkOrder.htm?url=web_html/wct/pddisplay/workDisplayBoxer&id="+id;
+			  $("#submitForm").attr("action",url).submit();
+		  }else{
+				alert("不是当前班次，无法操作！");  
+		  }
+	  });
+	  
+	  //完成
+	  $("input[name='buttonEnd']").click(function(){
+		  //获取工单ID
+		  var id=$("input[name='radio']:checked").val();
+		  var sts=$("input[name='radio']:checked").attr("status");
+		  if(sts==1 || sts==4){
+			  alert("提示：工单下发或已完成状态不能运行工单！");
+			  return false;
+		  }
+		  var url="${futRoot}/wct/pddisplay/boxerFinishWorkOrder.htm?url=web_html/wct/pddisplay/workDisplayBoxer&id="+id;
+		  $("#submitForm").attr("action",url).submit();
+	  });
+	  //班内换牌
+	  $("input[name='buttonChange']").click(function(){
+		  //获取工单ID
+		  var id=$("input[name='radio']:checked").val();
+		  var sts=$("input[name='radio']:checked").attr("status");
+		  var stim = $("#"+id+"stim").val();//班次开始时间
+		  var etim = $("#"+id+"etim").val();//班次结束时间
+		  var now = new Date().format("yyyy-MM-dd hh:mm:ss");//当前系统时间
+		  if(stim<=now && etim >=now){
+			  if(sts==1 || sts==4){
+				  alert("提示：工单下发或已完成状态不能运行工单！");
+				  return false;
+			  }
+			  var url="${futRoot}/wct/pddisplay/boxerChangeWorkOrder.htm?url=web_html/wct/pddisplay/workDisplayBoxer&id="+id;
+			  $("#submitForm").attr("action",url).submit();
+		  }else{
+				alert("不是当前班次，无法操作！");  
+		  }  
+	  });
+	  
+  });
+</script>
+</head>
+<body>
+<form id="submitForm" action="" method="post">
+			<div class="right_content">
+				<div id="right_contentbox">
+					<div class="top_title">
+						<span><img src="${resRoot}/wct_web/images/icon/gddd.png" /></span>
+						                  封箱机工单                 
+					</div>
+					<div class="middle_box">
+						<div class="gdcx_box">
+							<label class="equcode2">工单状态：</label>
+							<a href="#" class="yunxing">
+						         <span><img src="${resRoot}/wct_web/images/icon/xf.png" /></span><i>下发</i>
+						    </a>
+						    <a href="#" class="yunxing">
+						        <span><img  src="${resRoot}/wct_web/images/icon/yx.png" /></span><i>运行</i>
+						    </a> 
+							<a href="#" class="yunxing">
+							     <span><img src="${resRoot}/wct_web/images/icon/zt.png" /></span><i>暂停</i>
+							</a>
+							<a href="#" class="yunxing">
+							     <span><img src="${resRoot}/wct_web/images/icon/wc.png" /></span><i>完成</i>
+							</a>
+							<input type="button" class="gd_input" value="运&nbsp;行" name="buttonRun" /> 
+							<input type="button" class="gd_input" value="完&nbsp;成" name="buttonEnd" />
+							<!-- <input type="button" class="gd_input" value="班内&nbsp;换牌" name="buttonChange" /> -->
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="bottom_content">
+						<table id="table" cellspacing="0" border="0">
+							<tr>
+								<th>单选</th>
+								<th>工单号</th>
+								<th>设备</th>
+								<th>班次</th>
+								<th>班组</th>
+								<th>牌号</th>
+								<th>状态</th>
+								<th>日期</th>
+							</tr>
+							<#if (pdList?size>0) >
+							    <#list pdList as pd>
+								    <tr 
+									    <#if pd.sts==2>
+									       style="background-color: #ff6b79;"
+									    <#elseif pd.sts==4>
+									       style="background-color: #a2ce87;"
+									    </#if>
+								    >
+										<td width="90px;">
+										   <input value="${pd.id?if_exists}" status="${pd.sts?if_exists}"  type="radio" name="radio" class="radiostyle" />
+										</td>
+										<td width="180px;">${pd.code}</td>
+										<td>${pd.eqmName}</td>
+										<td>${pd.shiftName}</td>
+										<td>${pd.teamName}</td>
+										<td>${pd.matName}</td>
+										<td>
+										    <#if pd.sts==0 || pd.sts==1 >
+										                    下发
+										    <#elseif pd.sts==2>
+										                    运行 
+										    <#elseif pd.sts==4>
+										                     完成
+										    </#if>
+										</td>
+										<td>${pd.date_}<input type="text" value="${pd.stim?if_exists}" id="${pd.id}stim"/><input type="hidden" value="${pd.etim?if_exists}" id="${pd.id}etim"/></td>
+							        </tr>
+							    </#list>
+							</#if>
+						</table>
+					</div>
+					
+					<div class="page">
+                        <div class="num-bar">
+                        	<a>共${wctPage.maxCount}条数据</a>
+                        	<#if (wctPage.index)!=1 >
+                        	    <a class="num" href="gotoWorkDisplayBoxer.htm?url=web_html/wct/pddisplay/workDisplayBoxer&index=${wctPage.index-1}">上一页</a> 
+                        	<#else>
+                        	    <a class="num" >上一页</a>
+                        	</#if>
+                            <a>${wctPage.index}/${wctPage.maxPage}</a>
+                            <#if (wctPage.index) < (wctPage.maxPage) >
+                        	   <a class="num" href="gotoWorkDisplayBoxer.htm?url=web_html/wct/pddisplay/workDisplayBoxer&index=${wctPage.index+1}">下一页</a> 
+                        	<#else>
+                        	    <a class="num" >下一页</a>
+                        	</#if>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		<!-- 中部end -->
+</form>
+</body>
+</html>

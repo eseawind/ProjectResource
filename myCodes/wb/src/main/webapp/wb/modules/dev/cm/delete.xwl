@@ -1,0 +1,1 @@
+{"title":"删除","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.Controls.deleteControls","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

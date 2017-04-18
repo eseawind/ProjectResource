@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>备品备件-卷烟机</title>
+<link href="${resRoot}/wct_web/css/pddisplay/sblbgl.css" rel="stylesheet" type="text/css"/><!--工单信息-->
+<!--工单调度-->
+<link href="${resRoot}/wct_web/css/pddisplay/left_nav.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/modal.css" />
+<!--left_nav-->
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/jcDate.css" media="all" />
+<!--nav-->
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<!--left_nav-->
+<script src='${resRoot}/wct_web/js/pddisplay/lnav_index.js' ></script>
+
+<script type="text/javascript">
+	$(function(){
+		//验证父列表是否有标题，如果没有追加标题
+	   	var str=$('.ztitle', window.parent.document).text();
+		if(str==""){
+			$('#addSpBlurValue', window.parent.document).append("<tr> <td width='200' class='ztitle'>名称</td> <td width='200' class='ztitle'>型号</td> <td width='150' class='ztitle'>更换数量</td> <td width='150' class='ztitle'>操作</td> </tr>"); 
+		}  
+	})
+	//分页
+	function chengPage(url){
+		$("#submitButton").attr("action",url).submit();
+	}
+	
+	//鼠标失去焦点,向父页列表追加数据
+	function addSpBlur(name,type,ind,id){
+		var num=$(".inputTextval"+ind).val();
+		if(num.trim()!="" && !isNaN(num.trim()) ){
+			$('.trf'+id, window.parent.document).remove();//清空相同class值，添加新值
+			$('#addSpBlurValue', window.parent.document).append("<tr class='trf"+id+"'><td>"+name+"</td><td>"+type+"</td><td>"+num+"</td><td style='color:red;' onclick='removeTr(\""+id+"\")'>删除<input class='sparePartsByids' type='hidden' value='"+id+"#"+num+"' /></td></tr>");
+		}
+		
+	};
+	
+	
+	
+</script>
+</head>
+<body>
+<form id="submitButton" action="" method="post">
+<span style="float: left;margin-left:40px;">
+<label>
+             名称：<input type="text" class="spTxt" name="name"  value="${cbean.name?if_exists}"/>
+</label>
+<label>
+     &nbsp;&nbsp;
+              型号：<input type="text" class="spTxt" name="type" value="${cbean.type?if_exists}"/>
+</label>
+</span>
+<span style="float: left;">
+<label>
+   <input type="submit" class="gd_input" value="查&nbsp;询" name="button" /> 						
+</label>
+<label>
+   <!-- <input type="button" class="gd_input" value="关&nbsp;闭" name="button"  onclick="$('#addDetailModal', window.parent.document).hide()" /> 	 -->					
+</label>
+</span>
+<table id="table" cellspacing="0" border="0">
+	<tr>
+	   <td width="360" class="ztitle">名称</td>  
+	   <td width="130" class="ztitle">型号</td>
+	   <td width="130" class="ztitle">库存数量</td>   
+	   <td width="120" class="ztitle">更换数量</td>
+	</tr>
+	<#if (sparePartsList?size>0) >
+	    <#list sparePartsList as pd>
+		    <tr>
+				<td>${pd.name?if_exists}</td>
+				<td>${pd.type?if_exists}</td>
+				<td><font style="color:blue;font-weight: bold;">${pd.num?if_exists}</font> (${pd.unitName?if_exists})</td>
+				<td><input  type='text' name="inputTextName" class="inputTextval${pd_index}" onblur="addSpBlur('${pd.name?if_exists}','${pd.type?if_exists}','${pd_index}','${pd.id?if_exists}')" style='width:220px;height:30px;'  /></td>
+		    </tr>
+		    </#list>
+		</#if>
+	</table>
+</div>
+<div class="page">
+    <div class="num-bar">
+    	<a>共${wctPage.maxCount}条数据</a>
+    	<#if (wctPage.index)!=1 >
+    	    <a class="num" onclick="chengPage('gotoEqpManagerRolerSpareParts.htm?url=web_html/wct/eqpManager/maintain/rollerSpareParts&index=${wctPage.index-1}')">上一页</a> 
+    	<#else>
+    	    <a class="num" >上一页</a>
+    	</#if>
+        <a>${wctPage.index}/${wctPage.maxPage}</a>
+        <#if (wctPage.index) < (wctPage.maxPage) >
+    	   <a class="num" onclick="chengPage('gotoEqpManagerRolerSpareParts.htm?url=web_html/wct/eqpManager/maintain/rollerSpareParts&index=${wctPage.index+1}')">下一页</a> 
+    	<#else>
+    	    <a class="num" >下一页</a>
+    	</#if>
+    </div>
+</div>
+</form>
+</body>
+</html>

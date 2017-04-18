@@ -1,0 +1,1 @@
+{"title":"立即注册","inframe":false,"hidden":false,"roles":{},"pageLink":"","children":[{"configs":{"serverMethod":"com.wb.interact.Install.register","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

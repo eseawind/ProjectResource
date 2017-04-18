@@ -1,0 +1,1 @@
+{"inframe":false,"title":"获取库表树","hidden":false,"roles":{"demo":1},"children":[{"configs":{"serverMethod":"com.wb.interact.DBE.getTree","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

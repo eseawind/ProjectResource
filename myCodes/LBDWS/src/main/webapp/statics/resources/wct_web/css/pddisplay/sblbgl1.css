@@ -1,0 +1,82 @@
+@charset "utf-8";
+/* CSS Document */
+/* reset通用 */
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0; font-family:"microsoft yahei", "宋体"; }
+header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn{font-style:normal;}
+[hidefocus],summary{outline:0;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%; font-weight:normal}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+q:before,q:after{content:none;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{cursor:pointer;}
+del,ins,u,s,a,a:hover{text-decoration:none;}
+a{color:#000;}
+
+/* 避免因子元素浮动而导致的父元素高度缺失能问题 */
+.cl:after { content:"."; display:block; height:0; clear:both; visibility:hidden; } .cl { zoom:1; }
+.clearfix::before, .clearfix::after {
+  clear:both;
+  content:" ";
+  display:block;
+}
+.clear {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+/*--right--*/
+.right_content{width:1136px;height:673px;margin:0 auto; overflow-y:auto; overflow-x:hidden;}
+#right_contentbox{ margin:0 auto; }
+/*--标题--*/
+.right_content .top_title{background:#53d1e2;line-height:44px; color:#fff; font-size:30px; padding-left:40px;}
+.top_title span{width:33px; height:33px; float: left; display: block; margin-top:5px; margin-right:5px;}
+/*内容*/
+.bottom_content{width:95%; margin:0 auto;}
+.jyj_box .djan{border:#96c85b 1px solid; width:20px; height:20px;}
+
+/* 点击 */
+.dj_jyj{margin-top:26px;}
+.dj_jyj .jyj_box{width:180px; float:left;}
+.jihao{text-align:center; line-height:30px; font-size:24px; padding-left:10px; }
+/* 下拉框 */
+.jihao1{text-align:center; float:left; line-height:30px; font-size:24px; padding-left:10px; }
+select{display: none;}
+.select_box{width: 202px; float:left; background:#f4f8ff;line-height: 30px; font-size:18px;color:#afaeae;}
+.select_showbox{height:30px;padding-left: 5px;background:url(../images/gdxx/icon18.jpg) no-repeat 170px 0;line-height:30px; border:#afaeae 1px solid;}
+.select_option{border: none;border-top: none;display: none;  position:absolute; background:#f4f8ff;}
+.select_option li{padding-left: 5px; }
+.select_option li.selected{width:198px;}
+.select_option li.hover{ color: #8ec44e;}
+/* 按钮 */
+.tel_button{width:130px; height:37px; background:#a3cf70; border-radius:4px; display:block; color:#fff; text-align:center; line-height:37px; margin-left:105px; float:left;}
+.tel_button:hover{color:#fff;}
+.tel_button1{width:130px; height:37px; background:#a3cf70; border-radius:4px; display:block; color:#fff; text-align:center; line-height:37px; float:right;}
+.tel_button1:hover{color:#fff;}
+/*表格*/
+.big_table{border:#bdbebe 1px solid; margin-top:18px; font-size:14px;}
+.big_table tr{line-height:30px; border:#bdbebe 1px solid; height:30px; text-align:center;}
+
+
+.sb_slan{width:103px; height:30px; background:#ddb800; border-radius:4px; display:block; text-align:center; color:#fff; float:right; margin-bottom:20px;margin-right: 20px;}
+.sb_slan1{width:103px; height:30px; background:#a5d074; border-radius:4px; display:block; text-align:center; color:#fff; float:right; margin-bottom:20px;margin-right: 20px;}
+.small_table tr{border:none;text-align: left}
+.textTd{
+	padding-right: 20px;
+	text-align: right;
+}
+/*troubleInfo and change spareParts info css*/
+.tdText font{
+	font-size: 14px;
+	margin-left: 100px;
+}

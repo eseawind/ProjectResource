@@ -1,0 +1,1 @@
+{"title":"百度链接","inframe":true,"hidden":false,"roles":{"demo":1},"pageLink":"{url:'https://www.baidu.com', method: 'get', mask: false}","children":[{"configs":{"description":"请查看模块属性的链接配置项","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

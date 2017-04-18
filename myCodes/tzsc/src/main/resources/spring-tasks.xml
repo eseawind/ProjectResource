@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:c="http://www.springframework.org/schema/c" xmlns:cache="http://www.springframework.org/schema/cache" xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:lang="http://www.springframework.org/schema/lang" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p" xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<!-- 定时任务 -->
+	<!-- cron="*/10 * * * * ?"  十秒钟一次 -->
+	<!-- cron="0 9,19,24,29,39,49,54,59 * * * ?"  每小时的指定分钟数 -->
+	<bean id="dataHandler" class="com.shlanbao.tzsc.data.runtime.handler.DataHandler"></bean>
+	<bean id="docfileRemove" class="com.shlanbao.tzsc.pms.file.docfile.service.impl.TimeFileDelUrl"></bean>
+	<bean id="eqmLubricantPlanCreate" class="com.shlanbao.tzsc.pms.equ.lubricate.runTime.EqmLubricantPlanCreate"></bean>
+ 	<bean id="dataAutomaticShift" class="com.shlanbao.tzsc.data.runtime.handler.AutomaticShift"></bean>
+ 	<bean id="readAndWriteXML" class="com.shlanbao.tzsc.base.interceptor.QualityManagementMESInterface"></bean>
+ <!-- 十分钟保存一次实时数据   
+ 	根据对车间实际作息时间  
+ 	通常是正点或半点换班  
+ 	所以临界换班前多保存一次 
+ 	避免数据丢失 -->
+ 	<!-- 测试阶段 30一次   后期 使用   cron="0 9,19,24,29,39,49,54,59 * * * ?" -->
+	<!-- 说明  由于故障信息非项目主要关注对象，其优先级可低于生产数据，其保存频率可为10~15分钟一次 -->
+	<!-- 测试阶段可注释以下节点 -->
+	
+ 	 <task:scheduled-tasks>
+ 	 
+		<task:scheduled ref="dataHandler" method="saveAllData" cron="*/30 * * * * ?" /> 
+ 	 	
+ 	 	<task:scheduled ref="dataHandler" method="saveAllErrorData" cron="0 0/15 * * * ?" />
+ 	 
+ 	 	<task:scheduled ref="dataAutomaticShift" method="updateShiftData" cron="*/58 * * * * ?" />
+		<!-- 文件删除定时删除 -->
+ 	 	<task:scheduled ref="docfileRemove" method="removeFileUrl" cron="59 59 23 * * ?" />  
+ 	 	<!-- 定时生润滑计划,每小时检查一次   
+ 	 	<task:scheduled ref="eqmLubricantPlanCreate" method="createLubriPlan" cron="*/30 * * * * ?" />
+ 	 	-->
+ 	 	<!-- <task:scheduled ref="eqmLubricantPlanCreate" method="createLubriPlan" cron="0 40 * * * ?" /> -->
+	    <!-- MES接口定时器，在规定时间内，扫描指定方法  -->
+	   <task:scheduled ref="readAndWriteXML" method="ReadAndWriteXML" cron="*/50 * * * * ?" />
+	   
+	</task:scheduled-tasks>
+
+	
+
+</beans>
+
+
+ 

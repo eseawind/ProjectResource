@@ -1,0 +1,1 @@
+{"inframe":false,"title":"下载Blob","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.DBE.downloadBlob","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

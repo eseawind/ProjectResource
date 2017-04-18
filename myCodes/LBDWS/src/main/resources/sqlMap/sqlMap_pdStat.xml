@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="pdStat">
+
+	<!-- 查询辅料实时消耗 -->
+	<sql id="queryRealConsumeInfo">
+        <![CDATA[
+       SELECT 
+			d.equipment_name as eqpName,
+			h.name as shiftName,
+			j.name as teamName,
+			d.equipment_code as eqpCode,
+			e.name as unit,
+			i.name as matName,
+			a.qty as realQty,
+			k.val as stdQty,
+			l.code as matType,
+			l.name as matTypeName,
+			m.qty as nowQty
+			from SCH_STAT_INPUT a LEFT JOIN SCH_STAT_OUTPUT b ON a.OUT_ID=b.id
+			LEFT JOIN SCH_WORKORDER c on b.oid=c.id
+			LEFT JOIN MD_EQUIPMENT d ON c.eqp=d.id
+			LEFT JOIN md_unit e on e.id=a.unit
+			LEFT JOIN SCH_CON_STD f on f.prod=c.mat and f.mat=a.mat
+			LEFT JOIN MD_TEAM j ON c.team=j.id
+			LEFT JOIN MD_SHIFT h on h.id=c.shift
+			LEFT JOIN MD_MAT i on i.id=a.mat
+			LEFT JOIN SCH_CON_STD k on k.prod=c.mat and k.mat=a.mat
+			LEFT JOIN MD_MAT_TYPE l ON i.tid=l.id
+			LEFT JOIN SCH_STAT_OUTPUT m on c.id=m.oid
+			where c.sts='2' and SYSDATE>c.STIM AND SYSDATE<c.ETIM
+			<#if orderType?exists && orderType !="" >and c.type=:orderType</#if>
+			ORDER BY cast(eqpCode as int) asc,cast(h.code as int) asc
+        ]]>
+	</sql>
+	
+	
+	
+	<!-- 查询辅料历史消耗 -->
+	<sql id="queryHisConsumeInfo">
+        <![CDATA[
+       SELECT 
+			d.equipment_name as eqpName,
+			h.name as shiftName,
+			j.name as teamName,
+			d.equipment_code as eqpCode,
+			e.name as unit,
+			i.name as matName,
+			a.qty as realQty,
+			k.val as stdQty,
+			l.code as matType,
+			l.name as matTypeName,
+			m.qty as nowQty,
+			q.name as unitName,
+			to_char(c.date_,'yyyy-MM-dd') as pDate,
+			p.name as mat,
+			o.code as eqpCategory
+			from SCH_STAT_INPUT a LEFT JOIN SCH_STAT_OUTPUT b ON a.OUT_ID=b.id
+			LEFT JOIN SCH_WORKORDER c on b.oid=c.id
+			LEFT JOIN MD_EQUIPMENT d ON c.eqp=d.id
+			LEFT JOIN md_unit e on e.id=a.unit
+			LEFT JOIN SCH_CON_STD f on f.prod=c.mat and f.mat=a.mat
+			LEFT JOIN MD_TEAM j ON c.team=j.id
+			LEFT JOIN MD_SHIFT h on h.id=c.shift
+			LEFT JOIN MD_MAT i on i.id=a.mat
+			LEFT JOIN SCH_CON_STD k on k.prod=c.mat and k.mat=a.mat
+			LEFT JOIN MD_MAT_TYPE l ON i.tid=l.id
+			LEFT JOIN SCH_STAT_OUTPUT m on c.id=m.oid
+			LEFT JOIN MD_EQP_TYPE n on d.eqp_type_id=n.id 
+			LEFT JOIN MD_EQP_CATEGORY o on o.id=n.cid
+			LEFT JOIN MD_MAT p on p.id=c.mat
+			LEFT JOIN MD_UNIT q on q.id=m.unit
+			where c.sts='4'
+			<#if eqpCategory?exists && eqpCategory !="" >and o.code=:eqpCategory</#if>
+			<#if mat?exists && mat !="" >and c.mat=:mat</#if>
+			<#if shiftName?exists && shiftName !="" >and c.shift=:shiftName</#if>
+			<#if teamName?exists && teamName !="" >and c.team=:teamName</#if>
+			<#if pDate?exists && pDate !="" >and to_char(c.DATE_,'yyyy-MM-dd')>=:pDate</#if>
+			<#if pEDate?exists && pEDate !="" >and to_char(c.DATE_,'yyyy-MM-dd')<=:pEDate</#if>
+			ORDER BY cast(eqpCode as int) asc,cast(h.code as int) asc
+        ]]>
+	</sql>
+	
+	<!-- 查询实时产量（初始化数据） -->
+	<sql id="queryRealTimeQty">
+		<![CDATA[
+			SELECT 
+				e.equipment_code as eqpCode,
+				e.equipment_name as eqpName,c.name as shiftName,d.name as teamName,
+				a.qty as pqty,f.name as pUnit,b.qty as realQty,g.name as realUnit,
+				b.RUN_TIME as runTime,h.name as runUnit,i.name as mat
+				from 
+				SCH_WORKORDER a
+				LEFT JOIN SCH_STAT_OUTPUT b on a.id=b.oid
+				LEFT JOIN MD_SHIFT c ON a.shift=c.id
+				LEFT JOIN MD_TEAM d on a.team=d.id
+				LEFT JOIN MD_EQUIPMENT e on e.id=a.eqp
+				LEFT JOIN MD_UNIT f on a.unit=f.id
+				LEFT JOIN MD_UNIT g on g.id=b.unit
+				LEFT JOIN MD_UNIT h on h.id=b.time_unit
+				LEFT JOIN MD_MAT i on i.id=a.mat 
+				where a.sts='2' and SYSDATE>a.STIM AND SYSDATE<a.ETIM 
+				<#if orderType?exists && orderType!=""> and a.type=:orderType</#if>
+				<#if orderDesc?exists && orderDesc!=""> order by realQty desc </#if>
+				<#if orderAsc?exists && orderAsc!=""> order by realQty asc </#if>
+				<#if orderAsc=="" && orderDesc==""> order by cast(eqpCode as int) </#if>
+		]]>
+	</sql>
+	
+	
+	<!-- 查询实时剔除（初始化数据） -->
+	<sql id="queryRealTimeBadQty">
+		<![CDATA[
+			SELECT 
+				e.equipment_code as eqpCode,
+				e.equipment_name as eqpName,c.name as shiftName,d.name as teamName,
+				a.qty as pqty,f.name as pUnit,b.qty as realQty,g.name as realUnit,
+				b.RUN_TIME as runTime,h.name as runUnit,i.name as mat,b.BAD_QTY as badQty
+				from 
+				SCH_WORKORDER a
+				LEFT JOIN SCH_STAT_OUTPUT b on a.id=b.oid
+				LEFT JOIN MD_SHIFT c ON a.shift=c.id
+				LEFT JOIN MD_TEAM d on a.team=d.id
+				LEFT JOIN MD_EQUIPMENT e on e.id=a.eqp
+				LEFT JOIN MD_UNIT f on a.unit=f.id
+				LEFT JOIN MD_UNIT g on g.id=b.unit
+				LEFT JOIN MD_UNIT h on h.id=b.time_unit
+				LEFT JOIN MD_MAT i on i.id=a.mat 
+				where a.sts='2' and SYSDATE>a.STIM AND SYSDATE<a.ETIM
+				<#if orderType?exists && orderType!=""> and a.type=:orderType</#if>
+				<#if orderDesc?exists && orderDesc!=""> order by badQty desc </#if>
+				<#if orderAsc?exists && orderAsc!=""> order by badQty asc </#if>
+				<#if orderAsc=="" && orderDesc==""> order by cast(eqpCode as int) </#if>
+		]]>
+	</sql>
+	
+	<sql id="queryHisQty">
+		<![CDATA[
+			SELECT 
+				e.equipment_code as eqpCode,
+				e.equipment_name as eqpName,c.name as shiftName,d.name as teamName,
+				a.qty as pqty,f.name as pUnit,nvl(b.qty,0.0) as realQty,g.name as realUnit,
+			  	i.name as mat,to_char(a.DATE_,'yyyy-MM-dd') as pdate
+				from 
+				SCH_WORKORDER a
+				LEFT JOIN SCH_STAT_OUTPUT b on a.id=b.oid
+				LEFT JOIN MD_SHIFT c ON a.shift=c.id
+				LEFT JOIN MD_TEAM d on a.team=d.id
+				LEFT JOIN MD_EQUIPMENT e on e.id=a.eqp
+				LEFT JOIN MD_UNIT f on a.unit=f.id
+				LEFT JOIN MD_UNIT g on g.id=b.unit
+				LEFT JOIN MD_UNIT h on h.id=b.time_unit
+				LEFT JOIN MD_MAT i on i.id=a.mat 
+				where a.sts='4'
+				<#if eqpName?exists && eqpName !="" >and a.eqp=:eqpName</#if>
+				<#if mat?exists && mat !="" >and a.mat=:mat</#if>
+				<#if shiftName?exists && shiftName !="" >and a.shift=:shiftName</#if>
+				<#if teamName?exists && teamName !="" >and a.team=:teamName</#if>
+				<#if pDate?exists && pDate !="" >and to_char(a.DATE_,'yyyy-MM-dd')>=:pDate</#if>
+				<#if pEDate?exists && pEDate !="" >and to_char(a.DATE_,'yyyy-MM-dd')<=:pEDate</#if>
+				<#if orderByQty?exists && orderByQty!=""> order by realQty desc </#if>
+				<#if orderByTime?exists && orderByTime!=""> order by a.DATE_ desc </#if>
+				<#if orderByQty=="" && orderByTime==""> order by a.DATE_ desc </#if>
+		]]>
+	</sql>
+	<!-- 历史剔除量查询 -->
+	<sql id="queryHisBadQty">
+		<![CDATA[
+			SELECT 
+				e.equipment_code as eqpCode,
+				e.equipment_name as eqpName,c.name as shiftName,d.name as teamName,
+				a.qty as pqty,f.name as pUnit,b.qty as realQty,g.name as realUnit,
+			  	i.name as mat,to_char(a.DATE_,'yyyy-MM-dd') as pdate,b.BAD_QTY as realBadQty
+				from 
+				SCH_WORKORDER a
+				LEFT JOIN SCH_STAT_OUTPUT b on a.id=b.oid
+				LEFT JOIN MD_SHIFT c ON a.shift=c.id
+				LEFT JOIN MD_TEAM d on a.team=d.id
+				LEFT JOIN MD_EQUIPMENT e on e.id=a.eqp
+				LEFT JOIN MD_UNIT f on a.unit=f.id
+				LEFT JOIN MD_UNIT g on g.id=b.unit
+				LEFT JOIN MD_UNIT h on h.id=b.time_unit
+				LEFT JOIN MD_MAT i on i.id=a.mat 
+				where a.sts='4'
+				<#if eqpName?exists && eqpName !="" >and a.eqp=:eqpName</#if>
+				<#if mat?exists && mat !="" >and a.mat=:mat</#if>
+				<#if shiftName?exists && shiftName !="" >and a.shift=:shiftName</#if>
+				<#if teamName?exists && teamName !="" >and a.team=:teamName</#if>
+				<#if pDate?exists && pDate !="" >and to_char(a.DATE_,'yyyy-MM-dd')>=:pDate</#if>
+				<#if pEDate?exists && pEDate !="" >and to_char(a.DATE_,'yyyy-MM-dd')<=:pEDate</#if>
+				<#if orderByQty?exists && orderByQty!=""> order by realQty desc </#if>
+				<#if orderBadQty?exists && orderBadQty!=""> order by realBadQty desc </#if>
+				<#if orderByQty=="" && orderBadQty==""> order by a.DATE_ desc </#if>
+		]]>
+	</sql>
+	
+	<!-- 查询当前运行的工单 -->
+	<sql id="queryNowRunOrder">
+		<![CDATA[
+		SELECT 
+			a.id,to_char(a.REAL_STIM,'yyyy-MM-dd hh24:mi:ss') as realStim,
+			b.EQUIPMENT_CODE as eqpcode,a."TYPE" as type,b.EQUIPMENT_NAME as eqp,a.CODE as code,
+			c.id as outId
+			from SCH_WORKORDER a
+			LEFT JOIN MD_EQUIPMENT b on a.EQP=b.id
+			Left join SCH_STAT_OUTPUT c on c.oid=a.id
+			WHERE a.del=0 and a.STS=2 
+			AND SYSDATE >a.STIM AND SYSDATE<a.ETIM
+			and b.EQUIPMENT_CODE=:eqpCode
+		]]>
+	</sql>
+	
+	<!-- 查询工单是否已经在生产实绩中有记录 -->
+	<sql id="isExistsOutPut">
+		<![CDATA[
+			SELECT id as outId from SCH_STAT_OUTPUT where  del='0' and OID=:orderId
+		]]>
+	</sql>
+	<!-- 删除已经存在的产出表数据 -->
+	<sql id="deleteOutPutByOrderId">
+			 <![CDATA[
+			 	DELETE SCH_STAT_OUTPUT where OID=:orderId
+			 ]]>
+	</sql>
+	
+	<!-- 根据工单查询产量单位 -->
+	<sql id="queryUnitByOrderId">
+		<![CDATA[
+			SELECT b.unit as unitId from  SCH_WORKORDER b where b.id=:orderId
+		]]>
+	</sql>
+	<!-- 保存sch_outPut表数据 -->
+	<sql id="saveOutPut">
+		<![CDATA[
+			INSERT INTO SCH_STAT_OUTPUT 
+			(ID, UNIT, OID, QTY, BAD_QTY, 
+			STIM, RUN_TIME, STOP_TIME, STOP_TIMES,
+			TIME_UNIT,IS_FEEDBACK,DEL) 
+			VALUES (
+				:outId,:unitId,:orderId,:qty,:badQty,
+				:stim,:runTime,:stopTime,:stopTimes,
+				:timeUnitId,:isFeedBack,:del
+			)
+		]]>
+	</sql>
+	
+	<!-- 根据工单id查询工单bom -->
+	<sql id="queryOrderBom">
+		<![CDATA[
+		SELECT 	a.unit as unitId,a.mat as matId,c.code as matType from SCH_WORKORDER_BOM a
+				LEFT JOIN MD_MAT b on a.mat=b.id
+				LEFT JOIN MD_MAT_TYPE c ON b.tid=c.id
+		where a.oid=:orderId and a.del=0
+		]]>	
+	</sql>
+	<!-- 保存初始化辅料消耗数据 -->
+	<sql id="saveInput">
+		<![CDATA[
+		INSERT INTO SCH_STAT_INPUT 
+		(ID, UNIT, OUT_ID, MAT, ORIGNAL_DATA, QTY)
+		values(
+		:id,:unitId,:outPutId,:matId,0,0
+		)
+		]]>
+	</sql>
+	<!-- 根据id更新产出表数据 -->
+	<sql id="updateOutPut">
+		<![CDATA[
+	    UPDATE SCH_STAT_OUTPUT 
+			SET 
+			QTY=:qty
+			<#if badQty?exists && badQty !="" >           ,BAD_QTY=:badQty </#if>
+			<#if runTime?exists && runTime !="" >         ,RUN_TIME=:runTime </#if>
+			<#if stopTime?exists && stopTime !="" >       ,STOP_TIME=:stopTime </#if>
+			<#if stopTimes?exists && stopTimes !="" >     ,STOP_TIMES=:stopTimes </#if>
+			 ,LAST_UPDATE_TIME=:nowDateTime
+			<#if dacQty?exists && dacQty !="" >           ,DACQTY=:dacQty </#if>
+	    where id=:dbOutputId
+		]]>
+	</sql>
+	<!-- 根据id更新辅料消耗 -->
+	<sql id="updateInput">
+		<![CDATA[
+			UPDATE SCH_STAT_INPUT SET QTY=:qty where id=:inputId
+		]]>
+	</sql>
+	
+	<!-- 根据工单查询当前设备code -->
+	<sql id="queryEqpCodeByOrder">
+		<![CDATA[
+			SELECT b.EQUIPMENT_CODE as eqpCode from 
+				SCH_WORKORDER a 
+				LEFT JOIN MD_EQUIPMENT b on a.EQP=b.id
+			where a.id=:orderId
+		]]>
+	</sql>
+	<!-- 根据产出表查询辅料消耗id和辅料类型 -->
+	<sql id="queryInputByOutId">
+		<![CDATA[
+			SELECT a.id as inputId,b.code as matType
+				from SCH_STAT_INPUT a
+				LEFT JOIN MD_MAT d on a.mat=d.id
+				LEFT JOIN MD_MAT_TYPE b on d.tid=b.id
+				LEFT JOIN SCH_STAT_OUTPUT c on c.id=a.out_id
+				where c.id=:outPutId
+		]]>
+		
+	
+	</sql>
+	<!-- 实时数据保存sql  start -->
+	<!-- 实时保存卷烟机数据 -->
+	<sql id="saveRollerRealTimeData">
+		<![CDATA[
+			INSERT INTO PRCSDATA_ROLLER(ID,EQPCODE,QTY,BAD_QTY,ROLLER_PAPER,
+										CONNECT_PAPER,FILTER_BAR,FAULTINFO,RUNTIME,STOPTIME,
+										STOPTIMES,STATE,CREATETIME,SPEED) 
+			values(
+				sys_guid(),:eqpid,:qty,:badQty,:jyzVal,
+				:sszVal,:lbVal,:faultInfo,:runTime,:stopTime,
+				:stopTimes,:online,:saveTime,:speed
+			)	
+		]]>
+	</sql>
+	
+	<!-- 实时保存包装机数据 -->
+	<sql id="savePackerTimeData">
+		<![CDATA[
+			INSERT INTO PRCSDATA_PACKAGE(ID,EQPCODE,QTY,BAD_QTY,SMALL_BOX_PAPER,
+										SMALL_BOX_FILM,STRIP_BOX_PAPER,STRIP_BOX_FILM,INNER_PAPER,FAULTINFO,
+										RUNTIME,STOPTIME,STOPTIMES,STATE,CREATETIME,SPEED) 
+			values(
+				sys_guid(),:eqpid,:qty,:badQty,:xhzVal,
+				:xhmVal,:thzVal,:thmVal,:nczVal,:faultInfo,
+				:runTime,:stopTime,:stopTimes,:online,:saveTime,:speed
+			)	
+		]]>
+	</sql>
+	<!-- 保存封箱机数据 -->
+	<sql id="saveBoxerRealTimeData">
+		<![CDATA[
+				INSERT INTO PRCSDATA_BOXER(ID,EQPCODE,QTY,BAD_QTY,FAULTINFO,CARTON,
+											RUNTIME,STOPTIME,STOPTIMES,STATE,CREATETIME,SPEED) 
+				values(
+					sys_guid(),:eqpid,:qty,:badQty,:faultInfo,:zxVal,
+					:runTime,:stopTime,:stopTimes,:online,:saveTime,:speed
+				)	
+			]]>
+	</sql>
+	<!-- 储烟机数据保存 -->
+	<sql id="saveCYRealTimeData">
+		<![CDATA[
+				INSERT INTO PRCSDATA_CONTAINER
+				(ID,EQPCODE,CONTAINER_RATE,FAULTINFO,
+				 RUNTIME,STOPTIME,STOPTIMES,STATE,CREATETIME,SPEED
+				 )VALUES
+				 (sys_guid(),:eqpid,:cyRate,:faultInfo,
+				  :runTime,:stopTime,:stopTimes,:online,:saveTime,:speed
+				)	
+			]]>
+	</sql>
+	<!-- 实时保存成型机数据 -->
+	<sql id="saveFilterRealTimeData">
+		<![CDATA[
+				INSERT INTO PRCSDATA_FILTER(ID,EQPCODE,QTY,BAD_QTY,SILK,GLYCERINUM,DISH_PAPER,FAULTINFO,
+											RUNTIME,STOPTIME,STOPTIMES,STATE,CREATETIME,SPEED) 
+				values(
+					sys_guid(),:eqpid,:qty,:badQty,:ssVal,:gyVal,:pzVal,:faultInfo,
+					:runTime,:stopTime,:stopTimes,:online,:saveTime,:speed
+				)	
+			]]>
+	</sql>
+	<!-- 实时保存发射机数据 -->
+	<sql id="saveLauncherData">
+		<![CDATA[
+			INSERT INTO PRCSDATA_LAUNCH(
+			ID,EQPCODE,
+			QTY1,QTY2,QTY3,QTY4,QTY5,QTY6,QTY7,QTY8,QTY9,QTY10,
+			SPEED1,SPEED2,SPEED3,SPEED4,SPEED5,SPEED6,SPEED7,SPEED8,SPEED9,SPEED10,
+			FAULTINFO,RUNTIME,STOPTIME,STOPTIMES,STATE,CREATETIME) 
+			values(
+				sys_guid(),:eqpid,
+				:qty0,:qty1,:qty2,:qty3,:qty4,:qty5,:qty6,:qty7,:qty8,:qty9,
+				:speed0,:speed1,:speed2,:speed3,:speed4,:speed5,:speed6,:speed7,:speed8,:speed9,
+				:faultInfo,:runTime,:stopTime,:stopTimes,:online,:saveTime
+			)	
+		]]>
+	</sql>
+	<!-- 保存提升机数据 -->
+	<sql id="saveConveyorRealTimeData">
+		<![CDATA[
+		INSERT INTO PRCSDATA_CONVEYOR(ID,STATE,QTY1,QTY2,
+										QTY3,QTY4,QTY5,QTY6,QTY7,
+										QTY8,QTY9,QTY10,QTY11,QTY12,
+										STATE1,STATE2,STATE3,STATE4,STATE5,
+										STATE6,STATE7,STATE8,STATE9,STATE10,STATE11,STATE12,
+										OUTQTY1,OUTQTY2,OUTQTY3,OUTQTY4,
+										OUTSTATE1,OUTSTATE2,OUTSTATE3,OUTSTATE4,
+										LTSTATE1,LTSTATE2,LTSTATE3,LTSTATE4,LTSTATE5,LTSTATE6,LTSTATE7,LTSTATE8,
+										CREATETIME) 
+			values(sys_guid(),:online,:qty1,:qty2,:qty3,:qty4,:qty5,:qty6,:qty7,:qty8,:qty9,:qty10,:qty11,:qty12,
+				   :state1,:state2,:state3,:state4,:state5,:state6,:state7,:state8,:state9,:state10,:state11,:state12,
+				   :outQty1,:outQty2,:outQty3,:outQty4,
+				   :outState1,:outState2,:outState3,:outState4,
+				   :ltState1,:ltState2,:ltState3,:ltState4,:ltState5,:ltState6,:ltState7,:ltState8,
+				   :saveTime
+			)	
+		]]>
+	</sql>
+	
+	<!-- 实时数据保存sql  end -->
+</sqlMap>

@@ -1,0 +1,1 @@
+{"inframe":false,"title":"下载二进制字段","hidden":false,"roles":{},"children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select BLOB_FIELD from WB_MISC where ID_FIELD={?ID_FIELD?}","type":"download","itemId":"dataprovider1"},"children":[],"expanded":false,"type":"dataprovider"}],"expanded":true,"type":"module"}],"pageLink":"","iconCls":""}

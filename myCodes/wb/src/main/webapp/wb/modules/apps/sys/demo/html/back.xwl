@@ -1,0 +1,1 @@
+{"title":"返回提交参数","inframe":false,"hidden":false,"roles":{"demo":1},"pageLink":"","children":[{"configs":{"serverScript":"app.send('你提交的值为：' + app.get('text1') + '和' + app.get('number1'));","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

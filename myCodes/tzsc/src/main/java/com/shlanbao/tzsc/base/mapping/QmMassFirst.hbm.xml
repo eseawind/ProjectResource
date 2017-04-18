@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.shlanbao.tzsc.base.mapping.QmMassFirst" table="QM_MASS_FIRST"   >
+        <id name="qmFirstId" type="java.lang.String">
+            <column name="QM_FIRST_ID" length="50" />
+            <generator class="uuid.hex" />
+        </id>
+        <many-to-one name="qmMassCheck" class="com.shlanbao.tzsc.base.mapping.QmMassCheck" fetch="select">
+            <column name="QM_CHECK_ID" length="50" />
+        </many-to-one>
+        <property name="addUserId" type="java.lang.String">
+            <column name="ADD_USER_ID" length="50" />
+        </property>
+        <property name="addUserName" type="java.lang.String">
+            <column name="ADD_USER_NAME" length="50" />
+        </property>
+        <property name="addUserTime" type="java.util.Date">
+            <column name="ADD_USER_TIME" length="23" />
+        </property>
+        <property name="modifyUserId" type="java.lang.String">
+            <column name="MODIFY_USER_ID" length="50" />
+        </property>
+        <property name="modifyTime" type="java.util.Date">
+            <column name="MODIFY_TIME" length="23" />
+        </property>
+        <property name="deleteUserId" type="java.lang.String">
+            <column name="DELETE_USER_ID" length="50" />
+        </property>
+        <property name="deleteUserTime" type="java.util.Date">
+            <column name="DELETE_TIME" length="23" />
+        </property>
+        <property name="isDelete" type="java.lang.String">
+            <column name="IS_DELETE" length="1" />
+        </property>
+        <property name="checkTime" type="java.lang.String">
+            <column name="CHECK_TIME" length="50" />
+        </property>
+        <property name="checkMatter" type="java.lang.String">
+            <column name="CHECK_MATTER" length="20" />
+        </property>
+        <property name="checkWeight" type="java.lang.String">
+            <column name="CHECK_WEIGHT" length="50" />
+        </property>
+        <property name="checkCondition" type="java.lang.String">
+            <column name="CHECK_CONDITION" length="20" />
+        </property>
+        <property name="checkStep" type="java.lang.String">
+            <column name="CHECK_STEP" length="20" />
+        </property>
+        <property name="checkType" type="java.lang.String">
+            <column name="CHECK_TYPE" length="10" />
+        </property>
+        <property name="failureNum" type="java.lang.Integer">
+            <column name="FAILURE_NUM" length="10" />
+        </property>
+        <property name="failureUom" type="java.lang.String">
+            <column name="FAILURE_UOM" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>

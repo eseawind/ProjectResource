@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+
+.yunxing{width:80px; margin-left:25px; text-align:center;display:block; float:left;}
+.yunxing span{padding-top:3px;display:block; float:left; padding-right:5px;}
+.yunxing i{padding-left:4px;display:block; float:left;}
+/* 数据表格 */
+#table {max-width:100%;	width:100%;	margin-bottom:14px;	color:#333; font-size:14px; 
+}
+#table th, #table td {border:#afaeae solid 1px;padding:6px 8px;text-align:center; height:50px; line-height:50px;}
+.bottom_content{margin:0 auto; margin-top:20px; margin-bottom:20px; width:100%; }
+
+/* 分页 */
+.page {	margin-bottom:16px;	height:30px;margin-right: 30px;
+}
+.page::before, .page::after { clear:both;  content:" "; display:block;}
+.page .num-bar {height:30px;float:right;font-size:12px;
+}
+.page .num-bar a {height:30px;line-height:30px;	display:block;
+float:left;	padding:0 10px;	color:#333;
+}
+.page .last_num{margin-left:20px;}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Virtual Keyboard Basic Demo</title>
+	<link href="css/jquery-ui.css" rel="stylesheet">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<link href="css/keyboard.css" rel="stylesheet">
+	<script src="js/jquery.keyboard.js"></script>
+	<script src="js/jquery.mousewheel.js"></script>
+	<style>
+		/*改版默认INPUT文本框样式*/
+		.keyboardBox input{background: #fff;/*声明背景改变原始默认图片背景*/
+							border-radius: 4px;/*声明圆角属性 注：在IE9一下这个属性基本无效*/
+							border: 1px solid #9B9B9B;/*声明边框颜色粗细*/
+							height: 20px;width: 250px;/*声明尺寸也可以不声明使用默认的尺寸*/
+							color:#555;/*声明INPUT文本框内文字颜色*/}
+							
+		.keyboardBox .keyboard2{background: #fff;
+							border-radius: 4px;
+							border: 1px solid #9B9B9B;
+							height: 20px;width: 250px;
+							color:#555;}
+	
+	</style>
+	<script>
+		$(function(){
+			//$('#keyboard').keyboard();
+			$("#keyboard").keyboard({
+				layout:"1234567890.",
+				customLayout: {
+					'default': [
+						"× 1 2 3 4 5 6 {bksp}",
+						"√ 7 8 9 0 . - {accept}"
+					]
+				}
+			});
+			$('.keyboard2').keyboard();
+			$('.keyboard3').keyboard();
+			
+		});
+	</script>
+</head>
+<body>
+	<div class="keyboardBox">
+		<input id="keyboard" type="text">
+		<br/>
+		<br/>
+		<br/>
+		<input  type="text" class="keyboard2">
+		<br/>
+		<br/>
+		<br/>
+				<br/>
+		<br/>
+		<br/>
+				<br/>
+		<br/>
+		<br/>
+				<br/>
+		<br/>
+		<br/>
+				<br/>
+		<br/>
+		<br/>		<br/>
+		<br/>
+		<br/>		<br/>
+		<br/>
+		<br/>		<br/>
+		<br/>
+		<br/>
+		<input class="keyboard3" type="text">
+	</div>
+</body>
+</html>

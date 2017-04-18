@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JQuery插件:alert、confirm、prompt对话框插件-Download by http://www.jb51.net</title>
+
+		
+		<!-- Dependencies -->
+		<script src="../jquery-extensions-master/jquery/jquery-1.11.0.js" type="text/javascript"></script>
+		<script src="jquery.ui.draggable.js" type="text/javascript"></script>
+		
+		<!-- Core files -->
+		<script src="jquery.alerts.js" type="text/javascript"></script>
+		<link href="jquery.alerts.css" rel="stylesheet" type="text/css" media="screen" />
+		
+		<!-- Example script -->
+		<script type="text/javascript">
+			
+			$(document).ready( function() {
+				
+				$("#alert_button").click( function() {
+					jAlert('提示文字', '标题');
+				});
+				
+				$("#confirm_button").click( function() {
+					jConfirm('提示?', '标题', function(r) {
+						alert(r);
+						if(r){
+							alert("okok");
+						}else{
+						
+						}
+					});
+				});
+				
+				$("#prompt_button").click( function() {
+					jPrompt('请输入:', '', '标题', function(r) {
+						if( r ) alert('You entered ' + r);
+					});
+				});
+				
+			});
+			
+		</script>
+		
+	</head>
+	
+
+				<input id="alert_button" type="button" value="Show Alert" />
+
+			
+				<input id="confirm_button" type="button" value="Show Confirm" />
+
+				<input id="prompt_button" type="button" value="Show Prompt" />
+			
+		
+
+</body>
+</html>

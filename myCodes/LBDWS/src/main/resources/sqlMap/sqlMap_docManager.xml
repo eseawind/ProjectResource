@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="docManager">
+	<!-- 查询系统文档-->
+   <sql id="getDocFiles">
+   	<![CDATA[
+   		SELECT 
+			a.id as id,b."NAME" as userName,a.FILENAME as fileName,
+			a.PID as pid,a.CREATE_USER as userId,to_char(a.CREATE_TIME,'yyyy-MM-dd') as createTime,
+			a.URL as fileUrl
+			from DOC_FILE a
+			LEFT JOIN SYS_USER b on a.CREATE_USER=b.id
+		WHERE a."TYPE"='2' and attr='0'
+		<#if stime?exists && stime!="">and to_char(a.CREATE_TIME,'yyyy-MM-dd') >=:stime</#if>
+		<#if etime?exists && etime!="">and to_char(a.CREATE_TIME,'yyyy-MM-dd') <=:etime</#if>
+		<#if fileName?exists && fileName!="">and a.FILENAME like '%'||:fileName||'%'</#if>
+   	]]>
+   </sql>
+    
+</sqlMap>
+
+
+

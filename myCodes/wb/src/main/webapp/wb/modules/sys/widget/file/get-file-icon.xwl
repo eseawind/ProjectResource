@@ -1,0 +1,1 @@
+{"inframe":false,"title":"获取文件图标","hidden":false,"roles":{"demo":1},"pageLink":"","children":[{"configs":{"serverMethod":"com.wb.interact.IDE.getFileIcon","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

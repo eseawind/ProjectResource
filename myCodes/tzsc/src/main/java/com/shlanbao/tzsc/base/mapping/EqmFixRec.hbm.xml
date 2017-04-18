@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.shlanbao.tzsc.base.mapping.EqmFixRec" table="EQM_FIX_REC">
+		<id name="id" type="java.lang.String">
+			<column name="id" length="50" />
+			<generator class="uuid.hex" />
+		</id>
+		<!-- <property name="shift_id" type="java.lang.String">
+			<column name="shift_id" />
+		</property> -->
+		<many-to-one name="shift_id" class="com.shlanbao.tzsc.base.mapping.MdShift" fetch="select">
+            <column name="shift_id" length="50" />
+        </many-to-one>
+		<!-- <property name="eqp_id" type="java.lang.String">
+			<column name="eqp_id" />
+		</property>
+		 -->
+		 <many-to-one name="eqp_id" class="com.shlanbao.tzsc.base.mapping.MdEquipment" fetch="select">
+            <column name="eqp_id" length="50" />
+        </many-to-one>
+		<property name="maintaiin_id" type="java.lang.String">
+			<column name="maintaiin_id" length="50" />
+		</property>
+		<property name="maintaiin_name" type="java.lang.String">
+			<column name="maintaiin_name" />
+		</property>
+		<property name="maintaiin_time" type="java.util.Date">
+			<column name="maintaiin_time" length="10" />
+		</property>
+		<property name="maintaiin_type" type="java.lang.Integer">
+			<column name="maintaiin_type" />
+		</property>
+		<property name="spare_parts_id" type="java.lang.String">
+			<column name="spare_parts_id" />
+		</property>
+		<property name="spare_parts_num" type="java.lang.Integer">
+			<column name="spare_parts_num" />
+		</property>
+		<property name="status" type="java.lang.Integer">
+			<column name="status" />
+		</property>
+		<property name="source" type="java.lang.String">
+			<column name="source" />
+		</property>
+		<property name="remark" type="java.lang.String">
+			<column name="remark" />
+		</property>
+		<property name="trouble_id" type="java.lang.String">
+			<column name="trouble_id" />
+		</property>
+		<property name="trouble_name" type="java.lang.String">
+			<column name="trouble_name" />
+		</property>
+		<property name="is_send" type="java.lang.String">
+			<column name="is_send" />
+		</property>
+		<property name="repair_time" type="java.util.Date">
+			<column name="repair_time" length="10" />
+		</property>
+		<property name="repair_name" type="java.lang.String">
+			<column name="repair_name" />
+		</property>
+		<property name="create_user_id" type="java.lang.String">
+			<column name="create_user_id" />
+		</property>
+		<property name="create_user_name" type="java.lang.String">
+			<column name="create_user_name" />
+		</property>
+		<property name="create_user_time" type="java.util.Date">
+			<column name="create_user_time" length="10" />
+		</property>
+		<property name="update_user_id" type="java.lang.String">
+			<column name="update_user_id" />
+		</property>
+		<property name="update_user_name" type="java.lang.String">
+			<column name="update_user_name" />
+		</property>
+		<property name="update_user_time" type="java.util.Date">
+			<column name="update_user_time" length="10" />
+		</property>
+		<property name="ask_date" type="java.util.Date">
+			<column name="ask_date" length="10" />
+		</property>
+		<property name="ask_userId" type="java.lang.String">
+			<column name="ask_userId" />
+		</property>
+	</class>
+</hibernate-mapping>

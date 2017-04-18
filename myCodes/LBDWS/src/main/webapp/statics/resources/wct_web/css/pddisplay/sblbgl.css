@@ -1,0 +1,92 @@
+@charset "utf-8";
+/* CSS Document */
+/* reset通用 */
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0; font-family:"microsoft yahei", "宋体"; }
+header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn{font-style:normal;}
+[hidefocus],summary{outline:0;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%; font-weight:normal}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+q:before,q:after{content:none;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{cursor:pointer;}
+del,ins,u,s,a,a:hover{text-decoration:none;}
+a,a:hover{color:#333;}
+
+/* 避免因子元素浮动而导致的父元素高度缺失能问题 */
+.cl:after { content:"."; display:block; height:0; clear:both; visibility:hidden; } .cl { zoom:1; }
+.clearfix::before, .clearfix::after {
+  clear:both;
+  content:" ";
+  display:block;
+}
+.clear {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+/* 数据表格 */
+#table {max-width:100%;	width:100%;	margin-bottom:14px;	color:#333; font-size:14px; 
+}
+#table th, #table td {border:#afaeae solid 1px;padding:6px 8px;text-align:center; height:40px; line-height:40px;}
+.bottom_content{margin:0 auto; margin-top:20px; margin-bottom:20px; width:100%; }
+
+/*--right--*/
+.right_content{width:1136px;height:673px;margin:0 auto; overflow-y:auto; overflow-x:hidden;}
+#right_contentbox{ margin:0 auto; }
+/*--标题--*/
+.right_content .top_title{background:#53d1e2;line-height:44px; color:#fff; font-size:30px; padding-left:40px;}
+.top_title span{width:33px; height:33px; float: left; display: block; margin-top:5px; margin-right:5px;}
+/*表格*/
+.bottom_content{width:100%; margin:0 auto;}
+.left_table{width:716px;height:600px;float:left; border-right:#c2c2c2 1px solid; text-align:center;}
+.left_table .xhtable{border:none; line-height:30px;}
+/*标题字号*/
+.left_table .xhtable .ztitle{height:50px;font-size:24px;}
+/*内容字号*/
+.left_table .xhtable .zcontect{font-size:18px; height:30px; line-height:30px;}
+
+.right_table{width:350px; float:right; margin-right:36px;}
+.right_table .sblbgl_input{width:350px; margin-top:30px;}
+.right_table .sblbgl_input1{width:350px; margin-top:60px;}
+.right_table .sblbgl_name{font-size:24px; margin-bottom:10px;}
+.right_table .name_text{width:350px; height:160px;}
+.name_text{font-size:18px;}
+/* 分页 */
+.page {	margin-bottom:46px;	height:30px;margin-right: 40px;
+}
+.page::before, .page::after { clear:both;  content:" "; display:block;}
+.page .num-bar {height:30px;float:right;font-size:12px;
+}
+.page .num-bar a {height:30px;line-height:30px;	display:block;
+float:left;	padding:0 10px;	color:#333;
+}
+.page .num-bar .num:hover {	background:#8ec44e;	color:#fff;	
+margin-right:2px;}
+
+.page .num-bar .num {width: 92px;height: 32px; line-height: 32px; margin-right: 2px; font-size: 18px; border-radius: 4px; color: #fff; background: #53d1e2; text-align: center; border: none;}
+
+.page a{font-size:18px;}
+.spTxt{
+	width:200px;
+	height: 30px;
+	margin-bottom:20px;
+}
+/*按钮*/
+.sblbgl_button{margin-top:64px;}
+.sblbgl_button .sblbgl_queren{width:87px; height:35px; border-radius:4px; background:#868685; color:#fff; display:block; float:left; font-size:20px; text-align:center; line-height:35px; margin-right:22px;}
+.sblbgl_button .sblbgl_queren1{width:130px; height:35px; border-radius:4px; background:#868685; color:#fff; display:block; float:left; font-size:20px; text-align:center; line-height:35px; margin-right:22px;}
+.sblbgl_button .sblbgl_queren2{width:87px; height:35px; border-radius:4px; background:#868685; color:#fff; display:block; float:left; font-size:20px; text-align:center; line-height:35px; }
+.sblbgl_button .sblbgl_queren:hover{width:87px; height:35px; border-radius:4px; background:#84d0ef; color:#fff; display:block; float:left; font-size:20px; text-align:center; line-height:35px; margin-right:22px;}
+.sblbgl_button .sblbgl_queren1:hover{width:130px; height:35px; border-radius:4px; background:#84d0ef; color:#fff; display:block; float:left; font-size:20px; text-align:center; line-height:35px; margin-right:22px;}
+.sblbgl_button .sblbgl_queren2:hover{width:87px; height:35px; border-radius:4px; background:#84d0ef; color:#fff; display:block; float:left; font-size:20px; text-align:center; line-height:35px; }

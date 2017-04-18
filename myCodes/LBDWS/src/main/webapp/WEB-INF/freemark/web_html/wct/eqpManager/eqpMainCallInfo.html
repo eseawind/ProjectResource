@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>维修呼叫</title>
+<link href="${resRoot}/wct_web/css/pddisplay/ssxh.css" rel="stylesheet"
+	type="text/css" />
+<!--覆盖样式-->
+<link href="${resRoot}/wct_web/css/pddisplay/hisSchStat.css" rel="stylesheet" type="text/css" />
+<link href="${resRoot}/wct_web/css/pddisplay/scthHisQty.css" rel="stylesheet" type="text/css" />
+<link href="${resRoot}/wct_web/css/pddisplay/eqmlb.css" rel="stylesheet" type="text/css"/>
+<link href="${resRoot}/wct_web/css/pddisplay/sblbgl1.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="${resRoot}/wct_web/css/pddisplay/modal.css" />
+<!--日历-->
+<script src="${resRoot}/wct_web/js/pddisplay/Calendar.js" type="text/javascript" ></script>
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<script src="${resRoot}/wct_web/js/wctPage.js"></script>
+<script src="${resRoot}/wct_web/js/wctUtils.js"></script>
+<script src="${resRoot}/wct_web/js/wctUtils.js" type="text/javascript" ></script>
+<script src="${resRoot}/wct_web/js/pddisplay/modal.js" type="text/javascript" ></script>
+<!-- echarts 图表-->
+<!-- 中部end -->
+<script type="text/javascript">
+	//获取登录信息
+	<#if (Session.loginInfo)??>
+	<#assign loginBean=Session.loginInfo>
+	<#else>
+	window.parent.parent.location.href="/LBDWS/wct/index.htm";
+	</#if>
+function openShutManager(oSourceObj,oTargetObj,shutAble,oOpenTip,oShutTip){
+	var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
+	var openTip = oOpenTip || "";
+	var shutTip = oShutTip || "";
+	if(targetObj.style.display!="none"){
+	   if(shutAble) return;
+	   targetObj.style.display="none";
+	   if(openTip  &&  shutTip){
+	    sourceObj.innerHTML = shutTip; 
+	   }
+	} else {
+	   targetObj.style.display="";
+	   if(openTip  &&  shutTip){
+	    sourceObj.innerHTML = openTip; 
+	   }
+	}
+	}
+	//多机台  标记是哪一台
+	var eqpNum=0;
+	//选择维修工
+	function changeUserDiv(type){
+		if(type==1){
+			$("#JX").show();
+			$("#DQ").hide();
+			$("#JXButton").css("background","red");
+			$("#DQButton").css("background","bule");
+			$("#JX").html("<iframe name='spContents' id='spContentsJX' src='${futRoot}/wct/eqpMainCall/getOpenMainUsers.htm?eqpNum="+eqpNum+"&typeId=1&url=web_html/wct/eqpManager/callRequest/openChooseRepairUser&eqm_wcp_id=-1' frameborder='false' scrolling='no' style='border:none;' width='100%'  allowtransparency='false'></iframe> ");
+		}else if(type==2){
+			$("#DQ").show();
+			$("#JX").hide();
+			$("#DQButton").css("background","red");
+			$("#JXButton").css("background","bule");
+			$("#DQ").html("<iframe name='spContents' id='spContentsJX' src='${futRoot}/wct/eqpMainCall/getOpenMainUsers.htm?eqpNum="+eqpNum+"&typeId=2&url=web_html/wct/eqpManager/callRequest/openChooseRepairUser&eqm_wcp_id=-1' frameborder='false' scrolling='no' style='border:none;' width='100%'  allowtransparency='false'></iframe> ");
+		}
+	}
+	//弹出维修工选择页面
+	function changeDiv(chooseEqpNum){
+		eqpNum=chooseEqpNum;
+		var uid=$("#userName").html();
+		 if(uid==""){
+			   //显示登陆框
+			   $(".nylogin3").click();
+			   return;
+		   }
+		 //显示div层
+		$("#addDetailModal").modal("show");
+		$('#spContentsJX').attr('src', $('#spContentsJX').attr('src'));
+		$('#spContentsDQ').attr('src', $('#spContentsDQ').attr('src'));
+		//window.location.href="${futRoot}/wct/eqpMainCall/getMainUsers.htm?typeId="+type+"&url=web_html/wct/eqpManager/chooseRepairUser";
+	}
+	//repairCallLogInUser
+	$(function(){
+		 var loginfo="";
+		 <#if Session.repairCallLogInUser?exists>
+		   	loginfo=${Session.repairCallLogInUser}
+		   </#if>
+		   if(loginfo!="" && loginfo.flag){
+				$("#userName").html(loginfo.uName);
+			    $("#userRolers").html(loginfo.rName);
+				$(".nerong").show(500);
+				$(".nylogin2").hide();
+		   }else{
+			   /**默认隐藏登录div*/
+			   $(".nerong").hide();
+			   $(".nylogin2").hide();
+		   }
+		   /**登录按钮*/
+		   $(".dlbutton").click(function(){
+			   var userId=$("#control_date").val();
+			   if($.trim(userId)==""){
+				   $(".message").text("登陆名不能为空!");
+				   return;
+			   }
+			  //提交后台处理
+	          $.ajax({
+			   		url : "${futRoot}/wct/eqpMainCall/login.json",
+			   		type : "post",
+			   		dataType : "json",
+			   	    async: false,
+			   		data : {"token":userId},
+			   		success : function(data) {
+			   		    // 1-成功  2-失败
+						if(data.flag){
+						    //隐藏登录，显示用户信息
+						    $("#userName").html(data.uName);
+						    $("#userRolers").html(data.rName);
+						    $("#uId").html(data.id);
+							$(".nerong").show(500);
+							$(".nylogin2").hide();
+						}else{
+							$(".message").text("登录失败!");
+						}
+			   		}
+		   	  });
+		   })
+		    //默认登陆
+			//$(".dlbutton").click();
+		   //登录文本框
+		   $(".nylogin3").click(function(){
+			   $(".nylogin2").toggle(50);//隐藏或显示文本框
+			   $("#control_date").val("");//清空文本框内容
+			   $(".message").text("");
+			   $("#userName").html(null);
+			   $("#userRolers").html(null);
+			   $(".nerong").hide();
+		   });
+		   
+		   /**  弹窗js  start   */
+			//弹窗关闭事件
+			$('#addDetailModal').on('hidden.bs.modal',function (e) {
+				
+			})
+		
+	});
+</script>
+</head>
+<body>	
+	<div id="main" style="margin-left: 230px;">
+		<div class="clear"></div>
+		<!--右侧内容-->
+		<div class="right_content">
+			<div id="right_contentbox">
+				<!--内容标题-->
+				<div class="top_title">
+					<span><img src="${resRoot}/wct_web/images/ssxh/ssxh.png" /></span>
+					<font id="divText">
+							维修呼叫
+					</font>
+					
+				</div>
+				 <!-- 用户登录start -->
+	   			<div class="nylogin">
+	   				<!-- 根据登陆类型显示机台信息    0卷包机组    1 封箱机组     2成型机组    3发射机组-->
+	   				<#if (loginBean.loginType==0)>
+		   				<input type="button" class="gd_input" onclick="changeDiv(0)"  eqpCode="${loginBean.rollerEquipmentCode}"  value="${loginBean.rollerEquipmentName}" name="button" />
+						<input type="button" class="cz_input" onclick="changeDiv(0)"  eqpCode="${loginBean.packerEquipmentCode}"  value="${loginBean.packerEquipmentName}" name="button" />
+	   				</#if>
+	   				<#if (loginBean.loginType==1)>
+	   					<input type="button" class="gd_input" onclick="changeDiv(1)"  eqpCode="${loginBean.boxerEquipmentCode0}"  value="${loginBean.boxerEquipmentName0}" name="button" />
+						<input type="button" class="cz_input" onclick="changeDiv(2)"  eqpCode="${loginBean.boxerEquipmentCode1}"  value="${loginBean.boxerEquipmentName1}" name="button" />
+	   				</#if>
+	   				<#if (loginBean.loginType==2)>
+		   				<input type="button" class="gd_input" onclick="changeDiv(1)"  eqpCode="${loginBean.filterEquipmentCode0}" value="${loginBean.filterEquipmentName0}" name="button" />
+						<input type="button" class="cz_input" onclick="changeDiv(2)"  eqpCode="${loginBean.filterEquipmentCode1}" value="${loginBean.filterEquipmentName1}" name="button" />
+	   				</#if>
+	   				<#if (loginBean.loginType==3)>
+		   				<input type="button" class="gd_input" onclick="changeDiv(1)" eqpCode="${loginBean.launchEquipmentCode0}"  value="${loginBean.launchEquipmentName0}" name="button" />
+						<input type="button" class="cz_input" onclick="changeDiv(2)" eqpCode="${loginBean.launchEquipmentCode1}"  value="${loginBean.launchEquipmentName1}" name="button" />
+						<input type="button" class="cz_input" onclick="changeDiv(3)" eqpCode="${loginBean.launchEquipmentCode2}"  value="${loginBean.launchEquipmentName2}" name="button" />
+	   				</#if>
+					<!-- <input type="button" class="gd_input" onclick="changeDiv(1)" value="机械工" name="button" />
+					<input type="button" class="cz_input" onclick="changeDiv(2)" value="电气工" name="button" /> -->
+	   	       		<span class="nylogin3" >
+	   	       			<img src="${resRoot}/wct_web/images/gdxx/nylogin.png" /></span>
+	   	        	<span class="nylogin2">
+	   	            <input  type="text" name="token" value="" onclick="showKey('control_date')" id="control_date" placeholder="登录名"  />
+	   	            <input type="button" class="dlbutton" value="登录" />
+	   	            <font class="message"></font>
+	   	            <font id="uId" style="display: none"></font>
+	   	        	</span>
+	   	        	<span class="nerong"><!-- 图片 -->
+	   	          		 <img  src="${resRoot}/wct_web/images/icon/xf.png" /><i><font id="userName"></font></i>                
+	   	        	</span>
+	   	        	<div class="rolerTxt">
+	   	        		<span class="nerong">
+	   	           			<img  src="${resRoot}/wct_web/images/icon/wc.png" /><i><font class="" id="userRolers"></font></i>
+	   	        		</span>
+	   	        	</div>
+   	    </div>
+      <!--用户登录end-->
+						
+						
+				<!--表单-->
+				<div id="rollerDiv" class="bottom_content" >
+							<table class="big_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+							<#if (dataList?size>0)>
+								<#list dataList as data>
+									<tr onclick="openShutManager(this,'small_table${data_index}')">
+						                <td width="4%"><img src="${resRoot}/wct_web/images/antb.png" width="23" height="23" /></td>
+						                <td width="20%"><#if (data.sCreateTime?exists)>${data.sCreateTime}</#if></td>
+						                <td width="14%"><#if (data.eqpName?exists)>${data.eqpName}</#if></td>
+						                <td width="14%">
+						                	<#if (data.typeName?exists)>
+						                		<#if (data.typeName=="1")>
+						                			机械维修
+						                		<#else>
+						                		          电气维修
+						                		</#if>
+						                	</#if>
+						                </td>
+						                <td width="48%" style="text-align:right; padding-right:45px;">
+						                	<#if (data.status?exists)>
+							                		<#if (data.status=="0")>
+							                			<font color="red">[待处理]</font>
+							                		<#elseif (data.status=="1")>
+							                			<font color="green">[处理中]</font>
+							                		<#elseif (data.status=="2")>
+							                			[处理完成]
+							                		<#elseif (data.status=="3")>
+							                		    [未解决]
+							                		</#if>
+						                	<#else>
+						                		 <font color="red">[异常数据]</font>
+						                	</#if>
+						                </td>
+				             		 </tr>
+									<tr border="0" cellspacing="0" class="small_table" cellpadding="0" id="small_table${data_index}" style="display:none;">
+						                <td colspan="5"  >
+							                   <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+								                  <tr>
+								                    <td>请求人：<#if (data.createName?exists)>${data.createName}</#if></td>
+								                    <td>请求时间：<#if (data.sCreateTime?exists)>${data.sCreateTime}</#if></td>
+								                    <td>受理人：<#if (data.designatedName?exists)>${data.designatedName}</#if></td>
+								                  </tr>
+								                  <tr>
+								                    <td>受理时间：<#if (data.designatedTime?exists)>${data.designatedTime}</#if>  </td>
+								                    <td></td>
+								                    <td></td>
+								                  </tr>
+								                  <tr >
+								                    <td>完成时间：<#if (data.updateUserTime?exists)>${data.updateUserTime}</#if>  </td>
+								                  	<td></td>
+								                    <td></td>
+								                  </tr>
+								                  <tr >
+								                    <td class="tdText">故障描述：</br>
+								                    	<#list data.showTrouble as troubleInfo>
+								                    		<font>
+								                    			${troubleInfo?if_exists}
+								                    		</font>
+								                    		</br>
+								                    	</#list>
+								                    </td>
+								                    <td></td>
+								                    <td></td>
+								                  </tr>
+								                  <tr >
+								                    <td class="tdText">更换备件：</br>
+								                    		<#list data.showSparePart as sparepartInfo>
+								                    			 <font >${sparepartInfo?if_exists}</font></br>
+								                    		</#list>
+								                    </td>
+								                    <td></td>
+								                    <td></td>
+								                  </tr>
+								                   <tr >
+										                   <#if (data.status?exists)>
+										                		<#if (data.status=="0")>
+										                			<td colspan="3"><a class="sb_slan" href="${futRoot}/wct/eqpMainCall/acceptRepair.htm?url=web_html/wct/eqpManager/eqpMainCallInfo&id=${data.id}">受理请求</a></td>
+										                		<#elseif (data.status=="1")>
+										                			 <td colspan="3">
+										                			    <a class="sb_slan1" href="${futRoot}/wct/eqpMainCall/finishRepair.htm?url=web_html/wct/eqpManager/eqpMainCallInfo&id=${data.id}&&designatedId=${data.designatedId}">处理完成</a>
+										                			    <a class="sb_slan1" href="${futRoot}/wct/eqpMainCall/querySparePart.htm?url=web_html/wct/eqpManager/chooseSpareParts/sparePartsDiv&&sourceId=${data.id}">更换备件</a>
+										                			 	<a class="sb_slan1" href="${futRoot}/wct/trouble/queryTroubleInfo.json?url=web_html/wct/eqpManager/troubleInfo/eqmTroubleInfo&&sourceId=${data.id}">添加故障</a>
+										                			 </td>
+										                		<#elseif (data.status=="2")>
+										                			<td colspan="3"  class="textTd"><font>[处理已完成]</font></td>
+										                		<#elseif (data.status=="3")>
+										                		    <td  colspan="3" class="textTd"><font color="red">[未解决]</font></td>
+										                		</#if>
+										                	<#else>
+										                		<td colspan="3" class="textTd"><font color="red">[异常数据]</font></td> 
+										                	</#if>
+								                   </tr>
+							                </table>
+						                </td>
+			              			</tr>
+								</#list>
+								<#else>
+									<tr><td colspan="5"><font color="red">未查询到数据(最近一周)</font></td></tr>
+							</#if>
+		            </table>
+				</div>
+			<div class="page">
+               <div class="num-bar">
+				<a>共${wctPage.maxCount}条数据</a>
+				<#if (wctPage.index)!=1 >
+				    <a class="num" href="${futRoot}/wct/eqpMainCall/getEqpMainCallInfo.htm?url=web_html/wct/eqpManager/eqpMainCallInfo&index=${wctPage.index-1}">上一页</a>
+				<#else>
+				    <a class="num" >上一页</a>  
+				</#if>
+				<a>${wctPage.index}/${wctPage.maxPage}</a>
+				<#if (wctPage.index) < (wctPage.maxPage) >
+				    <a class="num"  href="${futRoot}/wct/eqpMainCall/getEqpMainCallInfo.htm?url=web_html/wct/eqpManager/eqpMainCallInfo&index=${wctPage.index+1}">下一页</a>
+				<#else>
+				    <a class="num" >下一页</a>
+				</#if>
+              </div>
+        </div>
+	</div>
+	
+	<!-- 弹框 -->
+<div class="modal fade" id="addDetailModal" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" id="modalHeaderDiv">
+            <input type="button" class="gd_input" id="JXButton" onclick="changeUserDiv(1)" value="机械工" name="button" />
+			<input type="button" class="cz_input" id="DQButton" onclick="changeUserDiv(2)" value="电气工" name="button" />
+      		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+        <div style="height: 400px;text-align: center;">
+			  <div class="modal-body" style="display:none;background-color: #F5FFFA;height: 300px;" id="JX" > </div>
+		      <div class="modal-body" style="display: none;background-color:#F0FFF0;height: 300px;" id="DQ">  </div>
+   	    </div> 
+      </div>
+    </div>
+<!-- 弹出窗end -->
+</body>
+</html>

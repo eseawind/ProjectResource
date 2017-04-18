@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+<!-- 设备Code定义 -->
+<!-- 卷烟机:1~30    -->
+<!-- 包装机:31~60   -->
+<!-- 封箱机:61~70   -->
+<!-- 储烟装置:71~100 -->
+<!-- 成型机:101~130 -->
+<!-- 发射机:131~140 -->
+<!-- 条烟输送：151    -->
+<!-- 装盘机：161~180 -->
+<!-- 卸盘机：181~200 -->
+<!-- workshop 1:卷包车间  2：成型车间 -->
+<!-- 
+	type 设备型号
+	注意,type名称使用大写，
+	根据不同设备类型，
+	单独定制监控页面以避免同一类型设备点表不一致情况，
+	type匹配监控页面XXX.jsp
+	如：ZJ17.jsp,ZL26C.jsp	
+-->
+<equipments>
+	<!-- 卷烟机 -->
+	<equipment>
+		<ip>10.114.84.31</ip>
+		<code>1</code>
+		<name>1#卷烟机</name>
+		<workshop>1</workshop>
+		<type>ZJ17</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.32</ip>
+		<code>2</code>
+		<name>2#卷烟机</name>
+		<workshop>1</workshop>
+		<type>ZJ17</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.33</ip>
+		<code>3</code>
+		<name>3#卷烟机</name>
+		<workshop>1</workshop>
+		<type>ZJ17</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.34</ip> 
+		<code>4</code>
+		<name>4#卷烟机</name>
+		<workshop>1</workshop>
+		<type>PROTOS70</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.35</ip>
+		<code>5</code>
+		<name>5#卷烟机</name>
+		<workshop>1</workshop>
+		<type>PROTOS70</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.36</ip>
+		<code>6</code>
+		<name>6#卷烟机</name>
+		<workshop>1</workshop>
+		<type>PROTOS70</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.37</ip>
+		<code>7</code>
+		<name>7#卷烟机</name>
+		<workshop>1</workshop>
+		<type>ZJ17</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.38</ip>
+		<code>8</code>
+		<name>8#卷烟机</name>
+		<workshop>1</workshop>
+		<type>ZJ17</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.39</ip>
+		<code>9</code>
+		<name>9#卷烟机</name>
+		<workshop>1</workshop>
+		<type>ZJ17</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.40</ip>
+		<code>10</code>
+		<name>10#卷烟机</name>
+		<workshop>1</workshop>
+		<type>ZJ17</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.41</ip>
+		<code>11</code>
+		<name>11#卷烟机</name>
+		<workshop>1</workshop>
+		<type>ZJ17</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.42</ip>
+		<code>12</code>
+		<name>12#卷烟机</name>
+		<workshop>1</workshop>
+		<type>ZJ17</type>
+	</equipment>
+	
+<!-- 包装机  -->
+	<equipment>
+		<ip>10.114.84.45</ip>
+		<code>31</code>
+		<workshop>1</workshop>
+		<type>ZB25</type>
+		<name>1#包装机</name>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.46</ip>
+		<code>32</code>
+		<workshop>1</workshop>
+		<type>ZB25</type>
+		<name>2#包装机</name>
+	</equipment> 
+	<equipment>
+		<ip>10.114.84.47</ip>
+		<code>33</code>
+		<workshop>1</workshop>
+		<type>ZB25</type>
+		<name>3#包装机</name>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.48</ip>
+		<code>34</code>
+		<workshop>1</workshop>
+		<type>ZB45</type>
+		<name>4#包装机</name>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.49</ip>
+		<code>35</code>
+		<workshop>1</workshop>
+		<type>ZB45</type>
+		<name>5#包装机</name>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.50</ip>
+		<code>36</code>
+		<workshop>1</workshop>
+		<type>ZB45</type>
+		<name>6#包装机</name>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.51</ip>
+		<code>37</code>
+		<workshop>1</workshop>
+		<type>ZB25</type>
+		<name>7#包装机</name>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.52</ip>
+		<code>38</code>
+		<workshop>1</workshop>
+		<type>ZB25</type>
+		<name>8#包装机</name>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.53</ip>
+		<code>39</code>
+		<workshop>1</workshop>
+		<type>ZB25</type>
+		<name>9#包装机</name>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.54</ip>
+		<code>40</code>
+		<workshop>1</workshop>
+		<type>ZB25</type>
+		<name>10#包装机</name>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.55</ip>
+		<code>41</code>
+		<workshop>1</workshop>
+		<type>ZB25</type>
+		<name>11#包装机</name>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.56</ip>
+		<code>42</code>
+		<workshop>1</workshop>
+		<type>ZB25</type>
+		<name>12#包装机</name>
+	</equipment> 
+	
+<!-- 封箱机  1-4 -->
+	<equipment>
+		<ip>10.114.84.59</ip>
+		<code>61</code>
+		<workshop>1</workshop>
+		<name>1#封箱机</name>
+		<type>YP18</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.60</ip>
+		<code>62</code>
+		<workshop>1</workshop>
+		<name>2#封箱机</name>
+		<type>YP18</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.61</ip>
+		<code>63</code>
+		<workshop>1</workshop>
+		<name>3#封箱机</name>
+		<type>YP11A</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.62</ip>
+		<code>64</code>
+		<workshop>1</workshop>
+		<name>4#封箱机</name>
+		<type>YP11A</type>
+	</equipment>
+	
+<!-- 发射机  1-4  -->	
+	<equipment>
+		<ip>10.114.84.63</ip>
+		<code>131</code>
+		<workshop>2</workshop>
+		<name>1#发射机</name>
+		<type>YF27B</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.64</ip>
+		<code>132</code>
+		<workshop>2</workshop>
+		<name>2#发射机</name>
+		<type>YF27B</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.65</ip>
+		<code>133</code>
+		<workshop>2</workshop>
+		<name>3#发射机</name>
+		<type>YF27B</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.66</ip>
+		<code>134</code>
+		<workshop>2</workshop>
+		<name>4#发射机</name>
+		<type>YF27B</type>
+	</equipment>
+	
+<!-- 成型机 1-5 -->
+	<equipment>
+		<ip>10.114.84.67</ip>
+		<code>101</code>
+		<workshop>2</workshop>
+		<name>1#成型机</name>
+		<type>ZL26C</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.68</ip>
+		<code>102</code>
+		<workshop>2</workshop>
+		<name>2#成型机</name>
+		<type>ZL22C</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.69</ip>
+		<code>103</code>
+		<workshop>2</workshop>
+		<name>3#成型机</name>
+		<type>ZL22C</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.70</ip>
+		<code>104</code>
+		<workshop>2</workshop>
+		<name>4#成型机</name>
+		<type>ZL22C</type>
+	</equipment>
+	<equipment>
+		<ip>10.114.84.71</ip>
+		<code>105</code>
+		<workshop>2</workshop>
+		<name>5#成型机</name>
+		<type>ZL22A</type>
+	</equipment>
+	
+		
+<!-- 提升机配置 -->
+	<equipment>
+		<ip>10.114.84.18</ip>
+		<code>151</code>
+		<workshop>1</workshop>
+		<name>提升机</name>
+		<type>CONVEYOR</type>
+	</equipment>
+	
+	<equipment>
+		<ip>10.114.84.18</ip>
+		<code>152</code>
+		<workshop>1</workshop>
+		<name>成品库(螺旋提升机)</name>
+		<type>CONVEYOR_SCREW</type>
+	</equipment>
+	
+		
+</equipments>
+</xml>

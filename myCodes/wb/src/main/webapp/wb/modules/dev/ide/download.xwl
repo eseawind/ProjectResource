@@ -1,0 +1,1 @@
+{"inframe":false,"title":"下载文件","hidden":false,"roles":{},"children":[{"configs":{"serverMethod":"com.wb.interact.Service.downloadAtAll","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

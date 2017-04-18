@@ -1,0 +1,1 @@
+{"inframe":false,"title":"测试JNDI","hidden":false,"roles":{"default":1},"children":[{"configs":{"loginRequired":"false","serverMethod":"com.wb.interact.Install.testJNDI","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

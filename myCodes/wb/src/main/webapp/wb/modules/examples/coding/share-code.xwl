@@ -1,0 +1,1 @@
+{"title":"共享代码","inframe":false,"hidden":false,"roles":{},"pageLink":"","children":[{"configs":{"importModules":"[\"m?xwl=examples/coding/share-code/public-methods\"]","serverScript":"//app.add方法在public-methods模块内定义\napp.send(app.add(3, 5.2));","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

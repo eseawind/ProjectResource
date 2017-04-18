@@ -1,0 +1,198 @@
+body{
+    padding:0px;
+	margin:0px;	
+	background: none;
+}
+ul,ol,h1,dl,dd{list-style:none;margin:0px;padding:0px;}
+a {color:#333333;text-decoration: none;}
+a img{border:0px;margin:0px;padding:0px}
+a img{border:0px;}
+#wct-index-body {overflow: hidden;}
+/* 页面框架主体 */
+#index-content {height: 768px;width: 1024px;margin: 0px auto;background-color: #DDDDDD;overflow: hidden;}
+#index-content #header {
+border-bottom: 2px solid #bebebe;
+height: 80px;
+width: 100%;
+
+}
+
+	#wct-index-body{overflow:hidden;}
+
+	 #body-center{
+		width:1010px;
+		height:622px;
+		margin:0px auto;
+		border-radius: 6px;
+		border: 1px solid #979595;	
+	} 
+	#index-content #header{
+		border-bottom:2px solid #bebebe;
+		height: 80px;
+		width:100%;
+		
+	}
+	#logo{
+		float:left;
+		padding-left:20px;
+		padding-top:5px;
+	}
+	#options{
+		float:left;
+		margin-left:20px;
+		margin-top:2px;	
+	}
+	#options ul li{
+	list-style:none;
+	float:left;
+	text-align:center;
+	font-size:15px;
+	font-weight:400;
+	margin-left:8px;
+	
+   }
+   	#options ul li a{
+   		display:block;
+   		height:70px;
+   		width:88px;
+   		font-size:14px;  
+   		color: #6c6c6c;
+		padding-top: 6px; 		
+   }
+      	#options ul li a img{
+   		width: 45px;
+		height: 45px;
+		padding-top: 5px;
+   }
+   	#options ul li a:hover{
+		background-color: #bebebe;
+		border-radius:5px;
+		color:#fff;
+		text-decoration: none;
+   }
+   #options ul li a.active{
+		background-color: #bebebe;
+		border-radius:5px;
+		color:#fff;
+		text-decoration: none;
+   }
+	/*主体*/
+	#index-content #wct-body{	
+		height:628px;
+		width:100%; 
+		/* border:1px solid red; */
+		padding-top:2px;
+	}
+	
+	
+	#eq-info{
+		width:100%;
+		height:50px;
+		padding-top:2px; 	
+	}
+	#eq-info div{
+		float:left;
+		margin:1px 2px;
+	}
+	#eq-info-left,#eq-info-right{
+		width:260px;
+		height:46px;
+		border:2px solid #bebebe;	
+	}
+	.eq-title{
+		font-size:15px;
+		font-weight:bold;
+		padding-left:10px;
+	}
+	.eq-det{
+		font-size:13px;
+		font-weight:bold;
+		padding-left:15px;		
+	}
+	#eq-info-center{ 
+		width:420px;
+		height:47px;
+		border-radius:4px;
+		background:url(${pageContext.request.contextPath}/img/eq-info-center.png) repeat-x;  	
+	}
+	#footer{
+		height: 49px;
+		width: 1010px;
+		border: 1px solid #999;
+		margin: 0 auto;
+		background: #DADADA;
+		border-radius: 0px 0px 6px 6px;
+	}
+	#ft-tab tr td{
+		font-size: 12px;
+		color: #6c6c6c;
+	}
+	.ft-det{
+		color:#0067b2 !important;
+		font-weight: bold;
+	}
+	#logo .soft_name{margin-left:50px;font-weight:bold;font-size:14px;color:#0067b2}
+	#message_box{width: 990px;
+height: 25px;
+padding: 0 10px;
+background: #b4b4b4;
+
+color: #3C3C3C;
+line-height: 20px;}
+	#message{font-size:14px;font-weight:bold;margin-top:4px;}
+	#jyj-run-status,#bzj-run-status{color:#0067b2;}
+	.font_blue,#chuyanliang{color:#0067b2!important;font-weight: bold!important;}
+
+.combo {
+border-color: #9a9a9a!important;
+background-color: #ffffff;
+border-radius: 4px;
+}
+.combo-arrow {
+  background-color: #5A5A5A!important;
+}
+.combo-arrow-hover {
+  background-color: #ebebeb!important;
+}
+.combo-arrow {background: url('../img/combo_arrow.png') no-repeat center center;}
+.combo-arrow:hover {background: url('../img/combo_arrow_h.png') no-repeat center center;}
+.datebox .combo-arrow {background-image: url('../img/datebox_arrow.png');background-position: center center;}
+.datebox .combo-arrow:hover {background-image: url('../img/datebox_arrow_h.png');background-position: center center;}
+.validatebox-invalid {
+  background-image: url('../img/validatebox_warning.png');
+  background-repeat: no-repeat;
+  background-position: right center;
+  border-color: #ffa8a8;
+  background-color: #FCFCFC;
+  color: #000;
+}
+.combo-arrow {
+  width: 24px;
+  height: 20px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+	opacity: 1; 
+  filter: alpha(opacity=100);
+}
+.panel-header,
+.panel-body {
+  border-color: #9a9a9a!important;
+}
+.calendar-sunday {
+  color: #0067b2;
+}
+.calendar-saturday {
+  color: #0067b2;
+}
+.combo, .combo-panel {
+background-color: #dedcda;
+}
+.calendar-body, .calendar-menu {
+background: #E4E1E1;
+}
+.combobox-item-hover {
+background-color: #B9B9B9;
+color: #000000;
+}

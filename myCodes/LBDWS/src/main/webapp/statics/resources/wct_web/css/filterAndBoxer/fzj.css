@@ -1,0 +1,80 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* reset */
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0; font-family:"microsoft yahei", "宋体"; }
+header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn{font-style:normal;}
+[hidefocus],summary{outline:0;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%; font-weight:normal}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+q:before,q:after{content:none;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{cursor:pointer;}
+del,ins,u,s,a,a:hover{text-decoration:none;}
+a,a:hover{color:#333;}
+
+/* 避免因子元素浮动而导致的父元素高度缺失能问题 */
+.cl:after { content:"."; display:block; height:0; clear:both; visibility:hidden; } .cl { zoom:1; }
+.clearfix::before, .clearfix::after {
+  clear:both;
+  content:" ";
+  display:block;
+}
+.clear{clear:both;}
+
+.fsj_jbxx{font-size:18px; float:right; line-height:40px;}
+/*left_middle*/
+.left_middle{width:670px;float:left; margin:0px auto;}
+.left_middle p{font-size:24px; text-align:center;}
+/*right_middle*/
+.right_middle{float:right;}
+/*发射机额定车速*/
+.fzj_title{font-size:32px; color:#fff; background:#84d0ef; border-radius:20px 20px 0px 0px; text-align:center; width:565px; height:77px; line-height:77px;}
+.fzj_table{width:565px;border:#979797 1px solid; border-top:none; border-bottom:none; font-size:18px;}
+.fzj_yxsj{font-size:24px; text-align:center; background:url(../images/filterAndBoxer/fzj/fsj_x.png) no-repeat center center; border-left:#979797 1px solid; border-right:#979797 1px solid; padding-top:50px; padding-bottom:50px;}
+.fzj_tab{border:#979797 1px solid;  border-top:none;}
+
+.right_top_ms{margin:0 auto; border-radius:3px;  margin-top:22px;}
+.cxj_name{width:105px;float:left; font-size:18px;}
+.cxj_sjt{width:335px;float:left;}
+.cxj_time{width:55px;float:left; font-size:18px; margin-left: 20px;}
+.fsj_lname{background:#85d1ef url(../images/filterAndBoxer/fsj/fsj_l.png) no-repeat; }
+.fsj_spead{background:#85d1ef url(../images/filterAndBoxer/fsj/fsj_r.png)  no-repeat right 0; padding-left:1px;}
+.fsj_contect{padding--right:2px;}
+.fsj_rname1{padding-left:50px;}
+.fsj_rname0{padding-left:18px;}
+.cxj_sjt1{width:580px;float:left;}
+.right_top_ms tr{height:50px;}
+.right_top_ms td{padding-left:30px;}
+
+.left_title{font-size:22px; text-align:center; line-height:30px;}
+.mxcf{line-height:40px;}
+
+/**  单耗 样式*/
+.skillbar{position:relative;display:block;margin-bottom:10px;	width:100%;	background:#eee;height:25px;	border-radius:50px !important;-moz-border-radius:3px;-webkit-border-radius:3px;-webkit-transition:0.4s linear;-moz-transition:0.4s linear;	-ms-transition:0.4s linear;	-o-transition:0.4s linear;
+transition:0.4s linear;	-webkit-transition-property:width, background-color;-moz-transition-property:width, background-color;-ms-transition-property:width, background-color;-o-transition-property:width, background-color;transition-property:width, background-color;
+} 
+/* 虚拟背景线条*/
+.skillbar clearfix{float:left;}
+.skillbar-title span {
+	display:block;
+	background:rgba(0, 0, 0, 0.1);
+	padding:0 20px;
+	height:25px;
+	line-height:25px;
+	-webkit-border-top-left-radius:3px;
+	-webkit-border-bottom-left-radius:3px;
+	-moz-border-radius-topleft:3px;
+	-moz-border-radius-bottomleft:3px;
+	border-top-left-radius:3px;
+	border-bottom-left-radius:3px;
+}/*********/
+
+.skillbar-bar {	height:25px;width:0px;	background:#6adcfa;	border-radius:50px !important;-moz-border-radius:3px;-webkit-border-radius:3px;}

@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* CSS Document */
+/*进度条*/
+.dh_hbj{ width:80%;float:left;}
+.right_top{	width:100%;text-align:center;}
+/*字体*/
+.left_title{
+	    font-size: 18px;
+}
+/*排序按钮*/
+.gdcx_box {width:92%;float:left; height:30px; margin:0 auto;font-size:18px; color:#afaeae;margin-left:40px;margin-top:16px;margin-bottom: 10px;}
+.order_input{width:92px; margin-left:8px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:right; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;}
+/*进度宽度*/
+.skillbar{position:relative;display:block;margin-top:6px;margin-bottom:3px;	width:100%;	background:#eee;height:30px;	border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;-webkit-transition:0.4s linear;-moz-transition:0.4s linear;	-ms-transition:0.4s linear;	-o-transition:0.4s linear;
+transition:0.4s linear;	-webkit-transition-property:width, background-color;-moz-transition-property:width, background-color;-ms-transition-property:width, background-color;-o-transition-property:width, background-color;transition-property:width, background-color;
+}
+/*进度条颜色*/
+.skillbar-bar {	height:30px;width:0px;	background:#8bc34a;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}

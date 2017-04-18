@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登录</title>
+<script src="${resRoot}/wct_web/js/jquery.js" type="text/javascript"></script> 
+<link href="${resRoot}/wct_web/css/login.css" rel="stylesheet" />
+
+<!-- 键盘和表单获取值 -->
+<script src="${resRoot}/wct_web/js/wctUtils.js" type="text/javascript" ></script>
+
+<script>
+   if (window != top) {
+		top.location.href = location.href; 
+   }
+   $(function(){
+	   //确定登录
+	   $(".login_submit").click(function(){
+		   window.location.href="${futRoot}/wct/gotomain.htm";
+	   });
+	   //用户名
+  	   var windUname="";
+  	   try{
+	  	  var   WshShell   =new   ActiveXObject("WScript.Shell");
+	  	  windUname=WshShell.ExpandEnvironmentStrings("%USERNAME%");
+  	   }catch(err){
+  		  
+  	   }
+  	   //初始化加载
+	   defLoad(windUname);
+   });
+   //手动修改登录用户名，加载新设备
+   function agenLoad(){
+	   //获取用户名
+	   var windUname=$("#txt_Search").val();
+	   //重新请求
+	   defLoad(windUname);
+   }
+   
+   function defLoad(windUname){
+	     
+	  	  $("#txt_Search").attr("value",windUname);
+	  	  //密码
+	  	  $("#key_Search").attr("value","密码无意义...");
+	  	  //设备基本信息
+		  $.ajax({
+		   		url : "${futRoot}/wct/getWorkOrder.json",
+		   		type : "post",
+		   		dataType : "json",
+		   	    async: false,
+		   		data : {"windUname":windUname},
+		   		success : function(data) {
+		   			 if(data!=null){
+		   				 //填充数据
+		   				 $("#shiftName").text(data.shiftName);
+		   				 $("#teamName").text(data.teamName);
+		   				 var logintype=data.loginType;
+		   				 var eqpNames="";
+		   				 var eqpTypes="";
+		   				//0卷包机组    1 封箱机组     2成型机组    3发射机组
+		   				 if(logintype==0){
+		   					eqpNames=data.rollerEquipmentName+","+data.packerEquipmentName;
+		   					eqpTypes=data.rollerEquipmentType+","+data.packerEquipmentType;
+		   				 }else if(logintype==1){
+		   					eqpNames=data.boxerEquipmentName0+","+data.boxerEquipmentName1;
+		   					eqpTypes=data.boxerEquipmentType0+","+data.boxerEquipmentType1;
+		   				 }else if(logintype==2){
+		   					eqpNames=data.filterEquipmentName0+","+data.filterEquipmentName1;
+		   					eqpTypes=data.filterEquipmentType0+","+data.filterEquipmentType1;
+		   				 }else if(logintype==3){
+		   					eqpNames=data.launchEquipmentName0+","+data.launchEquipmentName1+","+data.launchEquipmentName2;
+		   					eqpTypes=data.launchEquipmentType0+","+data.launchEquipmentType1+","+data.launchEquipmentType2;
+		   				 }
+		   				$("#eqmCommonName").text(eqpNames);
+		   				$("#EquipmentType").text(eqpTypes);
+		   			 }else{
+		   				 $("#errorNews").text("获取当前班次信息失败！");
+		   			 }
+		   		}
+	  	  });
+   }
+</script>
+</head>
+<body>
+<div id="wrap">
+  <div class="login_middle">
+	<div class="login_logo">
+	    <p class="loginlogo_top"></p>
+        <p class="loginlogo_bottom"></p>
+    </div>
+    <div class="login_contect">
+       <p class="login_elogo">井冈山卷烟厂数据采集系统</p>
+       <div class="login_nameinput"><!-- onclick="showKey('txt_Search')" -->
+          <input  type="text"  onblur="agenLoad()" id="txt_Search" class="login_name" name="username"  value="" style="color:#999"/>
+          <label for="username" class="login_nameimg" > 
+               <img src="${resRoot}/wct_web/images/login_19.jpg" width="25" height="52" />
+          </label>
+          <div id="softkey_name"></div>
+       </div>
+       <div class="login_nameinput">
+          <input type="password" onclick="showKey('key_Search')" id="key_Search" class="login_name"  name="pass"  value=""  readonly="readonly" style="color:#999"/>  
+          <label for="username" class="login_nameimg" > <img src="${resRoot}/wct_web/images/login_21.jpg" width="25" height="52" /></label>
+       </div>
+       
+       <p style="color:red" id="errorNews"></p>
+       <p class="shift">
+          <span class="shift_in">班次信息：</span>
+          <span class="shift_middle" id="shiftName"></span>
+          <span class="shift_in" style="margin-left:60px">班组信息：</span>
+          <span class="shift_middle" id="teamName"></span></p>
+       <p class="shift">机台信息：<span class="shift_middle" id="eqmCommonName"></span></p>
+       <p class="shift">机台型号：<span class="shift_middle" id="EquipmentType"></span></p>
+       <br/>
+       <input type="button" class="login_submit" value="登&nbsp;录"  name="submit" />
+    </div>
+  </div>
+</div>
+</body>
+</html>

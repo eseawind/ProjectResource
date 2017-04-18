@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+	<!--<![endif]-->
+	<!-- BEGIN HEAD -->
+	<head>
+		<title>用户列表</title>
+		<link href="${resRoot}/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="${resRoot}/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="${resRoot}/plugins/uniform/css/uniform.default.css" rel="stylesheet" />
+		<link href="${resRoot}/plugins/select2/select2_metro.css" rel="stylesheet"  />
+		<link href="${resRoot}/plugins/data-tables/DT_bootstrap.css"  rel="stylesheet"  />
+		<link href="${resRoot}/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
+		<link href="${resRoot}/plugins/bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet">
+		<link href="${resRoot}/css/style-metronic.css" rel="stylesheet" />
+		<link href="${resRoot}/css/style.css" rel="stylesheet" />
+		<link href="${resRoot}/css/style-responsive.css" rel="stylesheet" />
+		<link href="${resRoot}/css/plugins.css" rel="stylesheet" />
+		<link href="${resRoot}/css/pages/tasks.css" rel="stylesheet" />
+		<link href="${resRoot}/css/themes/grey.css" rel="stylesheet" id="style_color" />
+		<link href="${resRoot}/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" />
+		
+		<link href="${resRoot}/css/custom.css" rel="stylesheet" />
+
+		<script src="${resRoot}/plugins/jquery-1.10.2.min.js" type="text/javascript"></script> 
+		<script src="${resRoot}/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script> 
+		<script src="${resRoot}/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script> 
+		<script src="${resRoot}/plugins/bootstrap-hover-dropdown/twitter-bootstrap-hover-dropdown.min.js" type="text/javascript"></script> 
+		<script src="${resRoot}/plugins/jquery.cokie.min.js" type="text/javascript"></script> 
+		<script src="${resRoot}/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script> 
+		<script type="text/javascript" src="${resRoot}/plugins/select2/select2.min.js"></script> 
+		<script type="text/javascript" src="${resRoot}/plugins/data-tables/jquery.dataTables.js"></script> 
+		<script type="text/javascript" src="${resRoot}/plugins/data-tables/DT_bootstrap.js"></script> 
+		<script type="text/javascript" src="${resRoot}/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script> 
+		<script type="text/javascript" src="${resRoot}/plugins/bootstrap-datepicker/js/bootstrap-datepicker.zh-CN.js"></script> 
+		<script type="text/javascript" src="${resRoot}/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+		<script type="text/javascript" src="${resRoot}/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+		<script type="text/javascript" src="${resRoot}/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
+		<script type="text/javascript" src="${resRoot}/plugins/jquery-file-upload/js/jquery.fileupload-process.js"></script>
+		<script type="text/javascript" src="${resRoot}/plugins/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
+		<script src="${resRoot}/js/alert_message.js" type="text/javascript"></script>
+		<script src="${resRoot}/js/app.js" type="text/javascript"></script>
+		<script src="${resRoot}/js/index.js" type="text/javascript"></script>
+		<script src="${resRoot}/js/global.js" type="text/javascript"></script>
+		<script src="${resRoot}/js/Date.js" type="text/javascript"></script>
+		
+	</head>
+	<!-- END HEAD -->
+	<!-- BEGIN BODY -->
+	<body class="page-header-fixed">
+		<!-- BEGIN CONTAINER -->
+		<!-- BEGIN CONTENT -->
+		<div class="page-content-wrapper">
+			<div class="page-content">
+			    <!-- 面包线start  -->
+                <div class="row">
+					  <div class="col-md-12">
+					    <h3 class="page-title">用户信息管理</h3>
+					    <ul class="page-breadcrumb breadcrumb">
+					            <li>
+					                <i class="fa fa-home"></i>
+					                <a href="#">首页</a>
+					                <i class="fa fa-angle-right"></i>
+					            </li>
+					            <li>
+					              <i class="fa fa-stack-exchange"></i>
+					                <a href="#">用户信息</a>
+					            </li>
+					        </ul>
+					  </div>
+				</div>
+				<!-- 面包线start  -->
+				
+				
+				<div class="portlet box blue">
+					<div class="portlet-title">
+						<div class="caption">
+							用户信息列表
+						</div>
+					</div>
+					<div class="portlet-body">
+					    <br/>
+					    
+					    <div class="row">
+						   <div class="col-md-12">
+								<div class="btn-group">
+									<label class="control-label col-md-2">用户名:</label>
+									<div class="col-md-4">
+										<input id="uName" name="uName" type="text" class="form-control">
+									</div>
+									<label class="control-label col-md-2">手机号码:</label>
+									<div class="col-md-4">
+										<input id="uTelephone" name="uTelephone" type="text" class="form-control">
+									</div>
+								</div>
+								<div class="btn-group">
+									<div class="col-md-1">
+										<button onclick="queryPage()" class="btn blue">查询</button>
+									</div>
+								</div>
+								<div class="btn-group">
+									<div class="col-md-0">
+										<button id="resetButton" class="btn green">重置</button>
+									</div>
+								</div>
+						    </div>
+						</div>
+						<!-- 查询列表end  -->
+						<br/><br/>
+						
+						<!-- 操作start  -->
+						<div class="row">
+							<div class="col-md-12">
+								<div class="btn-group">
+									<button id="addButton" class="btn green" data-target="#addQuestionnaire" data-toggle="modal">
+										添加
+										<i class="fa fa-plus"></i>
+									</button>
+								</div>
+								<div class="btn-group">
+									<button id="deleteButton" class="btn red">
+										删除
+										<i class="fa fa-times"></i>
+									</button>
+								</div>
+								<div class="btn-group">
+									<button id="updateButton" class="btn green" data-target="#addQuestionnaire" data-toggle="modal">
+										修改
+										<i class="fa fa-edit"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+						<!-- 操作end  -->
+						<br/>
+						
+						<!-- 列表Start  -->
+						<table class="table table-striped table-bordered table-hover table-responsive-scrollable"  id="table1" >
+							<thead>
+								<tr>
+								    <th width="10%">
+									<input onclick="selectAll()" type="checkbox" id="selChan" class="group-checkable" data-set="#table_s1 .checkboxes"/>
+									全选 </th>
+									<th width="15%">姓名</th>
+									<th width="10%">昵称</th>
+								</tr>
+							</thead>
+							<tbody role="alert" aria-live="polite" aria-relevant="all"  >
+
+							</tbody>
+						</table>
+						<!-- 列表End  -->
+					</div>
+
+				</div>
+				<!-- END PAGE MAIN -->
+			</div>
+		</div>
+
+		<!-- END CONTENT -->
+		
+	<!-- 弹出修改框 -->		
+	<div class="modal fade" id="updateQueryUserRegionModal" tabindex="-1" role="basic" aria-hidden="true">
+	</div>
+	
+	<!-- 弹出增加框 -->		
+	<div class="modal fade" id="addUserRegionModal" tabindex="-1" role="basic" aria-hidden="true">
+	</div>
+		
+	<script type="text/javascript">
+		admin = {
+	
+		};
+		
+		//页面进来加载
+		jQuery(document).ready(function() {
+			App.init();
+			$("select").select2();
+			queryPage();
+			
+			/**  增加  */
+			 $("#addButton").click(function(){
+		    	    //弹框修改
+				    var url ="${futRoot}/userContorllor/addUserByObj.htm?taskName="+Math.random();
+				    var updateUserRegionModal = $("#addUserRegionModal");
+			        updateUserRegionModal.load(url, function() {
+			           updateUserRegionModal.modal({
+			               backdrop : 'static',
+			               keyboard : false
+			           });
+			           updateUserRegionModal.modal("show");
+			        }); 
+		       });
+			
+			   /**  删除   */
+			   $("#deleteButton").click(function(){
+			    	//获取ID
+			        var item = document.getElementsByName("checkBoxt");
+			        var str = "";
+			        for (var i = 0; i < item.length; i++) {
+			            if (item[i].checked == true) {
+			                var k = item[i].value;
+			                str+=k+","; 
+			            }
+			        }
+			        //验证是否选中
+			        if(str==""){
+			        	$.Alert("删除失败，请选择后删除!");
+			        	return false;
+			        }
+			      //提交后台处理
+			        $.ajax({
+				   		url : "${futRoot}/userContorllor/deleteUserById.htm",
+				   		type : "post",
+				   		dataType : "json",
+				   	    async: false,
+				   		data : {"ids":str},
+				   		success : function(data) {
+				   		// 1-成功  2-失败
+							if(data=="1"){
+								$.Alert("删除成功！");
+							    //刷新列表
+								admin.dataTable.fnDraw();
+						   		return false;
+						   		
+							}else{
+								$.Alert("删除失败！");
+							}
+				   		}
+				   	 });
+			   });
+		 });
+		
+		/**用户 跳转 修改 */
+		   $("#updateButton").click(function(){
+			    //获得参数
+		        var item = document.getElementsByName("checkBoxt");
+		        var str = "";
+		        var let=0;
+		        for (var i = 0; i < item.length; i++) {
+		            if (item[i].checked == true) {
+		                var k = item[i].value;
+		                let++; //验证是否选中单个
+		                str+=k; //接收选中值
+		            }
+		        }
+		        if(let>1){
+		        	$.Alert("修改失败，只能选择单个进行修改！");
+		        	return false;
+		        }
+		        if(str=="" || str==undefined){
+		        	$.Alert("请选择后再操作！");
+		            return false;
+		        }
+		        
+		        //弹框修改
+			    var url ="${futRoot}/userContorllor/updateQueryUserById.htm?id="+str+"&taskName="+Math.random();
+			    var updateUserRegionModal = $("#updateQueryUserRegionModal");
+		        updateUserRegionModal.load(url, function() {
+		           updateUserRegionModal.modal({
+		               backdrop : 'static',
+		               keyboard : false
+		           });
+		           updateUserRegionModal.modal("show");
+		        });
+		   });
+		
+		/** 分页列表  */
+		function queryPage() {
+			//$('#table1').dataTable().fnDestroy();
+			if( admin.dataTable ){
+				admin.dataTable.fnDestroy();
+			}
+			//显示查询条件
+			admin.dataTable = $('#table1').dataTable({
+				"bFilter" : false,
+				"bSort" : false, // 排序功能
+				"processing" : true, // 设置异步请求时，是否有等待框。
+				"sAjaxSource" : '${futRoot}/wct/queryUserListPage.json',
+				 "fnServerParams" : function(aoData) {
+						aoData.push({
+							"name" : "uName", 
+							"value" : $('#uName').val()
+						},{
+							"name" : "uTelephone",
+							"value" : $('#uTelephone').val()
+						}); 
+					},
+				"sServerMethod" : "post",
+				"bServerSide" : true, // 异步请求
+				"aoColumns" : [ {
+					"mData" : "id",
+					"sWidth": "10%",
+					"mRender" : function(data, type, row) {
+						if (data) {
+							return "<input id='checkBoxt' name='checkBoxt' type='checkbox' class='checkboxes' value="+data+" />";
+						}
+					}
+				},{
+					"mData" : "id",
+					"sWidth": "15%",
+					"mRender" : function(data, type, row) {
+						if(data){
+							return data;
+						}
+					}
+				}, {
+					"mData" : "name",
+					"sWidth": "15%",
+					"mRender" : function(data, type, row) {
+						if (data) {
+							return data;
+						}
+					}
+				}],
+				"aLengthMenu" : [[10, 15, 20], [10, 15, 20]],
+				"iDisplayLength" : 10,
+				"sPaginationType" : "bootstrap",
+				"aaSorting" : [[2, "asc"]], //列数
+				"aoColumnDefs" : [{
+					"sDefaultContent" : '',
+					"aTargets" : ["_all"]
+				} ],
+				"fnServerData" : function(sSource, aoData, fnCallback) {
+					$.ajax({
+						"dataType" : 'json',
+						"type" : "POST",
+						"url" : sSource,
+						"data" : aoData,
+						"success" : fnCallback,
+						"timeout" : 3000000, // 连接超时时间
+						"error" : function handleAjaxError(xhr, textStatus, error) {
+							if (textStatus === "timeout") {
+								//$.dopErr("连接超时!请稍后再试!!!");
+								$.Alert("连接超时!请稍后再试!!!");
+							} else if (textStatus == "error") {
+								//$.dopErr("系统繁忙!!!,请稍后再试!!!", null);
+								$.Alert("系统繁忙!!!,请稍后再试!!!");
+							}
+							admin.dataTable.fnProcessingIndicator(false);
+							// 这里是把"正在查询几个子去掉，(换成自己的id)
+						}
+					});
+				}, //设置异常处理
+				"oLanguage" : {
+					"sLengthMenu" : "每页显示 _MENU_ 条记录",
+					"sZeroRecords" : "抱歉， 没有找到",
+					"sInfo" : "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+					"sInfoEmpty" : " ",
+					"sProcessing" : "正在查询....",
+					"sInfoFiltered" : "",
+					"oPaginate" : {
+						"sFirst" : "首页",
+						"sPrevious" : "前一页",
+						"sNext" : "后一页",
+						"sLast" : "尾页"
+					}
+				}
+			});
+			
+			//重置
+			$("#resetButton").click(function(){
+				$("#uTelephone").val("");
+				$("#uName").val("");
+			});
+			
+			
+		}
+	</script>	
+		
+		
+		
+	</body>
+	<!-- END BODY -->
+</html>

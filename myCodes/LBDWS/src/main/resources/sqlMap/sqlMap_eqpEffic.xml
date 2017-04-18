@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="eqpEffic">
+	<!-- 设备运行效率 查询-->
+   <sql id="eqpOreratingEffic">
+   	<![CDATA[
+   		SELECT 
+			sum(round(to_number(a.etim-a.stim)*24*60)) as pRuntime,
+			sum(nvl(b.run_time,0)) as runTime,
+			c.equipment_name as eqpName,
+			c.equipment_code as eqpCode,
+			d.code as eqpCaregoryName
+		from SCH_WORKORDER a 
+		LEFT JOIN SCH_STAT_OUTPUT b on a.id=b.oid
+		LEFT JOIN MD_EQUIPMENT c on a.eqp=c.id
+		LEFT JOIN MD_EQP_TYPE d on d.id=c.eqp_type_id
+		LEFT JOIN MD_EQP_CATEGORY e on e.id=d.cid
+		LEFT JOIN MD_SHIFT f on a.shift=f.id
+		LEFT JOIN MD_TEAM g on g.id=a.team
+		where a.sts='4' 
+		<#if shiftId?exists && shiftId != ""> and a.shift=:shiftId</#if>
+   		<#if teamId?exists && teamId != ""> and a.team=:teamId</#if>
+   		<#if eqpCaregoryId?exists && eqpCaregoryId != ""> and e.id=:eqpCaregoryId</#if>
+   		<#if eqpId?exists && eqpId != ""> and a.eqp=:eqpId</#if>
+   		<#if sDate?exists && sDate != ""> and to_char(a.DATE_,'yyyy-MM-dd') >=:sDate</#if>
+   		<#if eDate?exists && eDate != ""> and to_char(a.DATE_,'yyyy-MM-dd') <=:eDate</#if>
+   		GROUP BY c.equipment_name ,c.equipment_code,d.code
+   		ORDER BY 
+   		<#if orderByEffic?exists && orderByEffic != ""> ROUND(runTime/pRuntime*100) desc,</#if>
+   		cast(eqpCode as int) asc
+   	]]>
+   </sql>
+    
+    
+    <sql id="effectiveOperatingEffic">
+	    <![CDATA[
+			SELECT 
+				b.equipment_name as eqpName, 
+				b.equipment_code as eqpCode,
+				c.name as eqpCaregoryName, 
+				to_char(a.DATE_,'yyyy-mm-dd') as pStrDate,
+				(SELECT name from md_shift shift where shift.id=a.shift) as shiftName,
+				(SELECT name from MD_TEAM team where team.id=a.team) as teamName,
+				round(nvl(f.run_time,0)/60,2) as runTime, 
+				round(nvl(f.stop_time,0)/60,2) as rStoptime, 
+				nvl(f.qty,0.0) as rQty,
+				b.YIE_ID as yie, 
+				round(to_number(a.ETIM-a.STIM)*24,2) as pRuntime, 
+				sum(nvl(e.plan_times,0.0)) as pMaintenanceTime,
+				sum(round(nvl(g.stop_time,0)/60,2)) as kickOutTime
+			from 
+			SCH_WORKORDER a  
+			LEFT JOIN MD_EQUIPMENT b on a.eqp=b.id 
+			LEFT JOIN MD_EQP_TYPE c on b.eqp_type_id=c.id 
+			LEFT JOIN MD_EQP_CATEGORY d on c.cid=d.id 
+			LEFT JOIN EQM_WHEEL_COVEL_PLAN e on e.eqp_id=b.id 
+			LEFT JOIN SCH_STAT_OUTPUT f on f.oid=a.id 
+			LEFT JOIN EQM_CULL_RECORD g on g.eqp_id=b.id and a.shift=g.shift_id and a.team=g.team_id and g.st_date BETWEEN a.stim and a.etim
+	   		WHERE a.sts=4
+	   	<#if shiftId?exists && shiftId != ""> and a.shift=:shiftId</#if>
+   		<#if teamId?exists && teamId != ""> and a.team=:teamId</#if>
+   		<#if eqpCaregoryId?exists && eqpCaregoryId != ""> and d.id=:eqpCaregoryId</#if>
+   		<#if eqpId?exists && eqpId != ""> and b.eqp=:eqpId</#if>
+   		<#if sDate?exists && sDate != ""> and to_char(a.DATE_,'yyyy-MM-dd') >=:sDate</#if>
+   		<#if eDate?exists && eDate != ""> and to_char(a.DATE_,'yyyy-MM-dd') <=:eDate</#if>
+	   GROUP BY 
+		b.equipment_name,
+		c.name,
+		a.DATE_,
+		a.shift,
+		a.team,
+		f.qty,
+		d.code,
+		f.run_time,
+		f.stop_time, 
+		round(to_number(a.ETIM-a.STIM)*24,2),
+		b.YIE_ID,
+		b.equipment_code 
+	   ORDER BY 
+	   <#if orderByEffic?exists && orderByEffic != ""> ROUND(runTime/(pRuntime-pMaintenanceTime-kickOutTime)*100) desc,</#if>
+	   a.date_ asc ,a.shift asc,a.team asc,cast(eqpCode as int) asc
+	    ]]>
+    </sql>
+</sqlMap>
+
+
+

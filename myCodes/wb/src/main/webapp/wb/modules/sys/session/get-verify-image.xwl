@@ -1,0 +1,1 @@
+{"title":"获取验证码图片","hidden":false,"roles":{},"children":[{"configs":{"loginRequired":"false","serverMethod":"com.wb.interact.VerifyImage.outputImage","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

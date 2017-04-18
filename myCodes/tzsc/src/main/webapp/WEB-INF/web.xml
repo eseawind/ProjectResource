@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+	
+	<display-name>滕州数采DAMS</display-name>
+	
+	<context-param>
+		<description>加载配置文件</description>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring.xml,classpath:spring-hibernate.xml,classpath:spring-cxf.xml,classpath:spring-tasks.xml</param-value>
+	</context-param>
+	<filter>
+		<description>字符集过滤器</description>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<description>字符集编码</description>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<!-- 映射字符过滤器 -->
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- dwr信息推送配置 start-->
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+		<init-param>
+		<param-name>activeReverseAjaxEnabled</param-name>
+		<param-value>true</param-value>
+		</init-param>
+		<init-param>
+				<param-name>maxWaitAfterWrite</param-name>
+				<param-value>500</param-value>
+			</init-param>
+		<init-param> 
+		<param-name>debug</param-name> 
+		<param-value>true</param-value> 
+		</init-param> 
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+    <!-- dwr信息推送配置 end-->
+	
+	<!-- spring监听器 -->
+	<listener>
+		<description>spring监听器</description>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!-- druid数据源Web监控配置 -->
+	<filter>
+		<filter-name>druidWebStatFilter</filter-name>
+		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+		<init-param>
+			<param-name>exclusions</param-name>
+			<param-value>/css/*,/style/*,/jslib/*,*.js,*.css,/druid*,/attached/*,*.jsp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>principalSessionName</param-name>
+			<param-value>sessionInfo</param-value>
+		</init-param>
+		<init-param>
+			<param-name>profileEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<!-- druid数据源Web监控配置mapping -->
+	<filter-mapping>
+		<filter-name>druidWebStatFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 防止spring内存溢出监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	
+	<servlet>
+		<description>druid监控页面，使用${pageContext.request.contextPath}/druid/index.html访问</description>
+		<servlet-name>druidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+	</servlet>
+	<!-- spring mvc servlet -->
+	<servlet>
+		<description>spring mvc servlet</description>
+		<servlet-name>springMvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<description>spring mvc 配置文件</description>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>springMvc</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<description>程序启动时，加载初始化信息 </description>
+		<servlet-name>initResourceServlet</servlet-name>
+	 	<servlet-class>com.shlanbao.tzsc.init.InitResourceServlet</servlet-class>
+	 	<load-on-startup>2</load-on-startup><!--加这个标签，tomcat启动时会自动加载指定的servlet--> 
+	</servlet>
+	
+	<!-- xfire WebService服务  已废弃-->
+	<!-- <servlet>
+		<servlet-name>xfire</servlet-name>
+		<servlet-class>org.codehaus.xfire.spring.XFireSpringServlet</servlet-class>
+		<load-on-startup>4</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>xfire</servlet-name>
+		<url-pattern>/ws/*</url-pattern>
+	</servlet-mapping> -->
+	
+    <!-- cxf WebService服务 -->
+	<servlet>
+		<servlet-name>cxfService</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>cxfService</servlet-name>
+		<url-pattern>/ws/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 开启 Socket 服务器接收DAC实时数据 -->
+	<!-- Socket 服务器IP -->
+	<context-param>
+		<param-name>localAddress</param-name>
+		<param-value>10.114.84.17</param-value>
+	</context-param>
+	<!-- Socket 服务器端口 -->
+	<context-param>
+		<param-name>localPort</param-name>
+		<param-value>1115</param-value>
+	</context-param>
+	<!-- 数据接收的监听 -->
+	<listener>
+		<listener-class>com.shlanbao.tzsc.data.runtime.DataReceiveListener</listener-class>
+	</listener>
+	
+	<!-- 开启 modBUS 接口转发实时数据  -->
+	<!-- 说明：滕州数采启用DIS服务器(10.114.84.18)
+		                 使用KEPWARE作为OPC服务器,接收来自WebServer modBUS的实时数据 -->
+	<listener>
+		<listener-class>com.shlanbao.tzsc.data.modbus.tcp.slave.DataPostListener</listener-class>
+	</listener>
+	
+	<!-- 需要拦截的JSP -->
+	<filter>
+		<filter-name>sessionFilter</filter-name>
+		<filter-class>com.shlanbao.tzsc.base.filter.SessionFilter</filter-class>
+	    <!-- 在pms这个文件夹下面的所有JSP页面，都需要有session才能访问，可以配置多个，用英文半角逗号分割 -->
+		<!-- <init-param>
+			<param-name>include</param-name>
+			<param-value>pms</param-value>
+		</init-param> -->
+	</filter>
+
+	<!-- <filter-mapping>
+		<filter-name>sessionFilter</filter-name>
+		<url-pattern>/wct/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>sessionFilter</filter-name>
+		<url-pattern>/pms/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>sessionFilter</filter-name>
+		<url-pattern>/isp/*</url-pattern>
+	</filter-mapping> -->
+	<!-- <filter-mapping>
+		<filter-name>sessionFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping> -->
+	<!-- 配置静态资源不经过spring mvc -->
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.js</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.json</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.gif</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.png</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpg</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.JPG</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.ico</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.doc</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.xls</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.docx</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.xlsx</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.txt</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.swf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.eot</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.ttf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.svg</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.woff</url-pattern>
+	</servlet-mapping>
+	<!-- druid监控页面mapping -->
+	<servlet-mapping>
+		<servlet-name>druidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 欢迎页面 -->
+	<welcome-file-list>
+		<welcome-file>/pms/sys/user/login.jsp</welcome-file>
+		<welcome-file>/wct/sys/login.jsp</welcome-file>
+		<welcome-file>/isp/login.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<!-- 找不到页错误转向 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error/404.jsp</location>
+	</error-page>
+	<!-- 系统内部错误转向 -->
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error/500.jsp</location>
+	</error-page>
+	
+	<!-- 配置session超时时间，单位分钟 -->
+	<session-config>
+		<session-timeout>480</session-timeout>
+	</session-config>
+	
+	<!-- 文件上传Servlet -->
+	<servlet>
+		<description></description>
+		<display-name>UploadServlet</display-name>
+		<servlet-name>UploadServlet</servlet-name>
+		<servlet-class>com.shlanbao.tzsc.utils.tools.UploadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadServlet</servlet-name>
+		<url-pattern>/UploadServlet</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 文件预览 -->
+		<servlet>
+		<description></description>
+		<display-name>ConvertServlet</display-name>
+		<servlet-name>ConvertServlet</servlet-name>
+		<servlet-class>com.shlanbao.tzsc.utils.tools.ConvertServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ConvertServlet</servlet-name>
+		<url-pattern>/ConvertServlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<servlet-name>wct</servlet-name>
+		<servlet-class>com.shlanbao.tzsc.utils.tools.WctServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>wct</servlet-name>
+		<url-pattern>/wct</url-pattern>
+		<url-pattern>/wct/</url-pattern>
+		<url-pattern>/WCT</url-pattern>
+		<url-pattern>/WCT/</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<servlet-name>pms</servlet-name>
+		<servlet-class>com.shlanbao.tzsc.utils.tools.PmsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>pms</servlet-name>
+		<url-pattern>/pms</url-pattern>
+		<url-pattern>/pms/</url-pattern>
+		<url-pattern>/PMS</url-pattern>
+		<url-pattern>/PMS/</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<servlet-name>isp</servlet-name>
+		<servlet-class>com.shlanbao.tzsc.utils.tools.IspServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>isp</servlet-name>
+		<url-pattern>/isp</url-pattern>
+		<url-pattern>/isp/</url-pattern>
+		<url-pattern>/ISP</url-pattern>
+		<url-pattern>/ISP/</url-pattern>
+	</servlet-mapping>
+</web-app>

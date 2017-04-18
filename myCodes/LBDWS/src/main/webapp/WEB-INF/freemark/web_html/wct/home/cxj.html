@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>成型机</title>
+<link href="${resRoot}/wct_web/css/filterAndBoxer/css.css" rel="stylesheet" type="text/css" />
+<link href="${resRoot}/wct_web/css/filterAndBoxer/cxj.css" rel="stylesheet" type="text/css" />
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<script src='${resRoot}/wct_web/js/filterAndBoxer/dh_jquery.js'></script>
+<script>
+//初始化机台信息
+<#if (Session.loginInfo)??>
+	<#assign loginBean=Session.loginInfo>
+<#else>
+	window.parent.parent.location.href="/LBDWS/wct/index.htm";
+</#if>
+//切换封箱机界面
+function setTab(name,cursel){
+	for(var i=1; i<=2; i++){
+		var menu = $("#"+name+i);
+		var menudiv = $("#con_"+name+"_"+i);
+		if(i==cursel){
+			menu.css("background","#fff");
+			menu.css("color","#000");
+			menudiv.show();
+		}else{
+			menu.css("background","#02a55c");
+			menu.css("color","##fff");
+			menudiv.hide();
+		}
+	}
+}
+
+//初始化界面数据
+$(function(){
+	$.ajax({
+		type: "POST",
+		url: "/LBDWS/wct/realTimeData/initfilterData.json",
+		success: function(msg){
+			var bean=null;
+			var eqpCode=null;
+			for(var i=0;i<msg.length;i++){
+				bean=msg[i];
+				//设置tab文字
+				eqpCode=bean.equipmentCode;
+				if(eqpCode==101 || eqpCode==103){
+					$("#one1").html(bean.equipmentEdcs);
+				}else{
+					$("#one2").html(bean.equipmentEdcs);
+				}
+				$("#shift"+eqpCode).html(bean.teamName+"           "+bean.shiftName);//班次
+				//$("#eqpType"+eqpCode).html(bean.equipmentType);//设备型号
+				$("#orderCode"+eqpCode).html(bean.workorderCode);//工单号
+				$("#pStim"+eqpCode).html(bean.planStim);//计划开始时间
+				$("#pEtim"+eqpCode).html(bean.planEtim);//计划结束时间
+				$("#pQty"+eqpCode).html(bean.planQty);//计划产量
+				$("#pUnit"+eqpCode).html(bean.unit);//计划产量单位
+				$("#matName"+eqpCode).html(bean.matName);//牌号
+				$("#rStim"+eqpCode).html(bean.stim);//实际开始时间
+				$("#realUnit"+eqpCode).html(bean.unit);//产量单位
+				
+				$("#bzdhVal"+eqpCode).html(bean.panzhiBzdh);//盘纸消耗
+			}
+		}
+	});
+	//定时刷新数据
+	window.timerTaskFunction0=setInterval('reFrushData()',3000);
+});
+//刷新数据
+	function reFrushData(){
+		$.ajax({
+			type: "POST",
+			url: "/LBDWS/wct/realTimeData/getRealTimeFilterData.json",
+			success: function(msg){
+				 var bean=null;
+				 var eqpCode=null;
+				 var online="离线";
+				 var pQty=0.1;//计划产量
+				 var qty=0.0;//实际产量
+				 var pabzDh=1;
+				 var pzVal=0.0;
+				 for(var i=0;i<msg.length;i++){
+					 bean=msg[i];
+					 eqpCode=bean.equipmentCode;
+					 qty=bean.qty;
+					 $("#qty"+eqpCode).html(qty);//实际产量
+					 pQty= $("#pQty"+eqpCode).html();
+					 if(!$.isNumeric(pQty)){
+						 pQty=0.1; 
+					 }
+					 var qtyWidth=qty/pQty*100;
+					 $("#qtyWidth"+eqpCode).width(qtyWidth>100?100+"%":qtyWidth+"%");//实际产量进度条
+					 
+					 
+					 $("#zpQty"+eqpCode).html(bean.zpQty);//装盘机数据
+					 $("#speed"+eqpCode).html(bean.speed);//车速
+					 if(bean.speed>0 && bean.online==1){
+						 online="正在运行";
+					 }else if(bean.speed==0 && bean.online==1){
+						 online="暂停";
+					 }
+					 $("#runStatus"+eqpCode).html(online);//运行状态
+					 
+					 
+					 
+					 $("#runTime"+eqpCode).html(bean.runTime);//运行时间
+					 $("#runTimeWidth"+eqpCode).width(bean.runTime/(8*60)*100+"%");//运行时间进度条
+					 
+					 $("#stopTime"+eqpCode).html(bean.stopTime);//停机时间
+					 $("#stopTimeWidth"+eqpCode).width(bean.stopTime/(8*60)*100+"%");//停机时间
+					 
+					 
+					 pabzDh=$("#bzdhVal"+eqpCode);
+					 if(!$.isNumeric(pabzDh)){
+						 pabzDh=1;
+					 }
+					 pzVal=bean.panzhiVal;
+					 $("#realConsume"+eqpCode).html(pzVal);//实际单耗值
+					 //计算长度
+					var dhWidth=pzVal/pQty*100
+					$("#realConsumeWidth"+eqpCode).width(dhWidth>100?100+"%":dhWidth+"%");//实际单耗进度条
+				 }
+			}
+		});
+	}
+</script>
+</head>
+
+<body>
+<div id="content">
+<div class="tab1" id="tab1">
+	<div class="menu">
+		<ul>
+			<li id="one1" onclick="setTab('one',1)"></li>
+			<li id="one2" onclick="setTab('one',2)"></li>
+			
+		</ul>
+	</div>
+	<div class="menudiv">
+		<div id="con_one_1">
+            	<div class="cxj_top">
+            		<p class="bc1">当前班次：<font id="shift${loginBean.filterEquipmentCode0?if_exists}"></font></p>
+            		<p class="bc">当前牌号：<font id="matName${loginBean.filterEquipmentCode0?if_exists}"></font></p>
+            		<!-- <p class="bc">设备型号：<font id="eqpType${loginBean.filterEquipmentCode0?if_exists}"></font></p> -->
+            		<p class="bc">当前车速：<font id="speed${loginBean.filterEquipmentCode0?if_exists}">支/分</font></p>
+            		<p class="bc">运行状态：<font id="runStatus${loginBean.filterEquipmentCode0?if_exists}"></font></p>
+            	</div>
+                <div class="cxj_middle">
+                  <div class="left_middle">
+                  <img src="${resRoot}/wct_web/images/filterAndBoxer/cxj/ui_07.png" width="844" height="266" /></div>
+                  <div class="right_middle">
+	                  	<ul>
+	                  		<li class="gd_title">工单信息</li>
+	                  		<li class="gdxx_contect">工单：<font id="orderCode${loginBean.filterEquipmentCode0?if_exists}"></font></li>
+	                  		<li class="gdxx_contect">计划产量： <font id="pQty${loginBean.filterEquipmentCode0?if_exists}"></font><font id="pUnit${loginBean.filterEquipmentCode0?if_exists}"></font></li>
+							<li class="gdxx_contect">计划开始时间： <font id="pStim${loginBean.filterEquipmentCode0?if_exists}"></font></li>
+							<li class="gdxx_contect1">计划结束时间：<font id="pEtim${loginBean.filterEquipmentCode0?if_exists}"></font></li>
+							<li class="gdxx_contect1">实际开始时间：<font id="rStim${loginBean.filterEquipmentCode0?if_exists}"></font></li>
+						</ul>
+					</div>
+				  </div>
+                  <div class="clear"></div>
+                 <div class="cxj_foot">
+                   <div class="right_top">
+                   <div class="right_top_ms">
+                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="485" class="cxj_yxzt">装盘机:<font id="zpQty${loginBean.filterEquipmentCode0?if_exists}"></font><font>盘</font></td>
+                        <td width="795">
+                        	<div class="cxj_name">产量：</div>
+                            <div class="cxj_sjt1">
+	                            <div class="skillbar clearfix " data-percent="0%" >
+	                            <div class="skillbar-bar" style="background: #a5e0f4;" id="qtyWidth${loginBean.filterEquipmentCode0?if_exists}"></div></div>
+                            </div>
+                            <div class="cxj_time"><font id="qty${loginBean.filterEquipmentCode0?if_exists}"></font><font id="realUnit${loginBean.filterEquipmentCode0?if_exists}"></font></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="485">
+                        	<div class="cxj_name">运行时间：</div>
+                            <div class="cxj_sjt">
+	                            <div class="skillbar clearfix " data-percent="0%" >
+	                            <div class="skillbar-bar" style="background: #a5e0f4;" id="runTimeWidth${loginBean.filterEquipmentCode0?if_exists}"></div></div>
+                            </div>
+                            <div class="cxj_time">
+                            	<font id="runTime${loginBean.filterEquipmentCode0?if_exists}"></font><font id="runTimeUnit${loginBean.filterEquipmentCode0?if_exists}">分钟</font>
+                            </div>
+                        </td>
+                        <td style="width:795px">
+                        	<div class="cxj_name">标准单耗：</div>
+                            <div class="cxj_sjt1">
+                            <div class="skillbar clearfix " data-percent="90%" >
+                            <div class="skillbar-bar" style="background: #a5e0f4;"></div></div>
+                            </div>
+                            <div class="cxj_time"><font id="bzdhVal${loginBean.filterEquipmentCode0?if_exists}"></font><font id="consumeUnit${loginBean.filterEquipmentCode0?if_exists}"></font></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="485">
+                        <div class="cxj_name">停机时间：</div>
+                        <div class="cxj_sjt">
+                            <div class="skillbar clearfix " data-percent="0%" >
+                            <div class="skillbar-bar" style="background: #a5e0f4;" id="stopTimeWidth${loginBean.filterEquipmentCode0?if_exists}"></div></div>
+                         </div>
+                         <div class="cxj_time"><font id="stopTime${loginBean.filterEquipmentCode0?if_exists}"></font id="stopTimeUnit${loginBean.filterEquipmentCode0?if_exists}">分钟<font></font></div>
+                         </td>
+                         <td width="795">
+                        	<div class="cxj_name">实际单耗：</div>
+                            <div class="cxj_sjt1">
+                            <div class="skillbar clearfix " data-percent="0%" >
+                            <div class="skillbar-bar" style="background: #a5e0f4;" id="realConsumeWidth${loginBean.filterEquipmentCode0?if_exists}"></div></div>
+                            </div>
+                            <div class="cxj_time"><font id="realConsume${loginBean.filterEquipmentCode0?if_exists}"></font><font id="realConsumeUnit${loginBean.filterEquipmentCode0?if_exists}"></font></div>
+                        </td>
+                      </tr>
+                    </table>
+                </div>
+	   			</div>
+                 </div>
+            </div>
+		<div id="con_one_2" style="display:none;">
+        	<div class="cxj_top">
+            		<p class="bc1">当前班次：<font id="shift${loginBean.filterEquipmentCode1?if_exists}"></font></p>
+            		<p class="bc">当前牌号：<font id="matName${loginBean.filterEquipmentCode1?if_exists}"></font></p>
+            		<!-- <p class="bc">设备型号：<font id="eqpType${loginBean.filterEquipmentCode1?if_exists}"></font></p> -->
+            		<p class="bc">当前车速：<font id="speed${loginBean.filterEquipmentCode1?if_exists}">支/分</font></p>
+            		<p class="bc">运行状态：<font id="runStatus${loginBean.filterEquipmentCode1?if_exists}"></font></p>
+            	</div>
+                <div class="cxj_middle">
+                  <div class="left_middle">
+                  <img src="${resRoot}/wct_web/images/filterAndBoxer/cxj/ui_07.png" width="844" height="266" /></div>
+                  <div class="right_middle">
+	                  	<ul>
+	                  		<li class="gd_title">工单信息</li>
+	                  		<li class="gdxx_contect">工单：<font id="orderCode${loginBean.filterEquipmentCode1?if_exists}"></font></li>
+	                  		<li class="gdxx_contect">计划产量： <font id="pQty${loginBean.filterEquipmentCode1?if_exists}"></font><font id="pUnit${loginBean.filterEquipmentCode1?if_exists}"></font></li>
+							<li class="gdxx_contect">计划开始时间： <font id="pStim${loginBean.filterEquipmentCode1?if_exists}"></font></li>
+							<li class="gdxx_contect1">计划结束时间：<font id="pEtim${loginBean.filterEquipmentCode1?if_exists}"></font></li>
+							<li class="gdxx_contect1">实际开始时间：<font id="rStim${loginBean.filterEquipmentCode1?if_exists}"></font></li>
+						</ul>
+					</div>
+				  </div>
+                  <div class="clear"></div>
+                 <div class="cxj_foot">
+                   <div class="right_top">
+                   <div class="right_top_ms">
+                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="485" class="cxj_yxzt">装盘机:<font id="zpQty${loginBean.filterEquipmentCode1?if_exists}"></font><font>盘</font></td>
+                        <td width="795">
+                        	<div class="cxj_name">产量：</div>
+                            <div class="cxj_sjt1">
+                            <div class="skillbar clearfix " data-percent="0%" >
+                            <div class="skillbar-bar" style="background: #a5e0f4;" id="qtyWidth${loginBean.filterEquipmentCode1?if_exists}"></div></div>
+                            </div>
+                            <div class="cxj_time"><font id="qty${loginBean.filterEquipmentCode1?if_exists}"></font><font id="realUnit${loginBean.filterEquipmentCode1?if_exists}"></font></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="485">
+                        	<div class="cxj_name">运行时间：</div>
+                            <div class="cxj_sjt">
+                            <div class="skillbar clearfix " data-percent="0%" >
+                            <div class="skillbar-bar" style="background: #a5e0f4;" id="runTimeWidth${loginBean.filterEquipmentCode1?if_exists}"></div></div>
+                            </div>
+                            <div class="cxj_time"><font id="runTime${loginBean.filterEquipmentCode1?if_exists}"></font><font id="runTimeUnit${loginBean.filterEquipmentCode1?if_exists}">分钟</font></div>
+                        </td>
+                        <td style="width:795px">
+                        	<div class="cxj_name">标准单耗：</div>
+                            <div class="cxj_sjt1">
+                            <div class="skillbar clearfix " data-percent="90%" >
+                            <div class="skillbar-bar" style="background: #a5e0f4;"></div></div>
+                            </div>
+                            <div class="cxj_time"><font id="bzdhVal${loginBean.filterEquipmentCode1?if_exists}"></font><font id="consumeUnit${loginBean.filterEquipmentCode1?if_exists}"></font></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="485">
+                        <div class="cxj_name">停机时间：</div>
+                        <div class="cxj_sjt">
+                            <div class="skillbar clearfix " data-percent="0%" >
+                            <div class="skillbar-bar" style="background: #a5e0f4;" id="stopTimeWidth${loginBean.filterEquipmentCode1?if_exists}"></div></div>
+                         </div>
+                         <div class="cxj_time"><font id="stopTime${loginBean.filterEquipmentCode1?if_exists}"></font id="stopTimeUnit${loginBean.filterEquipmentCode1?if_exists}">分钟<font></font></div>
+                         </td>
+                         <td width="795">
+                        	<div class="cxj_name">实际单耗：</div>
+                            <div class="cxj_sjt1">
+                            <div class="skillbar clearfix " data-percent="0%" >
+                            <div class="skillbar-bar" style="background: #a5e0f4;" id="realConsumeWidth${loginBean.filterEquipmentCode1?if_exists}"></div></div>
+                            </div>
+                            <div class="cxj_time"><font id="realConsume${loginBean.filterEquipmentCode1?if_exists}"></font><font id="realConsumeUnit${loginBean.filterEquipmentCode1?if_exists}"></font></div>
+                        </td>
+                      </tr>
+                    </table>
+                </div>
+	   			</div>
+                 </div>
+      	</div> 
+	</div>
+</div>
+</div>
+</body>
+</html>

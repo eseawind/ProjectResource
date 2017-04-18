@@ -1,0 +1,1 @@
+{"title":"导出到服务器","inframe":false,"hidden":false,"roles":{},"pageLink":"","children":[{"configs":{"serverMethod":"com.wb.interact.Service.exportJsonToServer","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

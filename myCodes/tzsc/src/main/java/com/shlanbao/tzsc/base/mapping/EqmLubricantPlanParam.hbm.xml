@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.shlanbao.tzsc.base.mapping.EqmLubricantPlanParam" table="EQM_LUBRICAT_PLAN_PARAM">
+        <id name="id" type="java.lang.String">
+            <column name="ID" length="50" />
+            <generator class="uuid.hex" />
+        </id>
+        <property name="code" type="java.lang.String">
+            <column name="CODE" length="100" />
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" length="3000" />
+        </property>
+        <property name="des" type="java.lang.String">
+            <column name="DES" length="3000" />
+        </property>
+        <property name="oiltd" type="java.lang.String">
+            <column name="OILID" length="50" />
+        </property>
+        <property name="fill_quantity" type="java.lang.String">
+            <column name="FILL_QUANTITY" length="50" />
+        </property>
+        <property name="fill_unit" type="java.lang.String">
+            <column name="FILL_UNIT" length="50" />
+        </property>
+        <property name="methods" type="java.lang.String">
+            <column name="METHODS" length="50" />
+        </property>
+        <many-to-one name="end_user" class="com.shlanbao.tzsc.base.mapping.SysUser" fetch="select">
+            <column name="END_USER" length="50" />
+        </many-to-one>
+        <many-to-one name="sysEqpType" class="com.shlanbao.tzsc.base.mapping.SysEqpType" fetch="select">
+            <column name="SYS_EQP_TYPE" length="50" />
+        </many-to-one>
+        <property name="end_time" type="java.util.Date">
+            <column name="END_TIME" length="50" />
+        </property>
+        <property name="plan_id" type="java.lang.String">
+            <column name="PLAN_ID" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

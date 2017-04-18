@@ -1,0 +1,1 @@
+{"title":"查询","inframe":false,"hidden":false,"roles":{"demo":1},"pageLink":"","children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select * from WB_ROLE {#sql.orderBy#}","itemId":"dataprovider1","dictTableNames":"WB_ROLE"},"children":[],"type":"dataprovider","expanded":false}],"type":"module","expanded":true}],"iconCls":""}

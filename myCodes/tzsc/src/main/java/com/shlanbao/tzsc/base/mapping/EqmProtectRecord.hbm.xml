@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.shlanbao.tzsc.base.mapping.EqmProtectRecord" table="EQM_PROTECT_RECORD"   >
+        <id name="id" type="java.lang.String">
+            <column name="ID" length="50" />
+            <generator class="uuid.hex" />
+        </id>
+        <property name="eqpId" type="java.lang.String">
+            <column name="eqp_id" length="50" />
+        </property>
+        <property name="createTime" type="java.util.Date">
+            <column name="create_time" length="23" />
+        </property>
+        <property name="endTime" type="java.util.Date">
+            <column name="end_time" length="23" />
+        </property>
+
+        <property name="createUserId" type="java.lang.String">
+            <column name="create_user_id" length="50" />
+        </property>
+        <property name="endUserId" type="java.lang.String">
+            <column name="end_user_id" length="50" />
+        </property>
+        <property name="endUserName" type="java.lang.String">
+            <column name="end_user_name" length="50" />
+        </property>
+        <property name="pauldayId" type="java.lang.String">
+            <column name="paulday_id" length="50" />
+        </property>
+         <property name="status" type="java.lang.Integer">
+            <column name="status" length="1" />
+        </property>
+        <property name="paul_id" type="java.lang.String">
+            <column name="paul_id"  length="50"/>
+        </property>
+        <property name="shift_id" type="java.lang.String">
+            <column name="shift_id" length="50"/>
+        </property>
+    </class>
+</hibernate-mapping>

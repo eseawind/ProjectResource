@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!-- 本类仅供Hibernate Tool 与数据库建立建立连接时使用 -->
+<!-- 滕州新厂数据库服务器IP：10.114.84.8 -->
+<hibernate-configuration>
+    <session-factory name="sf">
+        <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+        <property name="hibernate.connection.url">jdbc:sqlserver://10.114.84.8:1433;database=tzdb</property>
+        <property name="hibernate.connection.username">appusr</property>
+        <property name="hibernate.connection.password">123456</property>
+        <!-- <property name="hibernate.default_catalog">tzdb</property>
+        <property name="hibernate.default_schema">dbo</property> -->
+        <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+    </session-factory>
+</hibernate-configuration>

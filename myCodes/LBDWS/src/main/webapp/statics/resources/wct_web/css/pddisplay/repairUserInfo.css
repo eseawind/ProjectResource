@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* CSS Document */
+.item_input{width:92px; margin-left:20px;margin-right:20px; height:32px; line-height:32px; text-decoration:none; font-size:18px; float:left; border-radius:4px; background:#53d1e2; display:block; color:#fff; text-align:center; border:none;}
+
+
+.bottom_content{
+	overflow-y: auto;
+	overflow-x:hidden;
+}
+/*图片*/
+.imgDiv{
+	border: 1px solid darkgray;
+	width: auto;
+	height: auto;
+	float: left;
+	text-align: center;
+	margin: 5px;
+}
+.imgDiv a img{
+	margin: 5px;
+ 	height: 200px;
+ 	width: 150px;
+ }
+}
+.textDiv{
+	font-size: 12px;
+	margin-bottom: 5px;
+}
+.container{
+	margin: 10px auto;
+	width: 80%;
+	height: auto;
+}

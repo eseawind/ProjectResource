@@ -1,0 +1,134 @@
+@charset "utf-8";
+/* CSS Document */
+.nylogin{
+	width:1110px;
+	/* background-color: red; */
+	height:40px;
+	margin-left:20px;
+	margin-top:30px;
+}
+.openlogin{
+	width:1110px;
+	/* background-color: red; */
+	height:40px;
+	margin-left:20px;
+	margin-top:30px;
+}
+.nerong{
+	font-size:16px;
+	margin-left:40px;
+	line-height: 30px;
+	/* background-color: green; */
+}
+#control_date{
+    width:200px;
+    height: 30px;
+    margin-left:30px;
+	}
+.dlbutton{
+	width:60px;
+	height: 33px;
+	border: 1px;
+}
+.nylogin3{
+	width:50px;
+	height: 50px;
+	margin-right:30px;
+	float:right;
+}
+.message{
+	color:red;
+}
+
+.checkbox1{
+	border: 1px solid;
+	width:25px;
+	height:25px;
+}
+
+
+/**表格下拉start */
+#myDiv{
+	overflow:scroll;
+	overflow-y:auto;
+	max-height:510px;
+}
+#showNumber
+{
+	text-align:center;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse:collapse;
+}
+/**表格下拉end */
+
+
+/*日期*/
+.rili{width:195px; padding-left:5px; height:30px; line-height:30px; background:url(../../images/gdxx/left_nav1.png) no-repeat right center; border:#afaeae 1px solid;}
+
+/* 分页 */
+.page {	margin-bottom:16px;	height:30px;margin-right: 30px;
+}
+.page::before, .page::after { clear:both;  content:" "; display:block;}
+.page .num-bar {height:30px;float:right;font-size:12px;
+}
+.page .num-bar a {height:30px;line-height:30px;	display:block;
+float:left;	padding:0 10px;	color:#333;
+}
+.page .num-bar .num:hover {	background:#8ec44e;	color:#fff;	
+margin-right:2px;}
+
+.page .num-bar .num {width: 92px;height: 32px; line-height: 32px; margin-right: 2px; font-size: 18px; border-radius: 4px; color: #fff; background: #53d1e2; text-align: center; border: none;}
+
+.page a{font-size:18px;}
+/* 数据表格 */
+.table {max-width:100%;	width:100%;	margin-bottom:14px;	color:#333; font-size:14px; 
+}
+.table th, .table td {border:#afaeae solid 1px;text-align:left; padding-left:15px;height:60px;}
+.bottom_content{margin:0 auto; margin-top:20px; margin-bottom:20px; width:94%; }
+
+.gd_input2{
+	width:92px;  
+	height:32px; 
+	line-height:32px; 
+	text-decoration:none; 
+	font-size:18px; 
+	float:left; 
+	border-radius:4px; 
+	background:#D9544F; 
+	display:block; 
+	color:#fff; 
+	text-align:center; 
+	border:none;
+	margin-right:10px;
+	}
+.gd_input3{
+	width:92px;  
+	height:32px; 
+	line-height:32px; 
+	text-decoration:none; 
+	font-size:18px; 
+	float:left; 
+	border-radius:4px; 
+	background:#9BB33D;
+	display:block; 
+	color:#fff; 
+	text-align:center; 
+	border:none;
+	margin-right:10px;
+	}
+.gd_input2:hover{
+	width:92px; 
+	height:32px; 
+	line-height:32px; 
+	text-decoration:none; 
+	float:left; 
+	border-radius:4px; 
+	background:#8ec44e; 
+	display:block; 
+	color:#fff; 
+	text-align:center;
+	cursor: pointer; 
+	}
+
+
+

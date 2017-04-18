@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.shlanbao.tzsc.base.mapping.EqmCheckcatParam" table="EQM_CHECKCAT_PARAM"   >
+        <id name="id" type="java.lang.String">
+            <column name="ID" length="50" />
+            <generator class="uuid.hex" />
+        </id>
+        <many-to-one name="user" class="com.shlanbao.tzsc.base.mapping.SysUser">
+            <column name="USER_ID" length="50" />
+        </many-to-one>
+         <many-to-one name="checkcatPid" class="com.shlanbao.tzsc.base.mapping.EqmCheckcatPlan">
+            <column name="PID" length="50" />
+        </many-to-one>
+        <property name="planTime" type="java.lang.String">
+            <column name="PLAN_TIME" length="50" />
+        </property>
+         <property name="actualTime" type="java.lang.String">
+            <column name="ACTUAL_TIME" length="50" />
+        </property>
+        <property name="enable" type="java.lang.String">
+            <column name="ENABLE" length="10" />
+        </property>
+        <property name="setId" type="java.lang.String">
+            <column name="SET_ID" length="50" />
+        </property>
+        <property name="remarks" type="java.lang.String">
+            <column name="REMARKS" length="3000" />
+        </property>
+        
+        <many-to-one name="czgUserId" class="com.shlanbao.tzsc.base.mapping.SysUser" fetch="select">
+            <column name="CZG_USERID" length="50" />
+        </many-to-one>
+        <many-to-one name="lbgUserId" class="com.shlanbao.tzsc.base.mapping.SysUser" fetch="select">
+            <column name="LBG_USERID" length="50" />
+        </many-to-one>
+        <many-to-one name="shgUserId" class="com.shlanbao.tzsc.base.mapping.SysUser" fetch="select">
+            <column name="SHG_USERID" length="50" />
+        </many-to-one>
+         <property name="czgDate" type="java.lang.String">
+            <column name="CZG_DATE" length="50" />
+        </property>
+         <property name="lbgDate" type="java.lang.String">
+            <column name="LBG_DATE" length="50" />
+        </property>
+          <property name="shgDate" type="java.lang.String">
+            <column name="SHG_DATE" length="50" />
+        </property>
+        
+        <property name="number" type="java.lang.String">
+            <column name="NUMBER" length="50" />
+        </property>
+        <property name="fillQuantity" type="java.lang.String">
+            <column name="FILL_QUANTITY" length="50" />
+        </property>
+      	<property name="oilId" type="java.lang.String">
+            <column name="OILID" length="50" />
+        </property>
+        <property name="fillUnit" type="java.lang.String">
+            <column name="FILL_UNIT" length="50" />
+        </property>
+        <property name="fashion" type="java.lang.String">
+            <column name="FASHION" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

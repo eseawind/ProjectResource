@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sqlMap namespace="orderResult">
+    
+  
+    <!-- 查询工单信息 -->
+    <sql id="queryOrderInfo">
+        <![CDATA[
+           SELECT a.id,c.EQUIPMENT_NAME as eqpName,to_char(a.DATE_,'yyyy-mm-dd') as pdDate,
+           d.name as shiftName,e.name as teamName,f.name as matName,a.qty as pqty,g.name as unitName,
+           j.qty as rQty,(select name from MD_UNIT unit where j.unit=UNIT.id) as rQtyUnit,j.bad_qty as badQty,
+		   j.run_time as runTime,j.stop_time as stopTime,j.stop_times as stopTimes,(select name from MD_UNIT unit where unit.id=j.time_unit) as timeUnit
+           from SCH_WORKORDER a
+           LEFT JOIN MD_EQUIPMENT c ON a.eqp=c.id
+           LEFT JOIN MD_SHIFT d ON a.shift=d.id
+           LEFT JOIN MD_TEAM e ON e.id=a.team
+           LEFT JOIN MD_MAT f on f.id=a.mat
+           LEFT JOIN MD_UNIT g ON g.id=a.unit
+           LEFT JOIN MD_EQP_TYPE h ON  c.EQP_TYPE_ID=h.id
+           LEFT JOIN MD_EQP_CATEGORY i ON h.CID=i.id
+		   LEFT JOIN SCH_STAT_OUTPUT j ON j.oid=a.id
+           WHERE a.del='0' and sts='4'
+           <#if eqpId?exists && eqpId!=""> AND a.EQP= :eqpId </#if>
+           <#if shiftId?exists && shiftId!=""> AND a.shift= :shiftId </#if>
+           <#if teamId?exists && teamId!=""> AND a.team= :teamId </#if>
+           <#if eqpCg?exists && eqpCg!=""> AND i.id= :eqpCg </#if>
+           <#if realStim?exists && realStim!=""> AND to_char(a.DATE_,'yyyy-mm-dd') >= :realStim </#if>
+           <#if realEtim?exists && realEtim!=""> AND to_char(a.DATE_ ,'yyyy-mm-dd')<= :realEtim </#if>
+           order by a.shift,a.team ,a.date_ desc
+        ]]>
+    </sql>
+    
+    
+    <sql id="queryOrderDetails">
+    	<![CDATA[
+    		SELECT  a.qty as outQty,b.name as outQtyUnit,to_char(a.stim,'yyyy-mm-dd hh24:mi:ss') as rstim, to_char(a.etim,'yyyy-mm-dd hh24:mi:ss') as retim,
+		    c.qty as flQty,e.name as flName,d.name as flUnitName
+		    from SCH_STAT_OUTPUT a
+			LEFT JOIN SCH_WORKORDER wo ON a.oid=WO.id
+		    LEFT JOIN MD_UNIT b ON a.unit=b.id
+		    LEFT JOIN SCH_STAT_INPUT  c on c.out_id=a.id
+		    LEFT JOIN MD_UNIT d ON d.id=c.unit
+		    LEFT JOIN MD_MAT e ON e.id=c.mat
+      		WHERE 1=1
+      		<#if OrderId?exists && OrderId!=""> AND wo.id= :OrderId </#if>
+    	]]>
+    </sql>
+    
+    
+    
+    
+</sqlMap>
+
+
+

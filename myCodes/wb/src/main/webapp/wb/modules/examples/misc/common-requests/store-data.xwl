@@ -1,0 +1,1 @@
+{"inframe":false,"title":"store数据源","hidden":false,"roles":{"demo":1},"children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select DISPLAY_NAME from WB_USER","itemId":"dataprovider1"},"children":[],"expanded":false,"type":"dataprovider"}],"expanded":true,"type":"module"}],"pageLink":"","iconCls":""}

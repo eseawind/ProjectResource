@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>参考文档</title>
+<link href="${resRoot}/wct_web/css/pddisplay/yzzxwlzj.css"
+	rel="stylesheet" type="text/css" />
+<!--工单信息-->
+
+<link href="${resRoot}/wct_web/css/pddisplay/modal.css" rel="stylesheet"
+	type="text/css" />
+<!--工单信息-->
+<link href="${resRoot}/wct_web/css/pddisplay/left_nav.css"
+	rel="stylesheet" type="text/css" />
+<!--left_nav-->
+<!--nav-->
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<script src='${resRoot}/wct_web/js/pddisplay/lnav_index.js'></script>
+<!-- 覆盖样式 -->
+<link href="${resRoot}/wct_web/css/pddisplay/docManager.css"
+	rel="stylesheet" type="text/css" />
+<!--工单信息-->
+<!-- 键盘样式start -->
+<!--日历-->
+<script src="${resRoot}/wct_web/js/pddisplay/Calendar.js"
+	type="text/javascript"></script>
+<script src="${resRoot}/wct_web/js/wctUtils.js" type="text/javascript"></script>
+<!-- 分页 -->
+<script src='${resRoot}/wct_web/js/wctPage.js'></script>
+<!-- 键盘样式end -->
+<style type="text/css">
+</style>
+<script type="text/javascript">
+	function test(rPath) {
+		var str = $("#" + rPath).attr("rPath");
+		$("#preView").attr("src", str);
+		$("#preView").show();
+		$(".doc_input").show();
+		$("#top").hide();
+		$("#middle").hide();
+		$("#foot").hide();
+	}
+	function back() {
+		$("#preView").hide();
+		$(".doc_input").hide();
+		$("#top").show();
+		$("#middle").show();
+		$("#foot").show();
+	}
+</script>
+</head>
+<body>
+	<!-- 中部start -->
+	<div id="main">
+		<div class="right_content">
+			<div id="right_contentbox">
+				<div class="top_title">
+					<span><img src="${resRoot}/wct_web/images/qm/yzzxwlzj.png" /></span>文档预览
+				</div>
+				<form id="submitBu"
+					action="${futRoot}/wct/docManager/getDocFiles.htm?url=web_html/wct/docManager/docFileView"
+					method="post">
+					<div class="middle_box" id="top">
+						<div class="gdcx_box">
+							<label> <label class="">文档名称：</label> <input
+								class="qinput" onclick="showKey('fileName')" id="fileName"
+								name="fileName" value="${chooseParams.fileName?if_exists}" />
+							</label> <label> <label class="time">时间：</label> <input
+								id='rstim' name="stime"<#if
+									(chooseParams.stime??)>value="${chooseParams.stime}"</#if>
+									type="text" id="control_date" class="rili" size="10"
+									maxlength="10" onClick="new Calendar().show(this);"
+									readonly="readonly" /> </label> <label> <label class="zhi">至：</label>
+								<input id='retim' name="etime"<#if
+									(chooseParams.etime??)>value="${chooseParams.etime}"</#if>type="text"
+									id="control_date2" class="rili" size="10" maxlength="10"
+									onClick="new Calendar().show(this);" readonly="readonly" /></label> </label>
+							<button type="submit" class="gd_input" value="" name="button"
+								id="orderResultForm">查&nbsp;询</button>
+							<button type="reset" onclick="javascript:clearForm(submitBu)"
+								class="gd_input" value="">重&nbsp;置</button>
+						</div>
+					</div>
+				</form>
+				<div class="bottom_content" id="middle" style="margin-left: 10px;">
+					<table class="table" cellspacing="0" border="0">
+						<tr>
+							<th>文档名称</th>
+							<th>上传日期</th>
+							<th>上传人</th>
+						</tr>
+						<#if (dataList?size>0)> <#list dataList as data>
+						<tr>
+							<td><a id='${data.id?if_exists}'
+								rPath="${pms_url?if_exists}//pdf//${data.fileUrl?if_exists}"
+								onclick="test('${data.id?if_exists}')">${data.fileName?if_exists}</a></td>
+							<td>${data.createTime?if_exists}</td>
+							<td>${data.userName?if_exists}</td>
+						</tr>
+						</#list> <#else>
+						<tr></tr>
+						<tr>
+							<td colspan="3"><font color="red">没有查询到数据</font></td>
+						</tr>
+						</#if>
+					</table>
+				</div>
+
+				<!--分页start-->
+				<div class="page">
+
+					<div class="num-bar" id="foot">
+						<a>共${wctPage.maxCount}条数据</a> <#if (wctPage.index)!=1 > <a
+							class="num"
+							onclick="chengePage('submitBu','${futRoot}/wct/docManager/getDocFiles.htm?url=web_html/wct/docManager/docFileView&index=${wctPage.index-1}')">上一页</a>
+						<#else> <a class="num">上一页</a> </#if> <a>${wctPage.index}/${wctPage.maxPage}</a>
+						<#if (wctPage.index) < (wctPage.maxPage) > <a class="num"
+							onclick="chengePage('submitBu','${futRoot}/wct/docManager/getDocFiles.htm?url=web_html/wct/docManager/docFileView&index=${wctPage.index+1}')">下一页</a>
+						<#else> <a class="num">下一页</a> </#if>
+					</div>
+				</div>
+				<iframe id="preView" src="" style="width: 100%; height: 500px;"></iframe>
+				<button type="submit" class="doc_input" onclick="back()"
+					name="button">返&nbsp;回</button>
+				<!--分页End-->
+			</div>
+		</div>
+	</div>
+	<!-- 中部end -->
+</body>
+</html>

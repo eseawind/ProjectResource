@@ -1,0 +1,1 @@
+{"title":"打开文件","hidden":false,"roles":{"demo":1},"children":[{"configs":{"serverMethod":"com.wb.interact.IDE.openFile","itemId":"module"},"children":[],"type":"module","expanded":false}],"iconCls":""}

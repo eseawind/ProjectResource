@@ -1,0 +1,47 @@
+@charset "utf-8";
+/* CSS Document */
+html,body,h1,h2,h3,h4,h5,h6,div,dl,dt,dd,ul,ol,li,p,blockquote,pre,hr,figure,table,caption,th,td,form,fieldset,legend,input,button,textarea,menu{margin:0;padding:0; font-family:"microsoft yahei", "宋体"; }
+header,footer,section,article,aside,nav,hgroup,address,figure,figcaption,menu,details{display:block;}
+table{border-collapse:collapse;border-spacing:0;}
+caption,th{text-align:left;font-weight:normal;}
+html,body,fieldset,img,iframe,abbr{border:0;}
+i,cite,em,var,address,dfn{font-style:normal;}
+[hidefocus],summary{outline:0;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6,small{font-size:100%; font-weight:normal}
+sup,sub{font-size:83%;}
+pre,code,kbd,samp{font-family:inherit;}
+q:before,q:after{content:none;}
+textarea{overflow:auto;resize:none;}
+label,summary{cursor:default;}
+a,button{cursor:pointer;}
+del,ins,u,s,a,a:hover{text-decoration:none;}
+a,a:hover{color:#333;}
+body{
+	background-image:url(../images/login_background.jpg) ;
+	/* background-size: cover; -moz-background-size: cover; */
+	background-size:1366px 768px;
+    background-repeat:no-repeat;
+	
+	}
+
+
+#wrap_login{width:100%; margin:0 auto; height:auto;}
+.login_middle{width:450px; height:550px;position: absolute;top: 50%;left: 50%; margin: -275px 0 0 -225px;}
+.login_logo{width:450px; margin:0 auto; text-align:center; margin-bottom:32px;}
+.login_contect{width:450px;height:428px; text-align:center; background:#fff; margin:0 auto;border-radius:15px;}
+.login_contect .login_elogo{color:#000; font-size:18px; padding-top:25px; margin-bottom:20px;}
+.login_contect .login_nameinput{border-radius:5px;width:364px; height:53px;border:#dde0e7 2px solid; margin:0 auto; margin-bottom:18px;}
+.login_contect .login_name{width:315px; height:53px; font-size:17px; line-height:53px;border:none;float: left; padding-left: 5px;}
+.login_contect .login_nameimg{height:53px;  line-height:53px;}
+.login_contect .login_nameinput:hover{width:364px; height:53px;border:#3c8dbc 2px solid; margin:0 auto; margin-bottom:18px;}
+
+.login_contect .shift{width:364px; height:35px; line-height:35px; color:#000; margin:0 auto; text-align:left; padding-left:5px;border-bottom:#dde0e7 1px solid;font-size:17px;}
+.shift .shift_middle{font-size:17px;color:#3c8dbc;}
+.login_submit{border-radius:15px;width:145px; height:45px; line-height:45px; margin-top:10px;background:#2f89bd; color:#fff; border:none; font-size:16px;}
+.login_submit:hover{width:145px; height:45px; line-height:45px; margin-top:10px;background:#244c91; color:#fff; border:none; font-size:16px; cursor:pointer;}
+.copyright{margin-top:10px;font-size:17px;color:#a6a4a5;}
+
+
+
+

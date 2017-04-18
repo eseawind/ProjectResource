@@ -1,0 +1,28 @@
+/**
+ *  Flat gray skin
+ *
+ *  (c) 2009 Ilya Lebedev <ilya@lebedev.net>
+ */
+.searchKeyBoard{
+	width:92px; 
+	margin-right:2px; 
+	height:32px; 
+	line-height:32px; 
+	text-decoration:none; 
+	font-size:18px; 
+	float:right; 
+	border-radius:4px;
+	background:#53d1e2; 
+	display:block; 
+	color:#fff; 
+	text-align:center;
+	border:none;
+}
+.inputKeyBoard{
+	height:30px;
+	background: #f4f8ff;
+	border: 1px solid;
+	color:#afaeae;
+	width: 558px;
+	font: bold;
+}

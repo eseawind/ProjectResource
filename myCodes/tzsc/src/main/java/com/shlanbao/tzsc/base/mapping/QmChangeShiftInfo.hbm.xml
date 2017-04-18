@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.shlanbao.tzsc.base.mapping.QmChangeShiftInfo" table="QM_CHANGSHIFT_INFO">
+		<id name="id" type="java.lang.String">
+			<column name="ID" length="50" />
+			<generator class="uuid.hex" />
+		</id>
+		<property name="materialClass" type="java.lang.String">
+			<column name="MATERIAL_CLASS"  />
+		</property>
+		<property name="materialId" type="java.lang.String">
+			<column name="MATERIAL_ID"  />
+		</property>
+		<property name="materialName" type="java.lang.String">
+			<column name="MATERIAL_NAME"  />
+		</property>
+		<property name="lotId" type="java.lang.String">
+			<column name="LOT_ID"  />
+		</property>
+		<property name="qty" type="java.lang.Float">
+			<column name="QTY"  />
+		</property>
+		<property name="uom" type="java.lang.String">
+			<column name="UOM"  />
+		</property>
+		<property name="opeTime" type="java.lang.String">
+			<column name="OPE_TIME"  />
+		</property>
+		<property name="type" type="java.lang.String">
+			<column name="TYPE"  />
+		</property>
+		<property name="del" type="java.lang.String">
+			<column name="DEL"  />
+		</property>
+		<property name="des" type="java.lang.String">
+			<column name="DES"  />
+		</property>
+		<property name="tid" type="java.lang.String">
+			<column name="TID"  />
+		</property>
+		
+		<property name="createTime" type="java.lang.String">
+			<column name="CREATE_TIME"  />
+		</property>
+		<property name="updateTime" type="java.lang.String">
+			<column name="UPDATE_TIME"  />
+		</property>
+		<property name="qmcsid" type="java.lang.String">
+			<column name="QM_CSID"  />
+		</property>
+	</class>
+</hibernate-mapping>

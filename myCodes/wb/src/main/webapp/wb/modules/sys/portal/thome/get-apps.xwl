@@ -1,0 +1,1 @@
+{"inframe":false,"title":"获取应用列表","hidden":false,"roles":{"demo":1,"default":1,"basic":1},"children":[{"configs":{"serverMethod":"com.wb.interact.Portal.getMobileAppList","itemId":"module"},"children":[],"expanded":false,"type":"module"}],"pageLink":"","iconCls":""}

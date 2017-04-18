@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>设备运行效率</title>
+<link href="${resRoot}/wct_web/css/pddisplay/ssxh.css" rel="stylesheet"
+	type="text/css" />
+<!--覆盖样式-->
+<link href="${resRoot}/wct_web/css/pddisplay/hisSchStat.css" rel="stylesheet" type="text/css" />
+<link href="${resRoot}/wct_web/css/pddisplay/scthHisQty.css" rel="stylesheet" type="text/css" />
+<!--日历-->
+<script src="${resRoot}/wct_web/js/pddisplay/Calendar.js" type="text/javascript" ></script>
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<script src="${resRoot}/wct_web/js/wctPage.js"></script>
+<script src="${resRoot}/wct_web/js/wctUtils.js"></script>
+<!-- echarts 图表-->
+<script src='${resRoot}/jslib/echarts/echarts.min.js'></script>
+<!-- 中部end -->
+<script type="text/javascript">
+//排序条件
+	function orderBy(type){
+		$("#orderByEffic").val("1");
+		$("#submitBu").submit();
+	}
+/*****echarts图表*****/
+	//x轴数据
+	var xdata=new Array();
+	<#list  (beanData.xText) as xT>
+		xdata.push("${xT}");
+	</#list>
+	//y轴数据
+	var ydata=new Array();
+	<#list  (beanData.yVal) as val>
+		ydata.push("${val}");
+	</#list>
+	/**/
+	$(function(){
+		var myChart = echarts.init(document.getElementById('rollerDiv'));
+		option = {
+			title: {
+				text: ' ',
+				subtext: '设备运行效率=设备运行时间/班次时间 ×100%',
+				x:'center',
+				y:'top'
+			},
+			tooltip: {
+				trigger: 'axis',
+				show:false,
+			},
+			color:['#8bc34a'],
+			legend: {
+				data: ['设备运行效率'],
+				x: 'right',
+				show:false
+			},
+			toolbox: {//工具条
+				show: true,
+				orient:'vertical',
+				x: 'right',
+				y:'center',
+				feature: {
+					mark: {
+						show: true
+					},
+					dataView: {
+						show: false,
+						readOnly: false
+					},
+					magicType: {
+						show: true,
+						type: ['line', 'bar']
+					},
+					restore: {
+						show: true
+					},
+					saveAsImage: {
+						show: true
+					},
+				}
+			},
+			calculable: true,
+			xAxis: [{
+				splitLine: {
+					show: false
+				},
+				type: 'category',
+				data: xdata,
+				axisLabel :{  
+				    interval:0 ,
+				    formatter:function(val){
+				        return val.split("。").join("\n");
+				    }
+				},
+			}],
+			yAxis: [{
+				type: 'value',
+			}],
+			series: [{
+				name: '设备运行效率',
+				type: 'bar',
+				data: ydata,
+				itemStyle: {//设置柱状图上面的数字显示格式
+					normal: {
+						label: {
+							show: true,
+							position: 'top',
+							formatter: '{c}%'
+						}
+					}
+				},
+				barWidth: 30,//设置柱状图宽度
+			}]
+		};
+		myChart.setOption(option);
+	});
+	
+</script>
+</head>
+<body>	
+	<div id="main" style="margin-left: 230px;">
+		<div class="clear"></div>
+		<!--右侧内容-->
+		<div class="right_content">
+			<div id="right_contentbox">
+				<!--内容标题-->
+				<div class="top_title">
+					<span><img src="${resRoot}/wct_web/images/ssxh/ssxh.png" /></span>
+					<font id="divText">
+							设备运行效率
+					</font>
+				</div>
+				<form  id="submitBu" action="${futRoot}/wct/eqpEffic/getEqpOperatingEffic.htm?url=web_html/wct/eqpManager/eqmOperatingEfficiency" method="post">
+				<div class="middle_box">
+					<!--表单-->
+					<div class="gdcx_box">
+						<input id="orderByEffic" style="display:none" name="orderByEffic" <#if (chooseParams.orderByEffic??)>value="${chooseParams.orderByEffic}"<#else>value=""</#if> />
+				      	<label><label class="">设备名称：</label>
+				            <select name="eqpId" id="chooseEqpCg" class="choose">
+				                <option value="" selected="selected">全部</option>
+				                    <#if ( ALLEQPS?size>0 )>
+									       <#list ALLEQPS as eqp>
+					                 		    <option <#if (chooseParams.eqpId?? && chooseParams.eqpId==eqp.id)>selected="selected"</#if> value="${eqp.id}">${eqp.equipmentName}</option>
+									       </#list>
+									</#if>
+							</select> 
+							</label>
+				        	
+				            <label><label class="jihao">班次：</label>
+				            <select name="shiftId" id="chooseShift" class="choose">
+				            <option value="" selected="selected">全部</option>
+					                <#if ( SHIFT0001?size>0 )>
+									       <#list SHIFT0001 as shift>
+					                 		    <option <#if (chooseParams.shiftId?? && chooseParams.shiftId==shift.code )>selected="selected"</#if> value="${shift.code}">${shift.name}</option>
+									       </#list>
+									</#if>
+							</select>
+							</label>
+				            <label><label class="jihao">班组：</label>
+				            <select name="teamId" id="chooseTeam" class="choose">
+				                <option value="" selected="selected">全部</option>
+				                    <#if ( TEAM0001?size>0 )>
+									       <#list TEAM0001 as team>
+					                 		    <option <#if (chooseParams.teamId?? && team.code==chooseParams.teamId)>selected="selected"</#if> value="${team.code}">${team.name}</option>
+									       </#list>
+									</#if>
+							</select> 
+							</label>
+							<button type="submit" class="gd_input" value=""  name="button" id="orderResultForm">查&nbsp;询</button> 
+				        </div>
+				        <div class="clear"></div>
+				        <div class="gdcx_box">
+				        <label><label class="">设备类型：</label>
+				            <select name="eqpCaregoryId" id="chooseEqp" class="choose">
+				                <option value="" selected="selected">全部</option>
+				               <#if ( EQPCATEGORY0001?size>0 )>
+								       <#list EQPCATEGORY0001 as eqpCategory>
+				                 		    <option <#if (chooseParams.eqpCaregoryId?? && chooseParams.eqpCaregoryId==eqpCategory.code)>selected="selected"</#if> value="${eqpCategory.code}">${eqpCategory.name}</option>
+								       </#list>
+								</#if>
+				            </select> 
+				            </label>
+							<label>
+					          <label class="time">时间：</label>
+					          <input id='rstim' name="sDate" <#if (chooseParams.sDate??)>value="${chooseParams.sDate}"</#if> type="text" id="control_date" class="rili" size="10" maxlength="10" onClick="new Calendar().show(this);" readonly="readonly" />
+				            </label> 
+				            <label>
+				               <label class="zhi">至：</label>  
+				               <input id='retim' name="eDate" <#if (chooseParams.eDate??)>value="${chooseParams.eDate}"</#if>type="text" id="control_date2" class="rili" size="10" maxlength="10" onClick="new Calendar().show(this);" readonly="readonly" /></label> 
+				            </label> 
+				          <button type="reset" onclick="javascript:clearForm(submitBu)" class="gd_input" >重&nbsp;置</button>
+				        </div>
+				        <div class="clear"></div>
+				</div>
+				</form>
+				<!--表单-->
+				<div id="rollerDiv" class="bottom_content" >
+					
+				</div>
+			<div class="page">
+			  <div class="orderDiv">
+				<button onclick="javaScript:orderBy()" class="gd_input"  name="button" id="orderResultForm">效率降序</button> 
+              </div>
+               <div class="num-bar">
+				<a>共${wctPage.maxCount}条数据</a>
+				<#if (wctPage.index)!=1 >
+				    <a class="num" onclick="chengePage('submitBu','${futRoot}/wct/eqpEffic/getEqpOperatingEffic.htm?url=web_html/wct/eqpManager/eqmOperatingEfficiency&index=${wctPage.index-1}')">上一页</a>
+				<#else>
+				    <a class="num" >上一页</a>  
+				</#if>
+				<a>${wctPage.index}/${wctPage.maxPage}</a>
+				<#if (wctPage.index) < (wctPage.maxPage) >
+				    <a class="num"  onclick="chengePage('submitBu','${futRoot}/wct/eqpEffic/getEqpOperatingEffic.htm?url=web_html/wct/eqpManager/eqmOperatingEfficiency&index=${wctPage.index+1}')">下一页</a>
+				<#else>
+				    <a class="num" >下一页</a>
+				</#if>
+              </div>
+        </div>
+	</div>
+</body>
+</html>

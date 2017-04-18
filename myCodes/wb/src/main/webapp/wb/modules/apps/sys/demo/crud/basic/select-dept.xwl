@@ -1,0 +1,1 @@
+{"inframe":false,"title":"查询部门","hidden":false,"roles":{"demo":1},"children":[{"configs":{"itemId":"module"},"children":[{"configs":{"sql":"select DEPT_ID,DEPT_NAME from WB_EMPLOYEE_DEPT order by DEPT_NAME","itemId":"dataprovider1"},"children":[],"expanded":false,"type":"dataprovider"}],"expanded":true,"type":"module"}],"pageLink":"","iconCls":""}

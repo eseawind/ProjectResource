@@ -1,0 +1,651 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>卷烟机辅料实时消耗</title>
+<link href="${resRoot}/wct_web/css/pddisplay/ssxh.css" rel="stylesheet"
+	type="text/css" />
+<!--机台排序-->
+<link href="${resRoot}/wct_web/css/pddisplay/gdxx.css" rel="stylesheet"
+	type="text/css" />
+<!--工单信息-->
+<script src='${resRoot}/wct_web/js/jquery.js'></script>
+<script src="${resRoot}/wct_web/js/wctPage.js"></script>
+<script type="text/javascript" language="JavaScript">
+var baseUrl="${futRoot}";
+	$(function(){
+		//隐藏form
+		$("#eqpTypeForm").hide();
+	});
+	//切换卷烟、包装div
+	function changeDiv(type) {
+		if (type == 1) {
+			//设置隐藏表单值，修改类型为卷烟机
+			$("#orderTypeVal").val("1");
+		} else {
+			//设置隐藏表单值，修改类型为包装机
+			$("#orderTypeVal").val("2");
+		} 
+		$("#submitBu").submit();
+	}
+	//切换包装机辅料显示div
+	function changeFXDiv(type){
+		if(type==1){
+			//$("#packerDiv").hide(200);
+			$("#xhzTh").hide();
+			$("#xhzTd").hide();
+			
+			$("#xhmTh").hide();
+			$("#xhmTd").hide();
+			
+			$("#thzTh").show();
+			$("#thzTd").show();
+			
+			$("#thmTh").show();
+			$("#thmTd").show();
+			
+			$("#nczTh").show();
+			$("#nczTd").show();
+			
+			$("#gdButton").hide();
+			$("#fhButton").show();
+			
+			//$("#packerDiv").show(200);
+			
+		}else{
+			//$("#packerDiv").hide(200);
+			
+			$("#xhzTh").show();
+			$("#xhzTd").show();
+			
+			$("#xhmTh").show();
+			$("#xhmTd").show();
+			
+			$("#thzTh").show();
+			$("#thzTd").show();
+			
+			
+			$("#thmTh").hide();
+			$("#thmTd").hide();
+			
+			$("#nczTh").hide();
+			$("#nczTd").hide();
+			
+			$("#gdButton").show();
+			$("#fhButton").hide();
+			
+			//$("#packerDiv").show(200);
+		}
+	}
+	//动态刷新数据
+	//卷烟机
+	//卷烟机-赋值
+function rollerFLRefrush() {
+	 var rollerRealQty=1.0;//实际产量
+	 var lbBZ=1.0;//滤棒标准单耗
+	 var jyzBZ=1.0;//卷烟纸标准单耗
+	 var sszBZ=1.0;//水松纸标准单耗
+	 var lbVal=0.0;//滤棒实际
+	 var jyzVal=0.0;//卷烟纸实际
+	 var sszVal=0.0;//水松纸实际
+	 var eqpCode=null;
+	 /* 对比标准值,判断柱状图大小  */
+	 var ZH_lb=0; //单箱消耗-滤棒
+	 var ZH_pz=0; //单箱消耗-盘纸
+	 var ZH_ssz=0; //单箱消耗-水松纸
+	 /* 默认百分比 */
+	 var BFB_lb=97;//默认百分比
+	 var BFB_pz=97;//默认百分比
+	 var BFB_ssz=97;//默认百分比
+	$.ajax({
+		   type: "POST",
+		   url: baseUrl+"/wct/realTimeData/getRollerInputData.json",
+		   success: function(data){
+			   for(var i=0;i<data.length;i++){
+				   var msg=data[i];
+			   	   eqpCode=msg.eqpCod;
+				   rollerRealQty=msg.qty;//实际产量
+				   if(rollerRealQty==0){
+					   rollerRealQty=1;
+				   }
+				   lbBZ= $("#lbStd"+eqpCode).text().trim();//滤棒标准单耗
+				   jyzBZ=$("#pzStd"+eqpCode).text().trim();//卷烟纸标准单耗
+				   sszBZ=$("#sszStd"+eqpCode).text().trim();//水松纸标准单耗
+				   lbVal=msg.lvbangIn;//滤棒实际
+				   jyzVal=msg.juanyanzhiIn;//卷烟纸实际
+				   sszVal=msg.shuisongzhiIn;//水松纸实际
+				   //当前消用赋值
+				   $("#lbXH"+eqpCode).text(lbVal);
+				   $("#pzXH"+eqpCode).text(jyzVal);
+				   $("#sszXH"+eqpCode).text(sszVal);
+				   //单耗赋值
+				   ZH_lb=(lbVal*10000/rollerRealQty).toFixed(0);
+				   ZH_pz=(jyzVal/rollerRealQty).toFixed(0);
+				   ZH_ssz=(sszVal/rollerRealQty).toFixed(2);
+				   
+				   $("#lbDH"+eqpCode).html( ZH_lb );
+				   $("#pzDH"+eqpCode).html( ZH_pz );
+				   $("#sszDH"+eqpCode).html( ZH_ssz );
+				   //卷烟机辅料消耗
+				   //console.info(lbBZ+"="+ZH_lb +"   "+ jyzBZ+"="+ZH_pz+"   "+sszBZ+"="+ZH_ssz);
+				   if(lbBZ<ZH_lb && lbBZ!=""){
+					   BFB_lb=100;
+				   }
+				   if(jyzBZ<ZH_pz && jyzBZ!=""){
+					   BFB_pz=100;
+				   }
+				   if(sszBZ<ZH_ssz && sszBZ!=""){
+					  BFB_ssz=100; 
+				   }
+				   var widthNum = (lbVal*10000/rollerRealQty/lbBZ>1?1:lbVal*10000/rollerRealQty/lbBZ) * BFB_lb+"%";//滤棒
+				   var widthNum1 = (jyzVal/rollerRealQty/jyzBZ>1?1:jyzVal/rollerRealQty/jyzBZ) * BFB_pz+"%";//卷烟纸
+				   var widthNum2 = (sszVal/rollerRealQty/sszBZ>1?1:sszVal/rollerRealQty/sszBZ) * BFB_ssz+"%";//水松纸
+				   console.info(widthNum);
+				   $("#lbRS"+eqpCode).width(widthNum);
+				   $("#PZRS"+eqpCode).width(widthNum1);
+				   $("#sszRS"+eqpCode).width(widthNum2); 
+			   }
+		   }
+		});
+}
+	//包装机辅料刷新
+	function packerFLRefrush() {
+		 var packerPQty=1.0;//实际产量
+		 var xhmBZ=1.0;//小盒膜标准单耗
+		 var thmBZ=1.0;//条盒膜标准单耗
+		 var xhzBZ=1.0;//小盒纸标准单耗
+		 var thzBZ=1.0;//条盒纸标准单耗
+		 var nczBZ=1.0;//内衬纸标准单耗
+		 var xhmVal=0.0;//小盒膜实际
+		 var thmVal=0.0;//条盒膜实际
+		 var xhzVal=0.0;//小盒纸实际
+		 var thzVal=0.0;//条盒纸实际
+		 var nczVal=0.0;//内衬纸实际
+		 
+		 /* 对比标准值,判断柱状图大小  */
+		 var ZH_xhm=0;//小盒膜
+		 var ZH_thm=0;//条盒膜
+		 var ZH_xhz=0;//小盒纸
+		 var ZH_thz=0;//条盒纸
+		 var ZH_ncz=0;//内衬纸
+		 /* 百分比  */
+		 var BFB_xhm=97;
+		 var BFB_thm=97;//条盒膜
+		 var BFB_xhz=97;//小盒纸
+		 var BFB_thz=97;//条盒纸
+		 var BFB_ncz=97;//内衬纸
+		 var BFB_eqpCode=null;
+		$.ajax({
+			   type: "POST",
+			   url:baseUrl+"/wct/realTimeData/getPackerInputData.json",
+			   success: function(data){
+				   for(var i=0;i<data.length;i++){
+					   msg=data[i];
+					   packerPQty= msg.qty;//实际产量
+	   				   eqpCode=msg.eqpCod;
+	   				   if(packerPQty==0){
+	   					packerPQty=1;
+	   				   }
+					   xhzBZ=$("#xhzStd"+eqpCode).text();//小盒子标准单耗
+					   xhmBZ= $("#xhmStd"+eqpCode).text();//小盒膜标准单耗
+					   nczBZ= $("#nczStd"+eqpCode).text();//内衬纸标准单耗
+					   thzBZ= $("#thzStd"+eqpCode).text();//条盒纸标准单耗
+					   thmBZ=$("#thmStd"+eqpCode).text();//条盒膜标准单耗 
+					   xhmVal=msg.xiaohemoIn;//小盒膜实际
+					   thmVal=msg.tiaohemoIn;//条盒膜实际
+					   xhzVal=msg.xiaohezhiIn;//小盒纸实际
+					   thzVal=msg.tiaohezhiIn;//条盒纸实际
+					   nczVal=msg.neichenzhiIn;//内衬纸实际
+						//包装机辅料消耗
+						//console.info("包装机机辅料数据");
+						$("#xzhXH"+eqpCode).text(xhzVal);
+						$("#xhmXH"+eqpCode).text(xhmVal);
+						$("#nczXH"+eqpCode).text(nczVal);
+						$("#thzXH"+eqpCode).text(thzVal);
+						$("#thmXH"+eqpCode).text(thmVal);
+						//单耗赋值
+						 ZH_xhm=(xhmVal/packerPQty).toFixed(2);//小盒膜
+		                 ZH_thm=(thmVal/packerPQty).toFixed(2);//条盒膜
+		                 ZH_xhz=(xhzVal/packerPQty).toFixed(0);//小盒纸
+		                 ZH_thz=(thzVal/packerPQty).toFixed(0);//条盒纸
+		                 ZH_ncz=(nczVal/packerPQty).toFixed(0);//内衬纸
+						$("#xzhDH"+eqpCode).html(ZH_xhz);
+						$("#xhmDH"+eqpCode).html(ZH_xhm);
+						$("#nczDH"+eqpCode).html(ZH_ncz);
+						$("#thzDH"+eqpCode).html(ZH_thz);
+						$("#thmDH"+eqpCode).html(ZH_thm);
+						
+					   if(xhzBZ<ZH_xhz && xhzBZ!=""){
+						   BFB_xhz=100;
+					   }
+					   if(thzBZ<ZH_thz && thzBZ!=""){
+						   BFB_thz=100;
+					   }
+					   if(nczBZ<ZH_ncz && nczBZ!=""){
+						   BFB_ncz=100;
+					   }
+					   if(xhmBZ<ZH_xhm && xhmBZ!=""){
+						   BFB_xhm=100;
+					   }
+					   if(thmBZ<ZH_thm && thmBZ!=""){
+						   BFB_thm=100;
+					   }
+						//单耗进度条
+						var widthNum = (xhzVal/packerPQty/xhzBZ>1?1:xhzVal/packerPQty/xhzBZ) * BFB_xhz+"%";//小盒纸
+						var widthNum1 =(xhmVal/packerPQty/xhmBZ>1?1:xhmVal/packerPQty/xhmBZ) * BFB_xhm+"%";//小盒烟膜
+						var widthNum2 = (nczVal/packerPQty/nczBZ>1?1:nczVal/packerPQty/nczBZ) * BFB_ncz+"%";//内衬纸
+						var widthNum3= (thzVal/packerPQty/thzBZ>1?1:thzVal/packerPQty/thzBZ) * BFB_thz+"%";//条盒纸
+						var widthNum4 = (thmVal/packerPQty/thmBZ>1?1:thmVal/packerPQty/thmBZ) * BFB_thm+"%";//条盒烟膜
+						$("#xhzRS"+eqpCode).width(widthNum);
+						$("#xhmRS"+eqpCode).width(widthNum1);
+						$("#nczRS"+eqpCode).width(widthNum2);
+						$("#thzRS"+eqpCode).width(widthNum3);
+						$("#thmRS"+eqpCode).width(widthNum4);
+				   }
+			   }
+			});
+	}
+	window.timerTaskFunction6=setInterval("rollerFLRefrush()",5000);
+	window.timerTaskFunction7=setInterval("packerFLRefrush()",5000);
+</script>
+</head>
+<body>	
+	<div id="main" style="margin-left: 230px;">
+		<div class="clear"></div>
+		<!--右侧内容-->
+		<div class="right_content">
+			<div id="right_contentbox">
+				<!--内容标题-->
+				<div class="top_title">
+					<span><img src="${resRoot}/wct_web/images/ssxh/ssxh.png" /></span>
+					<font id="divText">
+						<#if (dataList?exists)>
+							卷烟机辅料实时消耗
+							<#elseif (packerList?exists)>
+							包装机辅料实时消耗
+						</#if>
+					</font>
+				</div>
+				<div class="middle_box">
+					<!--表单-->
+					<div class="gdcx_box">
+						<input type="button" class="gd_input" onclick="changeDiv(1)" value="卷烟机" name="button" />
+						<input type="button" class="cz_input" onclick="changeDiv(2)" value="包装机" name="button" />
+						<#if (packerList?exists)>
+							<input type="button" class="cz_input" id="gdButton"  onclick="changeFXDiv(1)" value="更多" name="button" />
+							<input type="button" class="cz_input" id="fhButton" style="display:none" onclick="changeFXDiv(2)" value="返回" name="button" />
+						</#if>
+					</div>
+				</div>
+				<!--表单-->
+				<div id="rollerDiv" class="bottom_content" <#if (packerList?exists)>style="display:none"</#if>>
+					<table class="xhtable" width="100%" border="0" cellspacing="0"
+						cellpadding="0">
+						<tr>
+							<td></td>
+							<td width="285" class="ztitle">嘴棒(万支)</td>
+							<td width="285" class="ztitle">盘纸(米)</td>
+							<td width="285" class="ztitle">接装纸(公斤)</td>
+						</tr>
+						<#if (dataList?exists && dataList?size>0)>
+							<#list dataList as data>
+								<tr>
+									<td class="left_title">
+										<#if (data.eqpName??)>${data.eqpName}</#if> 
+										</br> 
+										<#if (data.teamName)??>${data.teamName}</#if> 
+										<#if (data.shiftName)??>${data.shiftName}</#if>
+									</td>
+									<td width="285">
+										<div class="right_top">
+											<div class="right_top_ms">
+												<ul>
+													<li class="mxcf">标准单耗</li>
+													<li>实际单耗</li>
+												</ul>
+											</div>
+											<div class="dh_hbj">
+												<div class="skillbar clearfix " >
+													<div class="skillbar-bar" style="background: #00bcd4;width:97%"></div>
+												</div>
+												<div class="clear"></div>
+												<!--实际单耗进度条-->
+												<div class="skillbar clearfix "
+													data-percent="<#if (data.lbRealVal)??>${data.lbRealVal}</#if>">
+													<div class="skillbar-bar" id="lbRS${data.eqpCode}" style="background: #8bc34a;"></div>
+												</div>
+											</div>
+											<div class="right_top_num">
+												<ul>
+													<li class="mxcf" id="lbStd${data.eqpCode}">
+														<#if (data.lbStd)??>${data.lbStd?string('0')}</#if>
+													</li>
+													<li id="lbDH${data.eqpCode}">
+														<#if (data.lbDH)??>${data.lbDH?string('0')}<#else>0</#if>
+													</li>
+												</ul>
+											</div>
+											<div class="clear"></div>
+											<p class="dqhy">
+												当前耗用：
+												<font id="lbXH${data.eqpCode}">
+													<#if (data.lbNowVal)??>${data.lbNowVal}</#if>
+												</font>
+											</p>
+										</div>
+									</td>
+									<td width="285">
+										<div class="right_top">
+											<div class="right_top_ms">
+												<ul>
+													<li class="mxcf">标准单耗</li>
+													<li>实际单耗</li>
+												</ul>
+											</div>
+											<div class="dh_hbj">
+												<div class="skillbar clearfix " >
+													<div class="skillbar-bar" style="background: #00bcd4;width:97%"></div>
+												</div>
+												<div class="clear"></div>
+												<div class="skillbar clearfix "data-percent="<#if (data.pzVal)??>${data.pzVal}</#if>">
+													<div class="skillbar-bar" id="PZRS${data.eqpCode}" style="background: #8bc34a;">
+													</div>
+												</div>
+											</div>
+											<div class="right_top_num">
+												<ul>
+													<li class="mxcf" id="pzStd${data.eqpCode}">
+														<#if (data.pzStd)??>${data.pzStd?string('0')}</#if>
+													</li>
+													<li id="pzDH${data.eqpCode}">
+														<#if (data.pzDH)??>${data.pzDH?string('0')}<#else>0</#if>
+													</li>
+												</ul>
+											</div>
+											<div class="clear"></div>
+											<p class="dqhy">
+												<font >当前耗用：</font>
+												<font id="pzXH${data.eqpCode}">
+													<#if (data.pzNowVal)??>${data.pzNowVal}</#if>
+												</font>
+											</p>
+										</div>
+									</td>
+									<td width="285">
+										<div class="right_top">
+											<div class="right_top_ms">
+												<ul>
+													<li class="mxcf">标准单耗</li>
+													<li>实际单耗</li>
+												</ul>
+											</div>
+											<div class="dh_hbj">
+												<div class="skillbar clearfix " >
+													<div class="skillbar-bar" style="background: #00bcd4;width:97%"></div>
+												</div>
+												<div class="clear"></div>
+												<div class="skillbar clearfix " data-percent="<#if (data.sszVal)??>${data.sszVal}</#if>">
+													<div class="skillbar-bar" id="sszRS${data.eqpCode}" style="background: #8bc34a;"></div>
+												</div>
+											</div>
+											<div class="right_top_num">
+												<ul>
+													<li class="mxcf" id="sszStd${data.eqpCode}">
+														<#if (data.sszStd)??>${data.sszStd?string('0.00')}</#if>
+													</li>
+													<li id="sszDH${data.eqpCode}">
+														<#if (data.sszDH)??>${data.sszDH?string('0.00')}<#else>0.00</#if>
+													</li>
+												</ul>
+											</div>
+											<div class="clear"></div>
+											<p class="dqhy">
+												<font >当前耗用：</font>
+												<font id="sszXH${data.eqpCode}">
+													<#if (data.sszNowVal)??>${data.sszNowVal}</#if>
+												</font>
+											</p>
+										</div>
+									</td>
+								</tr>
+						</#list> 
+					</#if>
+					</table>
+				</div>
+				<!-- 包装机 -->
+				<div id="packerDiv" class="bottom_content" <#if (dataList?exists)> style="display: none;"</#if>>
+					<table class="xhtable" width="100%" border="0" cellspacing="0"
+						cellpadding="0">
+						<tr>
+							<td></td>
+							<td width="285" id="xhzTh" class="ztitle">小盒纸(张)</td>
+							<td width="285" id="xhmTh" class="ztitle">小盒膜(公斤)</td>
+							<td width="285" id="thzTh" class="ztitle">条盒纸(张)</td>
+							<td width="285" id="thmTh" style="display:none" class="ztitle">条盒膜(公斤)</td>
+							<td width="285" id="nczTh" style="display:none" class="ztitle">内衬纸(公斤)</td>
+						</tr>
+						<#if (packerList?exists && packerList?size>0)>
+							<#list packerList as data>
+									<tr>
+										<td class="left_title">
+											<#if (data.eqpName??)>${data.eqpName}</#if> 
+											</br> 
+											<#if (data.teamName)??>${data.teamName}</#if> 
+											<#if (data.shiftName)??>${data.shiftName}</#if>
+										</td>
+										<td width="285" id="xhzTd">
+										<div class="right_top">
+											<div class="right_top_ms">
+												<ul>
+													<li class="mxcf">标准单耗</li>
+													<li>实际单耗</li>
+												</ul>
+											</div>
+											<div class="dh_hbj">
+												<div class="skillbar clearfix " >
+													<div class="skillbar-bar" style="background: #00bcd4;width:97%"></div>
+											</div>
+											<div class="clear"></div>
+											<div class="skillbar clearfix " data-percent="<#if (data.xhzVal)??>${data.xhzVal}</#if>">
+												<div class="skillbar-bar" id="xhzRS${data.eqpCode}" style="background: #8bc34a;"></div>
+											</div>
+										</div>
+										<div class="right_top_num">
+											<ul>
+												<li class="mxcf" id="xhzStd${data.eqpCode}">
+													<#if (data.xhzStd??)>${data.xhzStd?string('0')}</#if>
+												</li>
+												<li id="xhzDH${data.eqpCode}">
+													<#if (data.xxzDH)??>${data.xxzDH?string('0')}<#else>0</#if>
+												</li>
+											</ul>
+										</div>
+										<div class="clear"></div>
+										<p class="dqhy">
+											<font >当前耗用：</font>
+											<font id="xzhXH${data.eqpCode}">
+												<#if (data.xhzNowVal)??>
+													${data.xhzNowVal}
+												</#if>
+											</font>
+										</p>
+									</div>
+								</td>
+								<td width="285" id="xhmTd">
+									<div class="right_top">
+										<div class="right_top_ms">
+											<ul>
+												<li class="mxcf">标准单耗</li>
+												<li>实际单耗</li>
+											</ul>
+										</div>
+										<div class="dh_hbj">
+											<div class="skillbar clearfix " >
+												<div class="skillbar-bar" style="background: #00bcd4;width:97%"></div>
+											</div>
+											<div class="clear"></div>
+											<div class="skillbar clearfix " data-percent="<#if (data.xhmVal)??>${data.xhmVal}</#if>">
+												<div class="skillbar-bar" id="xhmRS${data.eqpCode}" style="background: #8bc34a;"></div>
+											</div>
+										</div>
+										<div class="right_top_num">
+											<ul>
+												<li class="mxcf" id="xhmStd${data.eqpCode}">
+													<#if (data.xhmStd)??>${data.xhmStd?string('0.00')}</#if>
+												</li>
+												<li id="xhmDH${data.eqpCode}">
+													<#if (data.xhmDH)??>${data.xhmDH?string('0.00')}<#else>0.00</#if>
+												</li>
+											</ul>
+										</div>
+										<div class="clear"></div>
+										<p class="dqhy">
+											<font >当前耗用：</font>
+											<font id="xhmXH${data.eqpCode}">
+												<#if (data.xhmNowVal)??>${data.xhmNowVal}</#if>
+											</font>
+											
+										</p>
+									</div>
+								</td>
+								<td width="285" id="thzTd">
+									<div class="right_top">
+										<div class="right_top_ms">
+											<ul>
+												<li class="mxcf">标准单耗</li>
+												<li>实际单耗</li>
+											</ul>
+										</div>
+										<div class="dh_hbj">
+											<div class="skillbar clearfix " >
+												<div class="skillbar-bar" style="background: #00bcd4;width:97%"></div>
+											</div>
+											<div class="clear"></div>
+											<div class="skillbar clearfix " data-percent="<#if (data.thzVal)??>${data.thzVal}</#if>">
+												<div class="skillbar-bar" id="thzRS${data.eqpCode}" style="background: #8bc34a;"></div>
+											</div>
+										</div>
+										<div class="right_top_num">
+											<ul>
+												<li class="mxcf" id="thzStd${data.eqpCode}">
+													<#if (data.thzStd)??>${data.thzStd?string('0')}</#if>
+												</li>
+												<li id="thzDH${data.eqpCode}">
+													<#if (data.thzDH)??>${data.thzDH?string('0')}<#else>0</#if>
+												</li>
+											</ul>
+										</div>
+										<div class="clear"></div>
+										<p class="dqhy">
+											<font >当前耗用：</font>
+											<font id="thzXH${data.eqpCode}">
+												<#if (data.thzNowVal)??>${data.thzNowVal}</#if>
+											</font>
+										</p>
+									</div>
+								</td>
+								<td width="285" id="thmTd" style="display:none">
+									<div class="right_top">
+										<div class="right_top_ms">
+											<ul>
+												<li class="mxcf">标准单耗</li>
+												<li>实际单耗</li>
+											</ul>
+										</div>
+										<div class="dh_hbj">
+											<div class="skillbar clearfix " >
+												<div class="skillbar-bar" style="background: #00bcd4;width:97%"></div>
+											</div>
+											<div class="clear"></div>
+											<div class="skillbar clearfix " data-percent="<#if (data.thmVal)??>${data.thmVal}</#if>">
+												<div class="skillbar-bar" id="thmRS${data.eqpCode}" style="background: #8bc34a;"></div>
+											</div>
+										</div>
+										<div class="right_top_num">
+											<ul>
+												<li class="mxcf" id="thmStd${data.eqpCode}">
+													<#if (data.thmStd)??>${data.thmStd}</#if>
+												</li>
+												<li id="thmDH${data.eqpCode}">
+													<#if (data.thmDH)??>${data.thmDH}<#else>0</#if>
+												</li>
+											</ul>
+										</div>
+										<div class="clear"></div>
+										<p class="dqhy">
+											<font >当前耗用：</font>
+											<font id="thmXH${data.eqpCode}">
+												<#if (data.thmNowVal)??>${data.thmNowVal}</#if>
+											</font>
+										</p>
+									</div>
+								</td>
+								<td width="285" id="nczTd" style="display:none">
+									<div class="right_top">
+										<div class="right_top_ms">
+											<ul>
+												<li class="mxcf">标准单耗</li>
+												<li>实际单耗</li>
+											</ul>
+										</div>
+										<div class="dh_hbj">
+											<div class="skillbar clearfix " >
+												<div class="skillbar-bar" style="background: #00bcd4;width:97%"></div>
+											</div>
+											<div class="clear"></div>
+											<div class="skillbar clearfix " data-percent="<#if (data.nczVal)??>${data.nczVal}</#if>">
+												<div class="skillbar-bar" id="nczRS${data.eqpCode}" style="background: #8bc34a;"></div>
+													</div>
+												</div>
+												<div class="right_top_num">
+													<ul>
+														<li class="mxcf" id="nczStd${data.eqpCode}">
+															<#if (data.nczStd)??>${data.nczStd?string('0')}</#if>
+														</li>
+														<li id="nczDH${data.eqpCode}">
+															<#if (data.nczDH)??>${data.nczDH?string('0')}<#else>0</#if>
+														</li>
+													</ul>
+												</div>
+												<div class="clear"></div>
+												<p class="dqhy">
+													<font >当前耗用：</font>
+													<font id="nczXH${data.eqpCode}">
+														<#if (data.nczNowVal)??>${data.nczNowVal}</#if>
+													</font>	
+												</p>
+											</div>
+										</td>
+									</tr>
+								</#list> 
+							</#if>
+					</table>
+				</div>
+			</div>
+			
+			<div class="page">
+               <div class="num-bar">
+				<a>共${wctPage.maxCount}条数据</a>
+				<#if (wctPage.index)!=1 >
+				    <a class="num" onclick="chengePage('submitBu','${futRoot}/wct/fLConsume/getResultPagePath.htm?url=web_html/wct/pdStat/schStatInput_RealTimeRoller&index=${wctPage.index-1}')">上一页</a>
+				<#else>
+				    <a class="num" >上一页</a>  
+				</#if>
+				<a>${wctPage.index}/${maxpage}</a>
+				<#if (wctPage.index) < (maxpage) >
+				    <a class="num"  onclick="chengePage('submitBu','${futRoot}/wct/fLConsume/getResultPagePath.htm?url=web_html/wct/pdStat/schStatInput_RealTimeRoller&index=${wctPage.index+1}')">下一页</a>
+				<#else>
+				    <a class="num" >下一页</a>
+				</#if>
+              </div>
+        </div>
+		</div>
+	</div>
+	<!-- 中部end -->
+	
+	<!-- 隐藏form -->
+	<form  id="submitBu" action="${futRoot}/wct/fLConsume/getResultPagePath.htm?url=web_html/wct/pdStat/schStatInput_RealTimeRoller" method="post">
+		<input name="orderType" id="orderTypeVal"  value="${chooseParams.orderType?if_exists}"/>
+	</form>
+</body>
+</html>

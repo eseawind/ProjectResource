@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+		   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+		   
+	<display-name>LBDWS</display-name>
+	
+	<!-- 载入spring上下文  -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:conf/spring-mybatis.xml,classpath:spring-tasks.xml,classpath:spring-cxf.xml</param-value>
+	</context-param>
+	<!-- 字符编码过滤器 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- spring监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- Spring 刷新Introspector防止内存泄露 -->
+    <listener>
+        <listener-class>
+            org.springframework.web.util.IntrospectorCleanupListener
+        </listener-class>
+    </listener>
+
+	<!-- 载入spring上下文  -->
+	<servlet>
+		<servlet-name>springMvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:conf/spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>springMvc</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>springMvc</servlet-name>
+        <url-pattern>*.json</url-pattern>
+    </servlet-mapping>
+    <!-- 初始化加载信息 -->
+    <servlet>
+		<description>加载初始化信息 </description>
+		<servlet-name>initResource</servlet-name>
+	 	<servlet-class>com.lanbao.dws.common.init.InitResourceServlet</servlet-class>
+	 	<load-on-startup>2</load-on-startup>
+	</servlet> 
+	
+	<!-- 数据采集，配置监听DAC数据请求，DataReceiveListener类处理数据  start  -->
+	 <context-param>
+		<param-name>localAddress</param-name>
+		<param-value>10.39.123.3</param-value>
+	</context-param>
+	<context-param>
+		<param-name>localPort</param-name>
+		<param-value>1115</param-value>
+	</context-param>
+	<listener>
+		<listener-class>com.lanbao.dws.common.data.dac.DataReceiveListener</listener-class>
+	</listener>
+	<!-- 数据采集，配置监听DAC数据请求，DataReceiveListener类处理数据  end  -->
+	
+    <!-- 编辑器图片上次servlet 
+    <servlet>  
+        <servlet-name>UploadImgServiet</servlet-name>  
+        <servlet-class>  
+            com.leather.controller.common.servlet.UploadImgServiet
+        </servlet-class>  
+        <load-on-startup>1</load-on-startup>  
+    </servlet> 
+    <servlet-mapping>  
+        <servlet-name>UploadImgServiet</servlet-name>  
+        <url-pattern>/upload</url-pattern>  
+    </servlet-mapping> 
+    -->
+     <!-- cxf WebService服务 -->
+	<servlet>
+		<servlet-name>cxfService</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>cxfService</servlet-name>
+		<url-pattern>/ws/*</url-pattern>
+	</servlet-mapping>
+	<!-- 配置session超时时间，单位分钟 -->
+	<session-config>
+	    <session-timeout>30</session-timeout>
+	</session-config>
+	
+	<!-- 欢迎页面 -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- 错误跳转页面 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/wct/error/gotoError.htm?eurl=error/ERROR404</location>
+	</error-page>
+	<error-page>
+		<error-code>405</error-code>
+		<location>/wct/error/gotoError.htm?eurl=error/ERROR405</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/wct/error/gotoError.htm?eurl=error/ERROR500</location>
+	</error-page>
+</web-app>
