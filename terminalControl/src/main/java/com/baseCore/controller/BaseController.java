@@ -7,6 +7,7 @@ import com.entity.LoggerBean;
 import com.entity.LoggerGrade;
 
 public class BaseController {
+	public static final String BASEPATH="/module/";
 	/**
 	 * 操作结果标志
 	 */
