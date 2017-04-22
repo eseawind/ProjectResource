@@ -1,19 +1,22 @@
-package com.qrCode;
+package com.qrCode.controller;
 
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.baseCore.controller.BaseController;
+import com.qrCode.service.QrCodeServiceI;
 
 @Controller
 @RequestMapping("/qrCode")
 public class QrCodeController extends BaseController {
-	
+	@Autowired
+	QrCodeServiceI qrCodeService;
 	/**
 	 * <p>功能描述：根据内容批量生成二维码图片</p>
 	 *@return
@@ -22,7 +25,14 @@ public class QrCodeController extends BaseController {
 	 */
 	@RequestMapping("/batchGenQrcode")
 	public String batchGenQrcode(String qrCodes,Map<String,Object> rs,HttpServletRequest request,HttpSession session){
-		return BASEPATH+"qrCode/qrCodeIMG";
+		try {
+			rs.put("qrCodes", qrCodes);
+			rs=qrCodeService.batchGenQrcode(rs);
+		} catch (Exception e) {
+			e.printStackTrace();
+			rs.put(ERRMSG, e.getMessage());
+		}
+		return  "/qrCode/qrCodeIMG";
 	}
 	
 	

@@ -7,7 +7,6 @@ import com.entity.LoggerBean;
 import com.entity.LoggerGrade;
 
 public class BaseController {
-	public static final String BASEPATH="/module/";
 	/**
 	 * 操作结果标志
 	 */
@@ -16,6 +15,7 @@ public class BaseController {
 	 * 操作结果反馈
 	 */
 	protected static final String MSG="msg";
+	protected static final String ERRMSG="err_msg";
 	/**
 	 * 新增操作
 	 */
