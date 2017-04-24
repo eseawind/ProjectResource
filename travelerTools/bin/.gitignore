@@ -1,4 +1,6 @@
 /META-INF/
 /com/
 /logging.db
+/logging.db-shm
+/logging.db-wal
 /test/

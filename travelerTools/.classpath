@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="resource"/>
 	<classpathentry kind="lib" path="libs/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="libs/httpclient-4.3.3.jar"/>
 	<classpathentry kind="lib" path="libs/httpcore-4.3.3.jar"/>

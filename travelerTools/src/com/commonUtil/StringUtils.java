@@ -32,4 +32,12 @@ public class StringUtils {
 			return "";
 		}
 	}
+	
+	public static int toInt(Object obj){
+		if(obj!=null){
+			return Integer.valueOf(toStr(obj));
+		}else{
+			return 0;
+		}
+	}
 }

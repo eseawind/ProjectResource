@@ -3,7 +3,6 @@
 	<name>terminalControl</name>
 	<comment></comment>
 	<projects>
-		<project>travelerTools</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
