@@ -15,9 +15,10 @@ public class DataSourceFactory {
 	//System.getProperty("user.dir");
 	static final String sqlLiteUrl="jdbc:sqlite:C:\\ProjectResources\\gitLocalResource\\ProjectResource\\travelerTools\\resource\\logging.db";
 	public static ConnectionPoolDataSource createDataSource() throws Exception {
-		String path=System.getProperty("user.dir")+File.separator+"logging.db";
+		String path="jdbc:sqlite:"+System.getProperty("logging.db");
 		SQLiteConnectionPoolDataSource dataSource = new SQLiteConnectionPoolDataSource();
-		dataSource.setUrl("jdbc:sqlite:"+path);
+		System.out.println(path);
+		dataSource.setUrl(path);
 		dataSource.setJournalMode("WAL");
 		dataSource.getConfig().setBusyTimeout("10000");
 		return dataSource;
