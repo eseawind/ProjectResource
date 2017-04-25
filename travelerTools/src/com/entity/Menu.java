@@ -83,10 +83,4 @@ public class Menu {
 	public void setGread(int gread) {
 		this.gread = gread;
 	}
-	@Override
-	public String toString() {
-		return "ID："+id+"\t context： "+context+"\t PID:  "+pid+"\t 子菜单："+childMenus;
-	}
-	
-	
 }

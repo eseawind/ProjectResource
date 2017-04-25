@@ -30,9 +30,10 @@ public class QrCodeServiceImpl implements QrCodeServiceI {
 		String[] codes=qrCodeStr.split(",");
 		List<String> codeList=new ArrayList<>();
 		for (String str : codes) {
+			str=new String(str.getBytes("utf-8"),"utf-8");
 			codeList.add(str);
 		}
-		rs.put("qrCodes", qrCodeStr);
+		rs.put("qrCodes",new String(qrCodeStr.getBytes("utf-8"),"utf-8"));
 		rs.put("qrCodeList", codeList);
 		return rs;
 	}

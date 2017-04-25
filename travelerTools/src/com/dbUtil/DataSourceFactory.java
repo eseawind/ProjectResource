@@ -1,7 +1,5 @@
 package com.dbUtil;
 
-import java.io.File;
-
 import javax.sql.ConnectionPoolDataSource;
 
 import org.sqlite.javax.SQLiteConnectionPoolDataSource;
@@ -12,13 +10,10 @@ import org.sqlite.javax.SQLiteConnectionPoolDataSource;
  *
  */
 public class DataSourceFactory {
-	//System.getProperty("user.dir");
-	static final String sqlLiteUrl="jdbc:sqlite:C:\\ProjectResources\\gitLocalResource\\ProjectResource\\travelerTools\\resource\\logging.db";
+	static final String sqlLiteUrl="jdbc:sqlite:C:\\ProjectResources\\gitLocalResource\\ProjectResource\\logging.db";
 	public static ConnectionPoolDataSource createDataSource() throws Exception {
-		String path="jdbc:sqlite:"+System.getProperty("logging.db");
 		SQLiteConnectionPoolDataSource dataSource = new SQLiteConnectionPoolDataSource();
-		System.out.println(path);
-		dataSource.setUrl(path);
+		dataSource.setUrl(sqlLiteUrl);
 		dataSource.setJournalMode("WAL");
 		dataSource.getConfig().setBusyTimeout("10000");
 		return dataSource;

@@ -32,10 +32,23 @@ public class QrCodeController extends BaseController {
 			e.printStackTrace();
 			rs.put(ERRMSG, e.getMessage());
 		}
-		return  "/qrCode/qrCodeIMG";
+		return  "/qrCode/qrCodeIMG.jsp";
 	}
 	
-	
+	/**
+	 * <p>功能描述：跳转到批量生成二维码页面</p>
+	 *@param qrCodes
+	 *@param rs
+	 *@param request
+	 *@param session
+	 *@return
+	 *作者：SShi11
+	 *日期：Apr 24, 2017 5:30:51 PM
+	 */
+	@RequestMapping("/goToGenQRCode")
+	public String goToGenQRCode(HttpServletRequest request,HttpSession session){
+		return  "/qrCode/areaQrCode.jsp";
+	}
 	
 	
 }
