@@ -18,7 +18,7 @@ public class MenuUtils {
 	 */
 	public  static List<Menu> initMenu(Module module) throws Exception{
 		List<Menu> menus=new ArrayList<Menu>();
-		String sql="SELECT ID,CONTEXT,URL_CONTEXT,MODULE,DEL,PID,GREAD,HASCHILDS FROM SYS_MENU WHERE PID IS NULL AND MODULE =? ORDER BY GREAD";
+		String sql="SELECT ID,CONTEXT,URL_CONTEXT,MODULE,DEL,PID,GREAD,HASCHILDS FROM SYS_MENU WHERE PID IS NULL AND MODULE =? and DEL=0 ORDER BY GREAD";
 		List<Map<String,Object>> result=ExecuteSql.queryBySql(sql, Module.getVal(module));
 		Menu menu=null;
 		for (Map<String, Object> map : result) {
@@ -35,7 +35,7 @@ public class MenuUtils {
 			menus.add(menu);
 		}
 		//子菜单
-		sql="SELECT ID,CONTEXT,URL_CONTEXT,MODULE,DEL,PID,GREAD,HASCHILDS FROM SYS_MENU WHERE PID = ?  ORDER BY GREAD";
+		sql="SELECT ID,CONTEXT,URL_CONTEXT,MODULE,DEL,PID,GREAD,HASCHILDS FROM SYS_MENU WHERE PID = ? and DEL=0  ORDER BY GREAD";
 		findChildMenu(menus, sql, result);
 		return menus;
 	}

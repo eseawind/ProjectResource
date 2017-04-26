@@ -9,4 +9,5 @@
 	<select id="updateEntity" resultType="java.lang.Integer">
 		update UTILS_LOGGING set remark='备注' where id=1
 	</select>
+	
 </mapper>
