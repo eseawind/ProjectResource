@@ -8,7 +8,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<link rel="stylesheet" href="${resRoot}/css/index/mainDiv.css" />
 		<script type="text/javascript" src="${resRoot}/js/index/main.js"></script>
-		<title>首页</title>
+		<title>首页信息</title>
 	</head>
 	<body>
 		<div class="col-md-2" style="margin-top: 5px;margin-left: -10px;">
