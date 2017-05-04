@@ -10,6 +10,7 @@ import net.sf.jasperreports.engine.query.JRJpaQueryExecuter;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletOutputStream;
@@ -64,7 +65,7 @@ public class IreportController extends BaseController {
         }
         return "testIreport";
     }
-
+    
 
     /**
      * 跳转到测试ireport界面
@@ -84,20 +85,14 @@ public class IreportController extends BaseController {
      * @param model
      */
     @RequestMapping("/exportExcel")
-    public void exportExcel(HttpSession session, HttpServletRequest request, HttpServletResponse response, Map<String, Object> model) {
+    public String exportExcel(String type,Map<String, Object> model) {
         try {
-            response.setContentType("application/pdf");
-            String jasperFile = "";
-            InputStream jasperInStream = new FileInputStream(jasperFile);
-            ServletOutputStream os = response.getOutputStream();
-            Map map = new HashMap();
-            JRDataSource ds =new JRBeanCollectionDataSource(null);//数据集
-            JasperPrint print = JasperFillManager.fillReport(jasperInStream, map, ds);
-            JasperExportManager.exportReportToPdfStream(print, os);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JRException e) {
-            e.printStackTrace();
-        }
+            Map<String, Object> params = new HashMap<>();
+            params.put("type", type);
+            iireportService.ExportUsers(params, model);
+        } catch (Exception e) {
+			e.printStackTrace();
+		}
+        return "testIreport";
     }
 }

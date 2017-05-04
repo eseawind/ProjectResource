@@ -1,19 +1,21 @@
 package com.ireport.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.util.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.view.jasperreports.JasperReportsHtmlView;
+
 import com.commonUtil.OperationException;
 import com.commonUtil.StringUtils;
 import com.ireport.dao.IireportDao;
 import com.ireport.service.IireportService;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
-import net.sf.jasperreports.engine.data.JRMapArrayDataSource;
-import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 
 /**
  * Created by SShi11 on 5/3/2017.
@@ -35,27 +37,42 @@ public class IreportServiceImpl implements IireportService {
 
 
     @Override
-    public List<Map<String, ?>> queryUsers(Map<String, Object> params, Map<String, Object> model) throws Exception {
+    public Map<String, Object>  queryUsers(Map<String, Object> params,Map<String, Object> model) throws Exception {
         List<Map<String, ?>> rs;
         try {
             rs = iireportDao.queryUsers(params);
-            List<String[]> res=new ArrayList<>();
-            String[] strArry=null;
-            for (Map<String,?> map :rs ) {
-                strArry=new String[3];
-                strArry[0]= StringUtils.toStr(map.get("UCODE"));
-                strArry[1]= StringUtils.toStr(map.get("UNAME"));
-                strArry[2]= StringUtils.toStr(map.get("UPWD"));
-                res.add(strArry);
-            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new OperationException("查询异常！");
         }
         JRDataSource jrDataSource=new JRMapCollectionDataSource(rs);
         model.put("url", "/module/ireportFiles/test.jasper");
-        model.put("format", "pdf");
+        model.put("format", "html");
         model.put("dataSource", jrDataSource);
-        return rs;
+        return model;
+    }
+    
+    /**
+     * 导出
+     * @param params
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Map<String, Object>  ExportUsers(Map<String, Object> params,Map<String, Object> model) throws Exception {
+        List<Map<String, ?>> rs;
+        String type=StringUtils.toStr(params.get("type"));
+        try {
+            rs = iireportDao.queryUsers(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new OperationException("查询异常！");
+        }
+        JRDataSource jrDataSource=new JRMapCollectionDataSource(rs);
+        model.put("url", "/module/ireportFiles/test.jasper");
+        model.put("format", type);
+        model.put("dataSource", jrDataSource);
+        return model;
     }
 }
