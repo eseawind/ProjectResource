@@ -1,14 +1,17 @@
 package com.ireport.service.impl;
 
 import com.commonUtil.OperationException;
+import com.commonUtil.StringUtils;
 import com.ireport.dao.IireportDao;
 import com.ireport.service.IireportService;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 import net.sf.jasperreports.engine.data.JRMapArrayDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +39,15 @@ public class IreportServiceImpl implements IireportService {
         List<Map<String, ?>> rs;
         try {
             rs = iireportDao.queryUsers(params);
+            List<String[]> res=new ArrayList<>();
+            String[] strArry=null;
+            for (Map<String,?> map :rs ) {
+                strArry=new String[3];
+                strArry[0]= StringUtils.toStr(map.get("UCODE"));
+                strArry[1]= StringUtils.toStr(map.get("UNAME"));
+                strArry[2]= StringUtils.toStr(map.get("UPWD"));
+                res.add(strArry);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new OperationException("查询异常！");
