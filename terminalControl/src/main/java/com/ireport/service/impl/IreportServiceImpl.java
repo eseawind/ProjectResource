@@ -1,49 +1,32 @@
 package com.ireport.service.impl;
 
-import java.io.File;
+import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.view.jasperreports.JasperReportsHtmlView;
 
-import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleIfStatement.Else;
 import com.commonUtil.OperationException;
 import com.commonUtil.StringUtils;
 import com.ireport.dao.IireportDao;
 import com.ireport.service.IireportService;
 
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.JasperRunManager;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
-import net.sf.jasperreports.engine.export.JExcelApiExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import net.sf.jasperreports.engine.export.JRXmlExporter;
-import net.sf.jasperreports.export.ExporterInput;
-import net.sf.jasperreports.export.RtfExporterConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleRtfExporterConfiguration;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsExporterConfiguration;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 /**
@@ -177,5 +160,95 @@ public class IreportServiceImpl implements IireportService {
 		outputStream.flush();
 		outputStream.close();
 
+	}
+	
+	/**
+	 * ireport查询导出通用类
+	 */
+	@Override
+	public void IreportTools(List<Map<String, ?>> data, String jasperPath, boolean isExport,Map<String,Object> fileProperties,HttpServletResponse response)
+			throws Exception {
+		JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
+		Map<String,Object> model=new HashMap<>();
+		model.put("reportDataKey", jrDataSource);
+		//导出数据
+		if(isExport){
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperPath, model, jrDataSource);
+			//对数据非空校验
+			//.....
+			//文件名
+			String exportFileName=StringUtils.toStr(fileProperties.get("exportFileName"));
+			//文件后缀
+			String exportFileSuffix=StringUtils.toStr(fileProperties.get("exportFileSuffix"));
+			exportFileSuffix=exportFileSuffix.toUpperCase();
+			
+			OutputStream os=response.getOutputStream();
+			String fileName=null;
+			switch (exportFileSuffix) {
+			case "XLS":
+				response.setContentType("application/vnd.ms-excel");
+				response.setCharacterEncoding("UTF-8");
+				fileName = exportFileName + ".xls";
+				fileName = new String(fileName.getBytes("utf-8"), "ISO8859_1");
+				response.setHeader("Content-disposition", "attachment; filename=\"" + fileName + "\"");
+				JRXlsExporter xlsExporter = new JRXlsExporter();
+				xlsExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+				xlsExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(os));
+				SimpleXlsReportConfiguration xlsReportConfiguration = new SimpleXlsReportConfiguration();
+				
+				//导出exlcel 文件格式设置
+				//每页占一个sheef
+				Object onePagePerSheetObj=fileProperties.get("onePagePerSheet");
+				boolean onePagePerSheet=onePagePerSheetObj==null?false:(Boolean)onePagePerSheetObj;
+				
+				
+				
+				
+				xlsReportConfiguration.setOnePagePerSheet(onePagePerSheet);//分sheet页导出
+				xlsReportConfiguration.setRemoveEmptySpaceBetweenRows(true);
+				xlsReportConfiguration.setDetectCellType(false);
+				xlsReportConfiguration.setWhitePageBackground(false);
+				xlsReportConfiguration.setCollapseRowSpan(false);
+				xlsExporter.setConfiguration(xlsReportConfiguration);
+				xlsExporter.exportReport();
+				break;
+			case "DOC":
+				fileName = exportFileName + ".doc";
+				response.setContentType("application/msword;charset=utf-8");
+				fileName = new String(fileName.getBytes("utf-8"), "ISO8859_1");
+				response.setHeader("Content-disposition", "attachment; filename=\"" + fileName + "\"");
+				JRRtfExporter rtfRxporter = new JRRtfExporter();
+				rtfRxporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+				rtfRxporter.setExporterOutput(new SimpleWriterExporterOutput(os));
+				rtfRxporter.exportReport();
+				break;
+			default:
+				fileName = exportFileName + ".pdf";
+				response.setContentType("application/pdf");
+				response.setCharacterEncoding("UTF-8");
+				fileName = new String(fileName.getBytes("utf-8"), "ISO8859_1");
+				response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+				JasperExportManager.exportReportToPdfStream(jasperPrint, os);
+			}
+			os.flush();
+			os.close();
+			
+		}else{
+		//查询数据
+			String middleFile=JasperFillManager.fillReportToFile(jasperPath, model, jrDataSource);
+			JasperExportManager.exportReportToHtmlFile(middleFile);
+		}
+	}
+
+	@Override
+	public List<Map<String, ?>> queryData(Map<String, Object> params) throws Exception {
+		List<Map<String, ?>> rs=null;
+		try {
+			rs = iireportDao.queryUsers(params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new OperationException("查询异常！");
+		}
+		return rs;
 	}
 }

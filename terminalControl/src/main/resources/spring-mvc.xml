@@ -93,9 +93,4 @@
         <!-- 内存中的最大值 -->
         <property name="maxInMemorySize" value="40960"/>
     </bean>
-    <!--ireport -->
-    <bean id="jasperReportResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
-        <property name="order" value="0"></property>
-        <property name="location" value="classpath:jasper-views.xml"></property>
-    </bean>
 </beans>

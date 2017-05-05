@@ -1,29 +1,19 @@
 package com.ireport.controller;
 
-import com.baseCore.controller.BaseController;
-import com.ireport.service.IireportService;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.data.JRJpaDataSource;
-import net.sf.jasperreports.engine.query.JRJdbcQueryExecuterFactory;
-import net.sf.jasperreports.engine.query.JRJpaQueryExecuter;
-import net.sf.jasperreports.engine.query.JRQueryExecuter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.baseCore.controller.BaseController;
+import com.ireport.service.IireportService;
 
 /**
  * Created by SShi11 on 5/3/2017.
@@ -34,23 +24,6 @@ import java.util.Map;
 public class IreportController extends BaseController {
     @Autowired
     private IireportService iireportService;
-
-    /**
-     * 后台处理添加数据源
-     * @param model
-     * @return
-     */
-    @RequestMapping("/testIreport")
-    public String testIreportNoSql(Map<String, Object> model) {
-        try {
-            Map<String, Object> params = new HashMap<>();
-            iireportService.queryUsers(params, model);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "testIreport";
-    }
-
     /**
      * 不使用配置文件
      * @param model
@@ -113,6 +86,50 @@ public class IreportController extends BaseController {
             params.put("type", type);
             iireportService.ExportUsers2(params, model,context,response);
         } catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+    
+    /**
+     * 查询数据
+     * @param session
+     * @param response
+     * @return
+     */
+    @RequestMapping("/queryData")
+    public String queryData(HttpSession session,HttpServletResponse response){
+    	try {
+    		Map<String, Object> params = new HashMap<>();
+    		List<Map<String, ?>> data = iireportService.queryData(params);
+    		ServletContext content=session.getServletContext();
+    		String jasperPath = content.getRealPath("/") + "module/ireportFiles/test.jasper";
+			iireportService.IreportTools(data, jasperPath, false,null, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return  "/ireportFiles/test.html";
+    }
+    
+    /**
+     * 导出
+     * @param session
+     * @param response
+     * @param exportFileSuffix
+     * @param exportFileName
+     */
+    @RequestMapping("/exportFile")
+    public void exportFile(HttpSession session,HttpServletResponse response,String exportFileSuffix,String exportFileName){
+    	try {
+    		Map<String, Object> params = new HashMap<>();
+    		List<Map<String, ?>> data = iireportService.queryData(params);
+    		ServletContext content=session.getServletContext();
+    		String jasperPath = content.getRealPath("/") + "/module/ireportFiles/test.jasper";
+    		Map<String,Object> exportProperties=new HashMap<>();
+    		exportProperties.put("exportFileSuffix", exportFileSuffix);
+    		exportProperties.put("exportFileName", exportFileName);
+			iireportService.IreportTools(data, jasperPath, true, exportProperties, response);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
     }
