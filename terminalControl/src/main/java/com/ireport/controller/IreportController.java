@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,20 +52,20 @@ public class IreportController extends BaseController {
     }
 
     /**
-     * 已有数据源
+     * 不使用配置文件
      * @param model
      * @return
      */
     @RequestMapping("/testIreportHasSql")
-    public String testIreportHasSql(Map<String, Object> model) {
-        try {
-            Map<String, Object> params = new HashMap<>();
-            model.put("url", "/module/ireportFiles/report2.jasper");
-            model.put("format", "pdf");
+    public String testIreportHasSql(Map<String, Object> model,HttpSession session) {
+    	try {
+    		  ServletContext context=session.getServletContext();
+        	  Map<String, Object> params = new HashMap<>();
+        	  iireportService.queryUsers2(params, model,context);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "testIreport";
+    	return "/ireportFiles/test.html";
     }
     
 
@@ -94,5 +96,24 @@ public class IreportController extends BaseController {
 			e.printStackTrace();
 		}
         return "testIreport";
+    }
+    
+    
+    /**
+     * 导出
+     * @param type
+     * @param model
+     * @return
+     */
+    @RequestMapping("/exportExcel2")
+    public void exportExcel2(String type,Map<String, Object> model,HttpSession session,HttpServletResponse response) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            ServletContext context=session.getServletContext();
+            params.put("type", type);
+            iireportService.ExportUsers2(params, model,context,response);
+        } catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 }
