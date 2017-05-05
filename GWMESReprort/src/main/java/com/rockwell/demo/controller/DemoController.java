@@ -26,11 +26,11 @@ public class DemoController {
 			Map<String, Object> params = new HashMap<>();
 			List<Map<String, ?>> data = demoService.queryUsers(params);
 			ServletContext content=session.getServletContext();
-			String jasperPath = content.getRealPath("/") + "/templates/ireportDemo/test.jasper";
+			String jasperPath = content.getRealPath("/") + "/ireportDemo/test.jasper";
 			ReportExportUtil.IreportTools(data, jasperPath, false,null, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	return  "/templates/ireportDemo/test.html";
+    	return  "/ireportDemo/test.html";
 	}
 }

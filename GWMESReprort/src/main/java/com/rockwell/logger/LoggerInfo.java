@@ -3,6 +3,7 @@ package com.rockwell.logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.UUID;
+
 import ch.qos.logback.classic.db.DBAppender;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.db.DBHelper;
@@ -14,7 +15,7 @@ import ch.qos.logback.core.db.DBHelper;
  * shisihai 2016下午5:50:35
  */
 public class LoggerInfo extends DBAppender {
-	/*// 日志插入语句
+	// 日志插入语句
 	private static String insertSql = "INSERT INTO GW_REPORT_LOGGERINFO (ID,LEVEL_CODE,MODULE_CODE,DOUSER,CREATE_TIME,NOTE_TEXT) VALUES (?,?, ?, ?,SYSDATE,?)";
 
 	@Override
@@ -28,7 +29,7 @@ public class LoggerInfo extends DBAppender {
 
 	}
 
-	*//**
+	/**
 	 * <p>
 	 * 功能描述：保存操作日志
 	 * </p>
@@ -39,7 +40,7 @@ public class LoggerInfo extends DBAppender {
 	 * @param createDate
 	 * @param msg
 	 *            shisihai 2016下午5:50:55
-	 *//*
+	 */
 	private void save(String id, String infoLeavel, String module, String doUser, String msg) {
 		Connection connection = null;
 		PreparedStatement insertStatement = null;
@@ -63,14 +64,14 @@ public class LoggerInfo extends DBAppender {
 		}
 	}
 
-	*//**
+	/**
 	 * <p>
 	 * 功能描述：判断是否需要保存改日志信息
 	 * </p>
 	 * 
 	 * @param baseMsg
 	 * @return shisihai 2016下午4:10:35
-	 *//*
+	 */
 	private boolean isSave(Object[] baseMsg) {
 		if (baseMsg == null || baseMsg.length != 2) {
 			return false;
@@ -78,5 +79,4 @@ public class LoggerInfo extends DBAppender {
 			return true;
 		}
 	}
-*/
 }
