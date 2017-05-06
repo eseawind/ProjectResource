@@ -1,37 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false" scan="true" scanPeriod="1 seconds">
-
-    <contextName>logback</contextName>
-
-    <property name="log.path" value="C:\\Users\\sshi11\\Desktop\\loglogback.log" />
-
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-              <level>ERROR</level>
-        </filter>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n
-            </pattern>
-        </encoder>
-    </appender>
-
-    <appender name="file"
-        class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}.%d{yyyy-MM-dd}.zip</fileNamePattern>
-        </rollingPolicy>
-
-        <encoder>
-            <pattern>%date %level [%thread] %logger{36} [%file : %line] %msg%n
-            </pattern>
-        </encoder>
-    </appender>
-
-    <root level="debug">
-        <appender-ref ref="console" />
-        <appender-ref ref="file" />
-    </root>
-
-    <logger name="com.example.logback" level="warn" />
+<configuration>
+	<!-- 需要保存到数据库的日志 -->
+	<appender name="saveLog" class="com.rockwell.logger.LoggerInfo">
+		<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+				<driverClass>oracle.jdbc.driver.OracleDriver</driverClass>
+				<url>jdbc:oracle:thin:@10.1.245.54:1521:PROD</url>
+				<user>ProdUAT</user>
+				<password>ProdUAT</password>
+		</connectionSource>
+	</appender>
+	<!-- 调试日志 -->
+	<appender name="showSQl" class="ch.qos.logback.core.ConsoleAppender">  
+	    <encoder>  
+	      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>  
+	      <charset>UTF-8</charset> 
+	    </encoder>  
+  	</appender>  
+	<logger name="com.rockwell" level="info">  
+        <appender-ref ref="saveLog" />
+    </logger>  
+    <logger name="com.rockwell" level="debug">  
+        <appender-ref ref="showSQl" />
+    </logger>
 </configuration>

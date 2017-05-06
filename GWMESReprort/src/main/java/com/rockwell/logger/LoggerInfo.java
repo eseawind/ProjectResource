@@ -13,10 +13,11 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.db.DBHelper;
 
 /**
+ * 系统自动日志记录
  * <p>
  * 功能描述：日志处理类 参数说明：第一个：日志、模块 、 操作人       loger.info("日志内容", "操作模块","操作人");
  * </p>
- * shisihai 2016下午5:50:35
+ * @author SShi11
  */
 public class LoggerInfo extends DBAppender {
 	// 日志插入语句
@@ -48,7 +49,7 @@ public class LoggerInfo extends DBAppender {
 	 * @param doUser
 	 * @param createDate
 	 * @param msg
-	 *            shisihai 2016下午5:50:55
+	 * @author SShi11
 	 */
 	private void save(String id, String infoLeavel, String module, String doUser,String nowTime, String msg) {
 		Connection connection = null;
@@ -80,7 +81,8 @@ public class LoggerInfo extends DBAppender {
 	 * </p>
 	 * 
 	 * @param baseMsg
-	 * @return shisihai 2016下午4:10:35
+	 * @return
+	 * @author SShi11
 	 */
 	private boolean isSave(Object[] baseMsg) {
 		if (baseMsg == null || baseMsg.length != 2) {

@@ -13,6 +13,11 @@ import org.springframework.stereotype.Service;
 import com.rockwell.Util.ExceptionUtil;
 import com.rockwell.Util.OperationException;
 import com.rockwell.demo.dao.DemoDaoI;
+/**
+ * 测试报表导出Service
+ * @author SShi11
+ *
+ */
 @Service
 public class DemoService {
 	private final static Logger loger = LoggerFactory.getLogger(DemoService.class);

@@ -1,8 +1,7 @@
 package com.rockwell.Util;
 /**
  * <p>功能描述：自定义异常类</p>
- *作者：SShi11
- *日期：Apr 10, 2017 11:47:07 PM
+ *@author SShi11
  */
 public class OperationException extends Exception {
 	private static final long serialVersionUID = 1L;

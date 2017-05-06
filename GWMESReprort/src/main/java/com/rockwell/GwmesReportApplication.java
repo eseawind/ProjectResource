@@ -6,6 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+/**
+ * 系统以Jar运行时的入口
+ * @author SShi11
+ *
+ */
 @SpringBootApplication
 public class GwmesReportApplication {
 	private final static Logger loger = LoggerFactory.getLogger(GwmesReportApplication.class);

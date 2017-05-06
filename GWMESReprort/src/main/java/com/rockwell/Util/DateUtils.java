@@ -2,7 +2,11 @@ package com.rockwell.Util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+/**
+ * 时间Util
+ * @author SShi11
+ *
+ */
 public class DateUtils {
 	public static final String COMMONPATTERN="yyyy-MM-dd HH:mm:ss";
 	
