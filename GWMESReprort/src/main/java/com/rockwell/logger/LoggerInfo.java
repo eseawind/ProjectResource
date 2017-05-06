@@ -2,7 +2,11 @@ package com.rockwell.logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.Date;
 import java.util.UUID;
+
+import com.rockwell.Util.DateUtils;
+import com.rockwell.Util.StringUtils;
 
 import ch.qos.logback.classic.db.DBAppender;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -16,15 +20,20 @@ import ch.qos.logback.core.db.DBHelper;
  */
 public class LoggerInfo extends DBAppender {
 	// 日志插入语句
-	private static String insertSql = "INSERT INTO GW_REPORT_LOGGERINFO (ID,LEVEL_CODE,MODULE_CODE,DOUSER,CREATE_TIME,NOTE_TEXT) VALUES (?,?, ?, ?,SYSDATE,?)";
-
+	private static String insertSql = "INSERT INTO GW_REPORT_LOGGERINFO (ID,LEVEL_CODE,MODULE_CODE,DOUSER,CREATE_TIME,NOTE_TEXT) VALUES (?,?, ?, ?,?,?)";
 	@Override
 	public void append(ILoggingEvent eventObject) {
 		Object[] baseMsg = eventObject.getArgumentArray();
 		if (isSave(baseMsg)) {
 			String id = UUID.randomUUID().toString();
-			this.save(id, eventObject.getLevel().levelStr, baseMsg[0].toString(), baseMsg[1].toString(),
-					eventObject.getMessage());
+			this.save(
+					id, 
+					eventObject.getLevel().levelStr,
+					StringUtils.toStr(baseMsg[0]),
+					StringUtils.toStr(baseMsg[1]),
+					DateUtils.nowTime(new Date(), DateUtils.COMMONPATTERN),
+					eventObject.getMessage()
+					);
 		}
 
 	}
@@ -41,7 +50,7 @@ public class LoggerInfo extends DBAppender {
 	 * @param msg
 	 *            shisihai 2016下午5:50:55
 	 */
-	private void save(String id, String infoLeavel, String module, String doUser, String msg) {
+	private void save(String id, String infoLeavel, String module, String doUser,String nowTime, String msg) {
 		Connection connection = null;
 		PreparedStatement insertStatement = null;
 		try {
@@ -53,7 +62,8 @@ public class LoggerInfo extends DBAppender {
 				insertStatement.setObject(2, infoLeavel);
 				insertStatement.setObject(3, module);
 				insertStatement.setObject(4, doUser);
-				insertStatement.setObject(5, msg);
+				insertStatement.setObject(5, nowTime);
+				insertStatement.setObject(6, msg);
 				insertStatement.execute();
 			}
 		} catch (Exception sqle) {

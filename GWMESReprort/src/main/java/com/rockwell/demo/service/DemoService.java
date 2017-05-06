@@ -1,8 +1,10 @@
 package com.rockwell.demo.service;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ import com.rockwell.demo.dao.DemoDaoI;
 @Service
 public class DemoService {
 	private final static Logger loger = LoggerFactory.getLogger(DemoService.class);
+	@Autowired
+	SqlSessionFactory sessionFactory;
+	
 	@Autowired
 	private DemoDaoI demoDaoI;
 	public List<Map<String, ?>> queryUsers(Map<String, ?> params) throws OperationException{
@@ -28,5 +33,10 @@ public class DemoService {
 			throw new OperationException("没有查询到数据！");
 		}
 		return rs;
+	}
+	public Connection getConn(){
+		Connection connection=sessionFactory.openSession().getConnection();
+		System.out.println(connection);
+		return connection;
 	}
 }
