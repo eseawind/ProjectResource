@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.traveler.sys.logger.dao.LoggerDao">
+	<select id="queryLoggerList" resultType="java.util.Map">
+		SELECT ID,LEVEL_CODE,MODULE_CODE,DOUSER,CREATE_TIME,NOTE_TEXT||nvl(NOTE_TEXT2,'') as NOTE_TEXT  FROM GW_REPORT_LOGGERINFO
+		<where>
+			<if test="logid !=null and logid !='' ">
+				ID=#{logid}
+			</if>
+			<if test="msg !=null and msg != '' ">
+				and NOTE_TEXT||nvl(NOTE_TEXT2,'') like concat('%',concat(#{msg},'%'))
+			</if>
+			<if test="stime != null and stime !='' ">
+				and stime &lt;= to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss')
+			</if>
+			<if test="etime != null and etime !='' ">
+				and etime &gt;= to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss')
+			</if>
+		</where>
+		ORDER BY CREATE_TIME DESC
+	</select>
+</mapper>
