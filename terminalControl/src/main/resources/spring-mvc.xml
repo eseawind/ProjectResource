@@ -43,39 +43,7 @@
             </list>
         </property>
     </bean>
-
     <mvc:default-servlet-handler/>
-
-
-    <!-- <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-          <property name="templateLoaderPath" value="/WebContent/module/"/>
-          <property name="defaultEncoding" value="utf-8" />
-          <property name="freemarkerSettings">
-              <props>
-                  <prop key="template_update_delay">0</prop>
-                  <prop key="locale">zh_CN</prop>
-                  <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
-                  <prop key="date_format">yyyy-MM-dd</prop>
-                  <prop key="number_format">#.##</prop>
-                  <prop key="classic_compatible">true</prop>
-              </props>
-          </property>
-          <property name="freemarkerVariables">
-              <map>
-                  <entry key="baseURL" value="/terminalControl" />
-                  <entry key="resRoot" value="/terminalControl/style" />
-              </map>
-          </property>
-      </bean>
-      <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-          <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
-          <property name="contentType" value="text/html;charset=utf-8" />
-          <property name="requestContextAttribute" value="request" />
-          <property name="exposeRequestAttributes" value="true" />
-          <property name="exposeSessionAttributes" value="true" />
-          <property name="exposeSpringMacroHelpers" value="true" />
-          <property name="order" value="0"/>
-      </bean>-->
     <!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
     <bean
             class="org.springframework.web.servlet.view.InternalResourceViewResolver">

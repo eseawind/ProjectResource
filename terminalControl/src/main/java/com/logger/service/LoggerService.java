@@ -1,4 +1,4 @@
-package com.logger.service.impl;
+package com.logger.service;
 
 import java.util.List;
 import java.util.Map;
@@ -6,15 +6,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.baseCore.service.BaseService;
 import com.commonUtil.OperationException;
 import com.commonUtil.SysException;
-import com.logger.dao.LoggerDAO;
-import com.logger.service.LoggerServiceI;
+import com.logger.dao.LoggerDao;
 
 @Service
-public class LoggerServiceImpl implements LoggerServiceI {
+public class LoggerService extends BaseService<LoggerService> {
 	@Autowired
-	private LoggerDAO loggerDAO;
+	private LoggerDao loggerDAO;
 
 	@Override
 	public List<Map<String, Object>> queryMapList(Map<String, Object> params) throws Exception {

@@ -9,7 +9,6 @@
 			<param name="ConversionPattern" value="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %l%n***%m***%n" />
 		</layout>
 	</appender>
-	
 	<!-- Application Loggers -->
 	
 	<!-- 3rdparty Loggers -->

@@ -10,13 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.baseCore.controller.BaseController;
-import com.qrCode.service.QrCodeServiceI;
+import com.qrCode.service.QrCodeService;
 
 @Controller
 @RequestMapping("/qrCode")
-public class QrCodeController extends BaseController {
+public class QrCodeController extends BaseController<QrCodeController> {
     @Autowired
-    QrCodeServiceI qrCodeService;
+    QrCodeService qrCodeService;
 
     /**
      * <p>功能描述：根据内容批量生成二维码图片</p>

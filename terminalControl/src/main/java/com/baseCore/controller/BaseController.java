@@ -1,12 +1,23 @@
 package com.baseCore.controller;
 
+import java.lang.reflect.ParameterizedType;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.commonUtil.StringUtils;
 import com.entity.LoggerBean;
 import com.entity.LoggerGrade;
 
-public class BaseController {
+public class BaseController<T> {
+	protected   Logger loger = LoggerFactory.getLogger(getType());
+	@SuppressWarnings("unchecked")
+	private Class<T> getType() {  
+		Class <T> entityClass = (Class <T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        return entityClass;
+    }
 	/**
 	 * 操作结果标志
 	 */

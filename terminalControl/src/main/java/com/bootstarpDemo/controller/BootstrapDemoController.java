@@ -11,7 +11,7 @@ import com.baseCore.controller.BaseController;
  */
 @Controller
 @RequestMapping("/bootstrapDemo")
-public class BootstrapDemoController extends BaseController {
+public class BootstrapDemoController extends BaseController<BootstrapDemoController> {
 	private String commUrl="/bootstrapDoc/docs/examples";
 	
 	@RequestMapping("/blog")

@@ -7,7 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/**
+ * 初始化信息
+ * @author SShi11
+ *
+ */
 public class InitParams extends HttpServlet {
 	/**
 	 * <p>功能描述：</p>

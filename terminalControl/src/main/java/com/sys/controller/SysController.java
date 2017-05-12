@@ -18,7 +18,7 @@ import com.menu.MenuUtils;
 
 @Controller
 @RequestMapping("/sys")
-public class SysController extends BaseController {
+public class SysController extends BaseController<SysController> {
 	@RequestMapping("/goTorefreshMenuCache")
 	public String goTorefreshMenuCache(){
 		return "/sys/sysFunctions.jsp";

@@ -1,9 +1,19 @@
 package com.baseCore.service;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 
-public interface BaseServiceI {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public abstract class BaseService<T> {
+	protected   Logger loger = LoggerFactory.getLogger(getType());
+	@SuppressWarnings("unchecked")
+	private Class<T> getType() {  
+		Class <T> entityClass = (Class <T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        return entityClass;
+    }
 	/**
 	 * <p>
 	 * 注意：</br>
@@ -16,7 +26,7 @@ public interface BaseServiceI {
 	 *作者：SShi11
 	 *日期：Apr 15, 2017 2:42:48 PM
 	 */
-	public List<Map<String,Object>> queryMapList(Map<String,Object> params) throws Exception;
+	public abstract List<Map<String,Object>> queryMapList(Map<String,Object> params) throws Exception;
 	
 	/**
 	 *<p>
@@ -30,5 +40,5 @@ public interface BaseServiceI {
 	 *作者：SShi11
 	 *日期：Apr 15, 2017 2:44:35 PM
 	 */
-	public int updateEntity(Map<String,Object> params)throws Exception;
+	public abstract int updateEntity(Map<String,Object> params)throws Exception;
 }
