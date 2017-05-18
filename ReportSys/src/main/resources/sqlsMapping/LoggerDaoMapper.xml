@@ -3,7 +3,7 @@
 
 <mapper namespace="com.traveler.sys.logger.dao.LoggerDao">
 	<select id="queryLoggerList" resultType="java.util.Map">
-		SELECT ID,LEVEL_CODE,MODULE_CODE,DOUSER,CREATE_TIME,NOTE_TEXT||nvl(NOTE_TEXT2,'') as NOTE_TEXT  FROM GW_REPORT_LOGGERINFO
+		SELECT ID,LEVEL_CODE,MODULE_CODE,DOUSER,CREATE_TIME,NOTE_TEXT||nvl(NOTE_TEXT2,'') as NOTE_TEXT  FROM SYS_REPORT_LOGGERINFO
 		<where>
 			<if test="logid !=null and logid !='' ">
 				ID=#{logid}

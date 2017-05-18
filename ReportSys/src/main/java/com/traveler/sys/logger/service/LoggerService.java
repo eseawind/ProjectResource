@@ -10,21 +10,24 @@ import com.traveler.core.BaseService;
 import com.traveler.core.OperationException;
 import com.traveler.sys.logger.dao.LoggerDao;
 import com.traveler.util.ExceptionUtil;
+
 @Service
 public class LoggerService extends BaseService<LoggerService> {
 	@Autowired
 	private LoggerDao loggerDao;
-	
-	public List<Map<String,Object>> queryLogger(Map<String,?> params) throws Exception{
-		List<Map<String,Object>> rs=null;
+
+	public List<Map<String, Object>> queryLogger(Map<String,Object> params) throws Exception {
+		List<Map<String, Object>> rs = null;
 		try {
-			rs=loggerDao.queryLoggerList(params);
+			rs = loggerDao.queryLoggerList(params);
 		} catch (Exception e) {
-			loger.error(ExceptionUtil.formatStackTrace(e),"loggerDao.queryLoggerList 出错！",null);
+			loger.error(ExceptionUtil.formatStackTrace(e), "loggerDao.queryLoggerList 出错！", null);
 			throw new OperationException("查询系统日志异常！");
 		}
-		if (rs==null) throw new OperationException("没有日志信息");
-		return rs;
+		if (rs != null && rs.size() > 0)
+			return rs;
+		throw new OperationException(EMPTYDATA);
+
 	}
-	
+
 }

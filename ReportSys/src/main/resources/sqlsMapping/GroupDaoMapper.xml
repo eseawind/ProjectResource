@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.traveler.sys.group.dao.GroupDao">
+	<sql id="conditions">
+		<if test="id !=null and id !='' ">
+			ID=#{id}
+		</if>
+		<if test="groupCode != null and groupCode != '' ">
+			and GROUPCODE like concat('%',concat(#{groupCode},'%'))
+		</if>
+		<if test="groupName != null and groupName != '' ">
+			and GROUPNAME like concat('%',concat(#{groupName},'%'))
+		</if>
+		<if test="del != null and del != '' ">
+			and DEL=#{del}
+		</if>
+	</sql>
+
+	<select id="queryData" resultType="java.util.Map">
+		SELECT ID,GROUPCODE,GROUPNAME,DEL from SYS_ROLER_GROUP
+		<where>
+			<include refid="conditions"></include>
+		</where>
+		ORDER BY GROUPCODE
+	</select>
+</mapper>

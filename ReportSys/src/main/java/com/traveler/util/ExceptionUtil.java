@@ -8,13 +8,13 @@ import java.io.StringWriter;
  *
  */
 public final class ExceptionUtil {
-	public static String formatStackTrace(Throwable t) {
+	public static String formatStackTrace(Throwable e) {
         StringWriter sw = new StringWriter();
         try {
             PrintWriter p = new PrintWriter(sw);
-            t.printStackTrace(p);
-        } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace(p);
+        } catch (Exception e2) {
+        	e2.printStackTrace();
         }
         return sw.toString();
     }

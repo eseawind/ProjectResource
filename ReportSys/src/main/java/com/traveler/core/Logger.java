@@ -21,7 +21,7 @@ import ch.qos.logback.core.db.DBHelper;
  */
 public class Logger extends DBAppender {
 	// 日志插入语句
-	private static final String insertSql = "INSERT INTO GW_REPORT_LOGGERINFO (ID,LEVEL_CODE,MODULE_CODE,DOUSER,CREATE_TIME,NOTE_TEXT,NOTE_TEXT2) VALUES (?,?, ?, ?,?,?,?)";
+	private static final String insertSql = "INSERT INTO SYS_REPORT_LOGGERINFO (ID,LEVEL_CODE,MODULE_CODE,DOUSER,CREATE_TIME,NOTE_TEXT,NOTE_TEXT2) VALUES (?,?, ?, ?,?,?,?)";
 	@Override
 	public void append(ILoggingEvent eventObject) {
 		Object[] baseMsg = eventObject.getArgumentArray();

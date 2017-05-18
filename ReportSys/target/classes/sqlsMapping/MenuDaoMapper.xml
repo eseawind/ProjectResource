@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.traveler.sys.Menu.dao.MenuDao">
+<mapper namespace="com.traveler.sys.menu.dao.MenuDao">
+	<sql id="menuConditions">
+		<if test="id !=null and id !='' ">
+				ID=#{id}
+			</if>
+			<if test="pid !=null and pid != '' ">
+				and PID =#{pid}
+			</if>
+			<if test="isFirst !=null and isFirst != '' ">
+				and IS_FIRST =#{isFirst}
+			</if>
+			<if test="context != null and context !='' ">
+				and CONTEXT like concat('%',concat(#{context},'%'));
+			</if>
+			<if test="urlContext != null and urlContext !='' ">
+				and URL_CONTEXT like concat('%',concat(#{urlContext},'%'))
+			</if>
+			<if test="module != null and module != '' ">
+				and MODULE =#{module}
+			</if>
+			<if test="hasChild != null and hasChild != '' ">
+				and HASCHILDS =#{hasChild}
+			</if>
+			<if test="del != null and del != '' ">
+				and DEL=#{del}
+			</if>
+	</sql>
+
 	<select id="queryMenu" resultType="java.util.Map">
-		SELECT LOGID,CLASS,METHOD,CREATETIME,LOGLEVEL,MSG from LOGGERINFO 
+		select ID,PID,CONTEXT,URL_CONTEXT,MODULE,HASCHILDS,DEL,GREAD from SYS_MENU 
 		<where>
-			<if test="logid !=null and logid !='' ">
-				LOGID=#{logid}
-			</if>
-			<if test="msg !=null and msg != '' ">
-				and MSG like concat('%',concat(#{msg},'%'))
-			</if>
-			<if test="stime != null and stime !='' ">
-				and stime &lt;= to_char(CREATETIME,'yyyy-mm-dd hh24:mi:ss')
-			</if>
-			<if test="etime != null and etime !='' ">
-				and etime &gt;= to_char(CREATETIME,'yyyy-mm-dd hh24:mi:ss')
-			</if>
+			<include refid="menuConditions"></include>
 		</where>
-		ORDER BY CREATETIME DESC
+		ORDER BY GREAD
 	</select>
 </mapper>

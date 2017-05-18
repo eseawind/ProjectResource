@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class BaseService<T> {
+	public static final String  SYSEXCEP="系统异常！请联系管理员";
+	public static final String  EMPTYDATA="没有查询到数据！";
 	protected   Logger loger = LoggerFactory.getLogger(getType());
 	@Autowired
 	SqlSessionFactory sessionFactory;

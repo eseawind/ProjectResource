@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.traveler.sys.roleMenuPermissionRelation.dao.RoleMenuPermissionRelationDao">
+	<sql id="conditions">
+		<if test="id !=null and id !='' ">
+				ID=#{id}
+			</if>
+			<if test="permissionId != null and permissionId != '' ">
+				and PERMISSIONID=#{permissionId}
+			</if>
+			<if test="roleId != null and roleId != '' ">
+				and ROLEID=#{roleId}
+			</if>
+			<if test="del != null and del != '' ">
+				and DEL=#{del}
+			</if>
+	</sql>
+
+	<select id="queryData" resultType="java.util.Map">
+		SELECT ID,PERMISSIONID,ROLEID,DEL from SYS_ROLE_MENU_PERMISSION
+		<where>
+			<include refid="conditions"></include>
+		</where>
+		ORDER BY PERMISSIONID
+	</select>
+</mapper>

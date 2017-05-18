@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.traveler.sys.doPermission.dao.DoPermissionDao">
+	<sql id="conditions">
+		<if test="id !=null and id !='' ">
+			ID=#{id}
+		</if>
+		<if test="permissionCode !=null and permissionCode != '' ">
+			and PERMISSIONCODE like concat('%',concat(#{permissionCode},'%'))
+		</if>
+		<if test="permissionName !=null and permissionName != '' ">
+			and PERMISSIONNAME like concat('%',concat(#{permissionName},'%'))
+		</if>
+		<if test="del != null and del != '' ">
+			and DEL=#{del}
+		</if>
+	</sql>
+
+	<select id="queryMenu" resultType="java.util.Map">
+		SELECT ID,PERMISSIONCODE,PERMISSIONNAME,DEL from SYS_DOPERMISSION
+		<where>
+			<include refid="conditions"></include>
+		</where>
+		ORDER BY PERMISSIONCODE
+	</select>
+</mapper>

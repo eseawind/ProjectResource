@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.traveler.sys.user.dao.UserDao">
+	<sql id="conditions">
+		<if test="id !=null and id !='' ">
+			ID=#{id}
+		</if>
+		<if test="userName != null and userName != '' ">
+			and USER_NAME like concat('%',concat(#{userName},'%'))
+		</if>
+		<if test="userCode != null and userCode != '' ">
+			and USER_CODE like concat('%',concat(#{userCode},'%'))
+		</if>
+		<if test="stime != null and stime != '' ">
+			and to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') &gt;= #{stime}
+		</if>
+		<if test="etime != null and etime != '' ">
+			and  to_char(CREATE_TIME,'yyyy-mm-dd hh24:mi:ss') &lt;= #{etime}
+		</if>
+		<if> 
+		   and DEL =#{del}
+		</if>
+	</sql>
+
+	<select id="queryMenu" resultType="java.util.Map">
+		SELECT ID,USER_NAME,USER_CODE,USER_PWD,DEL,CREATE_TIME from SYS_USER
+		<where>
+			<include refid="conditions"></include>
+		</where>
+		ORDER BY USER_CODE
+	</select>
+</mapper>

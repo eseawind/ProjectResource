@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.traveler.sys.menuPermission.dao.MenuPermissionDao">
+	<sql id="menuPermissionConditions">
+		<if test="id !=null and id !='' ">
+				ID=#{id}
+			</if>
+			<if test="permissionDes != null and permissionDes !='' ">
+				and PERMISSION_DES like concat('%',concat(#{permissionDes},'%'));
+			</if>
+			<if test="menuId != null and  menuId !='' ">
+				and MENUID = #{menuId}
+			</if>
+			<if test="del != null and del != '' ">
+				and DEL=#{del}
+			</if>
+	</sql>
+
+	<select id="queryMenuPermission" resultType="java.util.Map">
+		SELECT ID,MENUID,PERMISSION_DES,DEL FROM SYS_MENU_PERMISSION
+		<where>
+			<include refid="menuPermissionConditions"></include>
+		</where>
+		ORDER　by MENUID
+	</select>
+</mapper>

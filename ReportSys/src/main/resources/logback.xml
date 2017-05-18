@@ -5,8 +5,8 @@
 		<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
 				<driverClass>oracle.jdbc.driver.OracleDriver</driverClass>
 				<url>jdbc:oracle:thin:@10.1.245.54:1521:PROD</url>
-				<user>ProdUAT</user>
-				<password>ProdUAT</password>
+				<user>reportDB</user>
+				<password>reportDB</password>
 		</connectionSource>
 	</appender>
 	<!-- 调试日志 -->

@@ -1,4 +1,4 @@
-package com.traveler.sys.Menu.dao;
+package com.traveler.sys.menu.dao;
 
 import java.util.List;
 import java.util.Map;
