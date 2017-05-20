@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.commonUtil.LoggerBean;
+import com.commonUtil.LoggerGrade;
 import com.commonUtil.StringUtils;
-import com.entity.LoggerBean;
-import com.entity.LoggerGrade;
 
 public class BaseController<T> {
 	protected   Logger loger = LoggerFactory.getLogger(getType());

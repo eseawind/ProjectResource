@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baseCore.controller.BaseController;
 import com.commonUtil.JsonUtils;
-import com.entity.Menu;
-import com.entity.Module;
-import com.menu.MenuUtils;
+import com.commonUtil.MenuUtils;
+import com.commonUtil.Module;
+import com.sys.bean.Menu;
 
 @Controller
 @RequestMapping("/sys")

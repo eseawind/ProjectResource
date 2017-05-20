@@ -42,37 +42,37 @@
 	 $("#infoContext").html(infoContext);
 	 switch(type){
 	 	case 0:
-	 		$("#alertInfoDIV").toggleClass("alert-success");
+	 		$("#alertInfoDIV").addClass("alert-success");
 	 		$("#alertInfoDIV").removeClass("alert-info");
 	 		$("#alertInfoDIV").removeClass("alert-warning");
 	 		$("#alertInfoDIV").removeClass("alert-danger");
 	 		break;
 	 	case 1:
-	 		$("#alertInfoDIV").toggleClass("alert-info");
+	 		$("#alertInfoDIV").addClass("alert-info");
 	 		$("#alertInfoDIV").removeClass("alert-success");
 	 		$("#alertInfoDIV").removeClass("alert-warning");
+	 		$("#alertInfoDIV").removeClass("alert-danger");
+	 		break;
+	 	case 2:
+	 		$("#alertInfoDIV").addClass("alert-warning");
+	 		$("#alertInfoDIV").removeClass("alert-success");
+	 		$("#alertInfoDIV").removeClass("alert-info");
 	 		$("#alertInfoDIV").removeClass("alert-danger");
 	 		break;
 	 	case 3:
-	 		$("#alertInfoDIV").toggleClass("alert-warning");
-	 		$("#alertInfoDIV").removeClass("alert-success");
-	 		$("#alertInfoDIV").removeClass("alert-info");
-	 		$("#alertInfoDIV").removeClass("alert-danger");
-	 		break;
-	 	default:
-	 		$("#alertInfoDIV").toggleClass("alert-warning");
+	 		$("#alertInfoDIV").addClass("alert-danger");
 	 		$("#alertInfoDIV").removeClass("alert-info");
 	 		$("#alertInfoDIV").removeClass("alert-warning");
-	 		$("#alertInfoDIV").removeClass("alert-danger");
+	 		$("#alertInfoDIV").removeClass("alert-success");
 	 		break;
 	 }
 	 //设置提示框宽度
 	 var width=$("#mainDiv").width()+"px";
 	 $("#alertInfoDIV").css({"width":width});
 	 //显示提示框
-	 $("#alertInfoDIV").toggleClass("hidden");
+	 $("#alertInfoDIV").removeClass("hidden");
 	 //3秒之后关闭提示框
-	 setTimeout(function () {$("#alertInfoDIV").toggleClass("hidden")}, 3000);  
+	 setTimeout(function () {$("#alertInfoDIV").addClass("hidden")}, 5000);  
  }
  //弹出提示消息
  function alertMsg(titleContext,infoContext){

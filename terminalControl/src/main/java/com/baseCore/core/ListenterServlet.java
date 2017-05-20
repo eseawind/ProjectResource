@@ -3,9 +3,9 @@ package com.baseCore.core;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.entity.LoggerBean;
-import com.entity.Module;
-import com.menu.MenuUtils;
+import com.commonUtil.LoggerBean;
+import com.commonUtil.MenuUtils;
+import com.commonUtil.Module;
 
 public class ListenterServlet implements ServletContextListener {
 	@Override

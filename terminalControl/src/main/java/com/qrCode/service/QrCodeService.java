@@ -1,6 +1,8 @@
 package com.qrCode.service;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,12 +16,14 @@ public class QrCodeService extends BaseService<QrCodeService> {
 	public Map<String, Object> batchGenQrcode(Map<String, Object> rs) throws Exception {
 		String qrCodeStr=StringUtils.toStr(rs.get("qrCodes"));
 		String[] codes=qrCodeStr.split(",");
-		List<String> codeList=new ArrayList<>();
+		List<Map<String,String>> codeList=new ArrayList<>();
+		Map<String,String> qrCodeInfo=null;
 		for (String str : codes) {
-			str=new String(str.getBytes("utf-8"),"utf-8");
-			codeList.add(str);
+			qrCodeInfo=new HashMap<>();
+			qrCodeInfo.put("qrCode", URLEncoder.encode(str, "UTF-8"));
+			qrCodeInfo.put("remark", str);
+			codeList.add(qrCodeInfo);
 		}
-		rs.put("qrCodes",new String(qrCodeStr.getBytes("utf-8"),"utf-8"));
 		rs.put("qrCodeList", codeList);
 		return rs;
 	}
